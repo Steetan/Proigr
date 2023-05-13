@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: #fff;
+    min-height: 100vh;
+    background: url("full_ofCzuDvd.jpg") center no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-family: sans-serif;
+    font-weight: 700;
+}
+
+iframe {
+    width: 700px;
+    height: 400px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
