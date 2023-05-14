@@ -9,10 +9,23 @@
 </head>
 <body>
     <div class="container">
-        <iframe class="video" src="" frameborder="0"  allowfullscreen></iframe>
+        <div id="player"></div> <!-- Проигрыватель -->
+        <div class="block-btns">
+            <button class="btn">1</button>
+            <button class="btn">2</button>
+            <button class="btn">3</button>
+        </div>
+
+        <table class="table">
+            <tr>
+                <td>Дата и время</td>
+                <td>Имя кнопки</td>
+                <td>Время останова</td>
+            </tr>
+        </table>
     </div>
 
-    
+
     <script defer src="player.js"></script>
 </body>
 </html>

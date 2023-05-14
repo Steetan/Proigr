@@ -20,7 +20,7 @@ h1 {
     font-weight: 700;
 }
 
-iframe {
+#player {
     width: 700px;
     height: 400px;
 }
@@ -30,4 +30,29 @@ iframe {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.block-btns {
+    display: flex;
+    gap: 20px;
+}
+
+.btn {
+    padding: 10px 40px;
+    background: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+td {
+    border: 1px solid #000;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.table {
+    border-collapse: collapse;
 }
