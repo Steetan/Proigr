@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="style.css">
     <title>Player</title>
 </head>
@@ -11,11 +12,11 @@
     <div class="container">
         <div id="player"></div> <!-- Проигрыватель -->
         <div class="block-btns">
-            <button class="btn">1</button>
-            <button class="btn">2</button>
-            <button class="btn">3</button>
+            <button class="btn btn--1">1</button>
+            <button class="btn btn--2">2</button>
+            <button class="btn btn--3">3</button>
         </div>
-
+        <canvas id="graphic"></canvas>
         <table class="table">
             <tr>
                 <td>Дата и время</td>
@@ -26,6 +27,8 @@
     </div>
 
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="player.js"></script>
+    <script src="graphics.js"></script>
 </body>
 </html>
