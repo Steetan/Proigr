@@ -54,6 +54,9 @@ td {
 
 #graphic {
     width: 100%;
+}
+
+.graphic-container {
     height: 400px;
 }
 

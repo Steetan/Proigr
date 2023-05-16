@@ -1,6 +1,6 @@
 let url = url2 = window.location.href //получаем урл сайта
-let videoUrl = "W57EKdp3nf8"
-let videoUrl2 = "https://www.youtube.com/watch?v=W57EKdp3nf8"
+let videoUrl = "W57EKdp3nf8" //дефолтное видео
+let videoUrl2 = "https://www.youtube.com/watch?v=W57EKdp3nf8" //полная ссылка видео
 
 if(window.location.href.includes("?=https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
     || window.location.href.includes("?=https://youtu.be")) {  
@@ -22,7 +22,7 @@ if(window.location.href.includes("?=https://www.youtube.com") //проверяе
     window.open("player.html", "_self")  //открываем проигрыватель
 }
 
-if(window.localStorage.getItem('href') != "null" && window.localStorage.getItem('href2') != "null") {
+if(window.localStorage.getItem('href') != "null" && window.localStorage.getItem('href2') != "null") { //если в локалстораже ничего не лежит то вставляем дефолтное видео
     videoUrl = window.localStorage.getItem('href')
     videoUrl2 = window.localStorage.getItem('href2')
 }
@@ -249,6 +249,6 @@ let chart = new Chart(document.getElementById("graphic"), {
             text: 'Время видео (в секундах)' //надпись по оси x
           }
         }
-      }
     }
+}
 });
