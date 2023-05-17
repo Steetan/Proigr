@@ -19,10 +19,11 @@ if(window.location.href.includes("?=https://www.youtube.com") //проверяе
     window.localStorage.setItem('href', url)  //перекидываем полученный урл на локальное хранилище
     window.localStorage.setItem('href2', url2)  //перекидываем полученный урл на локальное хранилище
 
-    window.open("player.html", "_self")  //открываем проигрыватель
+    window.open("index.html", "_self")  //открываем проигрыватель
 }
 
-if(window.localStorage.getItem('href') != "null" && window.localStorage.getItem('href2') != "null") { //если в локалстораже ничего не лежит то вставляем дефолтное видео
+if(window.localStorage.getItem('href') != "null" 
+    && window.localStorage.getItem('href2') != "null") { //если в локалстораже ничего не лежит то вставляем дефолтное видео
     videoUrl = window.localStorage.getItem('href')
     videoUrl2 = window.localStorage.getItem('href2')
 }
@@ -59,7 +60,6 @@ function stopVideo() {
     player.stopVideo();
 }
 //============================================================
-
 
 const btn = document.querySelectorAll(".btn") //ищем все кнопки
 const table = document.querySelector(".table") //ищем таблицу
@@ -98,115 +98,14 @@ setInterval(() => { // нужен для обновления даты
     }
 }, 500);
 
-let timeGraphic = [0]
-
-btn.forEach(function(event) {  // ставим на все кнопки прослушки
-    event.addEventListener("click", function btnFoo() { // если мы нажали на эту кнопку то..
-        let trTable = document.createElement("tr") // создаем элемент tr
-        let tdTable = document.createElement("td") // создаем элемент td
-        let td2Table = document.createElement("td") // создаем элемент td
-        let td3Table = document.createElement("td") // создаем элемент td
-        let td4Table = document.createElement("td") // создаем элемент td
-        td4Table.classList.add("delete-btn")
-        td3Table.classList.add("td3Table")
-
-        let timeVideoSeconds = Math.floor(player.getCurrentTime()) //получаем время остановы в секундах
-
-        // Раскладываем полученные из видео секунды на часы, минуты и секунды
-        let playerHours = Math.floor(timeVideoSeconds / 60 / 60)
-        let playerMinutes = Math.floor((timeVideoSeconds / 60) - (playerHours * 60))
-        let playerSeconds = Math.floor(timeVideoSeconds % 60)
-
-        // если секунды меньше десяти то добавляем 0
-        if (playerSeconds < 10) {
-            playerSeconds = "0" + playerSeconds
-        }
-        let timeVideo = `${playerMinutes}:${playerSeconds}` //засовываем в общую переменную
-        
-        // если останова имеет часы то отображаем их
-        if (playerHours > 0) {
-            timeVideo = `${playerHours}:${playerMinutes}:${playerSeconds}` //засовываем в общую переменную с часами
-        }
-        if (playerHours > 0 && playerMinutes < 10) { //если останова имеет часы и минуты меньше 10 то отображаем 0 у минут
-            timeVideo = `${playerHours}:0${playerMinutes}:${playerSeconds}`
-        }
-
-        tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
-        td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
-        td3Table.textContent = timeVideo //засовываем в 3 ячейку время на видео
-        td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>"
-
-        table.prepend(trTable) //засовываем в html созданную строку
-        trTable.append(tdTable) //засовываем в html созданную 1 ячейку
-        trTable.append(td2Table) //засовываем в html созданную 2 строку
-        trTable.append(td3Table) //засовываем в html созданную 3 строку
-        trTable.append(td4Table) //засовываем в html созданную 4 строку
-
-        let tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
-        let dltBtnTable = document.querySelectorAll(".delete-btn") //ищем кнопки удаления
-
-        // если времени из ютуба нету в массиве то
-        if(!timeGraphic.includes(timeVideoSeconds)) {
-            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
-            timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                return a - b;
-            });
-            arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
-            arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-            arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-        }
-
-        // если время из ютуба есть в массиве то
-        if(timeGraphic.includes(timeVideoSeconds)) {
-            if(event.classList.contains("btn--1")) { //если нажатая кнопка имеет такой класс
-                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
-            } 
-            if(event.classList.contains("btn--2")) {
-                arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
-            }
-            if(event.classList.contains("btn--3")) {
-                arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-            }
-        } 
-
-        tdBtnTable = document.querySelectorAll(".td3Table") //находим 3 ячейку строки
-        dltBtnTable = document.querySelectorAll(".delete-btn") //находим кнопку удаления
-
-        tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
-            event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-                let seekArr = event.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
-                let seekVal
-                //Здесь мы переводим из часов, минут и секунд только в секунды
-                if(seekArr.length <= 2) { //если нету часов
-                    seekArr[0] *= 60
-                    seekVal = +(seekArr[0]) + +(seekArr[1])
-                }
-                if(seekArr.length > 2) { // если есть часы
-                    seekArr[0] *= 3600
-                    seekArr[1] *= 60
-                    seekVal = +(seekArr[0]) + +(seekArr[1]) + +(seekArr[2])
-                }
-                player.seekTo(seekVal); // перематываем видео
-            })
-        })
-
-        dltBtnTable.forEach(function(event) {
-            event.addEventListener("click", function() {
-                event.parentElement.remove() //удаляем строку
-            })
-        })
-
-        chart.update() //обновляем график
-    })
-    
-    window.location.href = "#" + videoUrl2//чтобы в урл сохранялась переданная ссылка
-})
-
+let timeGraphic = []
+let tdBtnTable = []
+let dltBtnTable = []
 let arrBtn1 = [0]
 let arrBtn2 = [0]
 let arrBtn3 = [0]
 
-// Настройка графики
+// Настройка графика
 let chart = new Chart(document.getElementById("graphic"), {
     type: 'line',
     data: {
@@ -233,7 +132,7 @@ let chart = new Chart(document.getElementById("graphic"), {
         plugins: {
             title: {
                 display: true,
-                text: 'Title' //заголовок графика
+                text: 'График нажатий кнопок по времени видео' //заголовок графика
             }
         },
       scales: {
@@ -252,3 +151,147 @@ let chart = new Chart(document.getElementById("graphic"), {
     }
 }
 });
+//======================================================================
+
+btn.forEach(function(event) {  // ставим на все кнопки прослушки
+    event.addEventListener("click", function btnFoo() { // если мы нажали на эту кнопку то..
+        let trTable = document.createElement("tr") // создаем элемент tr
+        let tdTable = document.createElement("td") // создаем элемент td
+        let td2Table = document.createElement("td") // создаем элемент td
+        let td3Table = document.createElement("td") // создаем элемент td
+        let td4Table = document.createElement("td") // создаем элемент td
+
+        td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+        if(event.textContent == "1") { //если содержимое нажатой кнопки равна 1
+            td4Table.classList.add("delete-btn--1") //то добавляем класс
+        }
+        if(event.textContent == "2") {
+            td4Table.classList.add("delete-btn--2")
+        }
+        if(event.textContent == "3") {
+            td4Table.classList.add("delete-btn--3")
+        }
+        td3Table.classList.add("td3Table")
+
+        let timeVideoSeconds = Math.floor(player.getCurrentTime()) //получаем время остановы в секундах
+
+        // Раскладываем полученные из видео секунды на часы, минуты и секунды
+        let playerHours = Math.floor(timeVideoSeconds / 60 / 60)
+        let playerMinutes = Math.floor((timeVideoSeconds / 60) - (playerHours * 60))
+        let playerSeconds = Math.floor(timeVideoSeconds % 60)
+
+        // если секунды меньше десяти то добавляем 0
+        if (playerSeconds < 10) {
+            playerSeconds = "0" + playerSeconds
+        }
+        let timeVideo = `${playerMinutes}:${playerSeconds}` //засовываем в общую переменную
+        
+        // если останова имеет часы то отображаем их
+        if (playerHours > 0) {
+            timeVideo = `${playerHours}:${playerMinutes}:${playerSeconds}` //засовываем в общую переменную с часами
+        }
+        if (playerHours > 0 && playerMinutes < 10) { //если останова имеет часы и минуты меньше 10 то отображаем 0 у минут
+            timeVideo = `${playerHours}:0${playerMinutes}:${playerSeconds}`
+        }
+
+        tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+        td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
+        td3Table.textContent = timeVideo //засовываем в 3 ячейку время на видео
+        td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+          
+        table.prepend(trTable) //засовываем в html созданную строку
+        trTable.append(tdTable) //засовываем в html созданную 1 ячейку
+        trTable.append(td2Table) //засовываем в html созданную 2 ячейку
+        trTable.append(td3Table) //засовываем в html созданную 3 ячейку
+        trTable.append(td4Table) //засовываем в html созданную 4 ячейку
+
+        // если времени из ютуба нету в массиве то
+        if(!timeGraphic.includes(timeVideoSeconds)) {
+            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+            timeGraphic.sort(function(a, b) { //сортируем по возрастанию
+                return a - b;
+            });
+            arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
+            arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+            arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+        }
+
+        // если время из ютуба есть в массиве то
+        if(timeGraphic.includes(timeVideoSeconds)) {
+            if(event.classList.contains("btn--1")) { //если нажатая кнопка имеет такой класс
+                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
+            } 
+            if(event.classList.contains("btn--2")) {
+                arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
+            }
+            if(event.classList.contains("btn--3")) {
+                arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
+            }
+        } 
+
+        tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
+        dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
+
+        dltBtnTable.forEach(function(e) {
+            e.onclick = function() {
+                let timeTableArr = e.previousSibling.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
+                let timeTable
+                //Здесь мы переводим из часов, минут и секунд только в секунды
+                if(timeTableArr.length <= 2) { //если нету часов
+                    timeTableArr[0] *= 60
+                    timeTable = +(timeTableArr[0]) + +(timeTableArr[1])
+                }
+                if(timeTableArr.length > 2) { // если есть часы
+                    timeTableArr[0] *= 3600
+                    timeTableArr[1] *= 60
+                    timeTable = +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
+                }
+
+                if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+                    arrBtn1[timeGraphic.indexOf(timeTable)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
+                }
+                if(e.classList.contains("delete-btn--2")) {
+                    arrBtn2[timeGraphic.indexOf(timeTable)]--
+                }
+                if(e.classList.contains("delete-btn--3")) {
+                    arrBtn3[timeGraphic.indexOf(timeTable)]--
+                }
+
+                if(arrBtn1[timeGraphic.indexOf(timeTable)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+                && arrBtn2[timeGraphic.indexOf(timeTable)] == 0 
+                && arrBtn3[timeGraphic.indexOf(timeTable)] == 0) {
+                    arrBtn1.splice(timeGraphic.indexOf(timeTable), 1) //удаляем точку времени и и точки у кнопок
+                    arrBtn2.splice(timeGraphic.indexOf(timeTable), 1)
+                    arrBtn3.splice(timeGraphic.indexOf(timeTable), 1)
+                    timeGraphic.splice(timeGraphic.indexOf(timeTable), 1)
+                }
+                chart.update() //обновляем график
+            }
+        })
+        dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+            event.addEventListener("click", function() {
+                event.parentNode.remove()
+            })
+        })
+
+        tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
+            event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
+                let seekArr = event.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
+                let seekVal
+                //Здесь мы переводим из часов, минут и секунд только в секунды
+                if(seekArr.length <= 2) { //если нету часов
+                    seekArr[0] *= 60
+                    seekVal = +(seekArr[0]) + +(seekArr[1])
+                }
+                if(seekArr.length > 2) { // если есть часы
+                    seekArr[0] *= 3600
+                    seekArr[1] *= 60
+                    seekVal = +(seekArr[0]) + +(seekArr[1]) + +(seekArr[2])
+                }
+                player.seekTo(seekVal); // перематываем видео
+            })
+        })
+        chart.update() //обновляем график
+    })
+    window.location.href = "#" + videoUrl2//чтобы в урл сохранялась переданная ссылка
+})
