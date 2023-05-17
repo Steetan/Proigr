@@ -1,7 +1,11 @@
 let url = url2 = window.location.href //получаем урл сайта
-let videoUrl = "W57EKdp3nf8" //дефолтное видео
-let videoUrl2 = "https://www.youtube.com/watch?v=W57EKdp3nf8" //полная ссылка видео
+let videoUrl //дефолтное видео
+let videoUrl2 //полная ссылка видео
 
+document.querySelector(".form__btn").addEventListener("click", function() {
+    document.querySelector(".form__btn").href = "?=" + document.querySelector(".form__text").value //если мы нажали на кнопку, то мы передаем из текстового поля в href ссылку видео
+    
+})
 if(window.location.href.includes("?=https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
     || window.location.href.includes("?=https://youtu.be")) {  
     if(!window.location.href.includes("https://youtu.be")) {  //если мы не вставили укороченную ссылку
@@ -10,6 +14,7 @@ if(window.location.href.includes("?=https://www.youtube.com") //проверяе
         url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
     }
     if(window.location.href.includes("https://youtu.be")) { //если мы вставили укороченную ссылку
+        window.location.href.includes("?=https://youtu.be")
         url = window.location.href.toString()
             .split("youtu.be/")  //берем последнее из ссылки до youtu.be/
             .pop()
@@ -28,8 +33,15 @@ if(window.localStorage.getItem('href') != "null"
     videoUrl2 = window.localStorage.getItem('href2')
 }
 
+
 if(window.location.href.includes("#")) { // Если мы по стрелочке вернемся на главный экран или через урл, чтобы стиралась ссылка на видео на главной
     window.location.href = window.location.href.split('#')[0]
+}
+
+if(window.localStorage.getItem('href') == null 
+    && window.localStorage.getItem('href2') == null) { //если в локалстораже ничего не лежит то вставляем дефолтное видео
+        videoUrl = "W57EKdp3nf8" //дефолтное видео
+        videoUrl2 = "https://www.youtube.com/watch?v=W57EKdp3nf8" //полная ссылка видео
 }
 
 // Это все нужно для настройки проигрывателя
