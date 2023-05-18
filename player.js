@@ -4,17 +4,25 @@ let videoUrl2 //полная ссылка видео
 
 document.querySelector(".form__btn").addEventListener("click", function() {
     document.querySelector(".form__btn").href = "?=" + document.querySelector(".form__text").value //если мы нажали на кнопку, то мы передаем из текстового поля в href ссылку видео
-    
 })
 if(window.location.href.includes("?=https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
     || window.location.href.includes("?=https://youtu.be")) {  
-    if(!window.location.href.includes("https://youtu.be")) {  //если мы не вставили укороченную ссылку
+    if(window.location.href.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
         url = window.location.href.toString().split("watch?v=") //обрезаем урл
             .pop() //удаляем ненужный последний элемент
         url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
     }
+    if(window.location.href.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
+        url = window.location.href.toString().split("live/") //обрезаем урл
+            .pop() //удаляем ненужный последний элемент
+        url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
+    }
+    if(window.location.href.includes("https://www.youtube.com/shorts/")) {  //если мы вставили шортс ссылку
+        url = window.location.href.toString().split("shorts/") //обрезаем урл
+            .pop() //удаляем ненужный последний элемент
+        url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
+    }
     if(window.location.href.includes("https://youtu.be")) { //если мы вставили укороченную ссылку
-        window.location.href.includes("?=https://youtu.be")
         url = window.location.href.toString()
             .split("youtu.be/")  //берем последнее из ссылки до youtu.be/
             .pop()
@@ -185,7 +193,7 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         }
         td3Table.classList.add("td3Table")
 
-        let timeVideoSeconds = Math.floor(player.getCurrentTime()) //получаем время остановы в секундах
+        let timeVideoSeconds = !player.getCurrentTime ? 0.0 : Math.floor(player.getCurrentTime()) //получаем время остановы в секундах
 
         // Раскладываем полученные из видео секунды на часы, минуты и секунды
         let playerHours = Math.floor(timeVideoSeconds / 60 / 60)
