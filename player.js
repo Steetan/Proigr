@@ -119,59 +119,12 @@ setInterval(() => { // нужен для обновления даты
 }, 500);
 
 let timeGraphic = []
+let timeGraphic2 = []
 let tdBtnTable = []
 let dltBtnTable = []
 let arrBtn1 = [0]
 let arrBtn2 = [0]
 let arrBtn3 = [0]
-
-// Настройка графика
-let chart = new Chart(document.getElementById("graphic"), {
-    type: 'line',
-    data: {
-      labels: timeGraphic,
-      datasets: [{ 
-          data: arrBtn1,  //1 кнопка
-          label: "Button 1",
-          borderColor: "#3e95cd", //цвет линии
-          fill: false
-        }, { 
-          data: arrBtn2, //2 кнопка
-          label: "Button 2",
-          borderColor: "#8e5ea2", //цвет линии
-          fill: false 
-        }, { 
-          data: arrBtn3, //3 кнопка
-          label: "Button 3",
-          borderColor: "#3cba9f", //цвет линии
-          fill: false
-        }
-      ]
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: 'График нажатий кнопок по времени видео' //заголовок графика
-            }
-        },
-      scales: {
-        y: {
-          title: {
-            display: true,
-            text: 'Количество нажатий' //надпись по оси y
-          }
-        },
-        x: {
-          title: {
-            display: true,
-            text: 'Время видео (в секундах)' //надпись по оси x
-          }
-        }
-    }
-}
-});
-//======================================================================
 
 btn.forEach(function(event) {  // ставим на все кнопки прослушки
     event.addEventListener("click", function btnFoo() { // если мы нажали на эту кнопку то..
@@ -234,6 +187,31 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+            
+            for (let element of timeGraphic) {
+                // Раскладываем полученные из видео секунды на часы, минуты и секунды
+                let timeHours = Math.floor(element / 60 / 60)
+                let timeMinutes = Math.floor((element / 60) - (timeHours * 60))
+                let timeSeconds = Math.floor(element % 60)
+                
+                // если секунды меньше десяти то добавляем 0
+                if (timeSeconds < 10) {
+                    timeSeconds = "0" + timeSeconds
+                }
+                element = `${timeMinutes}:${timeSeconds}` //засовываем в общую переменную
+                
+                // если останова имеет часы то отображаем их
+                if (timeHours > 0) {
+                    element = `${timeHours}:${timeMinutes}:${timeSeconds}` //засовываем в общую переменную с часами
+                }
+                if (timeHours > 0 && timeMinutes < 10) { //если останова имеет часы и минуты меньше 10 то отображаем 0 у минут
+                    element = `${timeHours}:0${timeMinutes}:${timeSeconds}`
+                }
+                
+                if(!timeGraphic2.includes(element)) {
+                    timeGraphic2.splice(timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                }
+            }
         }
 
         // если время из ютуба есть в массиве то
@@ -283,7 +261,8 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
                     arrBtn1.splice(timeGraphic.indexOf(timeTable), 1) //удаляем точку времени и и точки у кнопок
                     arrBtn2.splice(timeGraphic.indexOf(timeTable), 1)
                     arrBtn3.splice(timeGraphic.indexOf(timeTable), 1)
-                    timeGraphic.splice(timeGraphic.indexOf(timeTable), 1)
+                    timeGraphic2.splice(timeGraphic.indexOf(timeTable), 1) //удаляем точку времени
+                    timeGraphic.splice(timeGraphic.indexOf(timeTable), 1) //удаляем точку времени
                 }
                 chart.update() //обновляем график
             }
@@ -315,3 +294,51 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
     })
     window.location.href = "#" + videoUrl2//чтобы в урл сохранялась переданная ссылка
 })
+
+// Настройка графика
+let chart = new Chart(document.getElementById("graphic"), {
+    type: 'line',
+    data: {
+      labels: timeGraphic2,
+      datasets: [{ 
+          data: arrBtn1,  //1 кнопка
+          label: "Button 1",
+          borderColor: "#3e95cd", //цвет линии
+          fill: false
+        }, { 
+          data: arrBtn2, //2 кнопка
+          label: "Button 2",
+          borderColor: "#8e5ea2", //цвет линии
+          fill: false 
+        }, { 
+          data: arrBtn3, //3 кнопка
+          label: "Button 3",
+          borderColor: "#3cba9f", //цвет линии
+          fill: false
+        }
+      ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'График нажатий кнопок по времени видео' //заголовок графика
+            }
+        },
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Количество нажатий' //надпись по оси y
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Время видео' //надпись по оси x
+          }
+        }
+    }
+}
+});
+//======================================================================
