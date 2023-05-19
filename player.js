@@ -42,6 +42,7 @@ if(window.location.href.includes("#https://www.youtube.com") //проверяе�
         }
         window.localStorage.setItem("href", url) //перекидываем в локальное хранилище
         window.localStorage.setItem("href2", url2) //перекидываем в локальное хранилище
+        window.location.href = "#" + window.localStorage.getItem("href2")
 }
 
 const btn = document.querySelectorAll(".btn") //ищем все кнопки
@@ -215,21 +216,6 @@ function stopVideo() {
 }
 //============================================================
 
-function timeInSecondFoo(e) { //функция перевода времени в секунды
-    let timeTableArr = e.previousSibling.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
-    let timeTable
-    //Здесь мы переводим из часов, минут и секунд только в секунды
-    if(timeTableArr.length <= 2) { //если нету часов
-        timeTableArr[0] *= 60
-        timeTable = +(timeTableArr[0]) + +(timeTableArr[1])
-    }
-    if(timeTableArr.length > 2) { // если есть часы
-        timeTableArr[0] *= 3600
-        timeTableArr[1] *= 60
-        timeTable = +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
-    }
-}
-
 btn.forEach(function(event) {  // ставим на все кнопки прослушки
     event.addEventListener("click", function btnFoo() { // если мы нажали на эту кнопку то..
         let trTable = document.createElement("tr") // создаем элемент tr
@@ -322,8 +308,8 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
                         .splice(timeGraphic
                         .indexOf(Math.floor(timeVideoSeconds)), 0, element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
                 }
-                chart.update() //обновляем график
             }
+            chart.update() //обновляем график
         }
 
         // если время из ютуба есть в массиве то
@@ -344,7 +330,18 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
 
         dltBtnTable.forEach(function(e) {
             e.onclick = function() {
-                timeInSecondFoo(e) //переводим время в секунды
+                let timeTableArr = e.previousSibling.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
+                let timeTable
+                //Здесь мы переводим из часов, минут и секунд только в секунды
+                if(timeTableArr.length <= 2) { //если нету часов
+                    timeTableArr[0] *= 60
+                    timeTable = +(timeTableArr[0]) + +(timeTableArr[1])
+                }
+                if(timeTableArr.length > 2) { // если есть часы
+                    timeTableArr[0] *= 3600
+                    timeTableArr[1] *= 60
+                    timeTable = +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
+                }
                 if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
                     arrBtn1[timeGraphic.indexOf(timeTable)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
                 }
@@ -374,7 +371,18 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         })
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
             event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-                timeInSecondFoo(event) //переводим время в секунды
+                let seekArr = event.previousSibling.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
+                let seekVal
+                //Здесь мы переводим из часов, минут и секунд только в секунды
+                if(seekArr.length <= 2) { //если нету часов
+                    seekArr[0] *= 60
+                    seekVal = +(seekArr[0]) + +(seekArr[1])
+                }
+                if(seekArr.length > 2) { // если есть часы
+                    seekArr[0] *= 3600
+                    seekArr[1] *= 60
+                    seekVal = +(seekArr[0]) + +(seekArr[1]) + +(seekArr[2])
+                }
                 player.seekTo(seekVal); // перематываем видео
             })
         })
