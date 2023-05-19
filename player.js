@@ -2,6 +2,7 @@ let url
 let url2
 
 document.querySelector(".form__btn").addEventListener("click", function() {
+    window.location.href = ''
     document.querySelector(".form__btn").href = window.location.href + "#" + document.querySelector(".form__text").value
 })
 
