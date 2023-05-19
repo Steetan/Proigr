@@ -1,88 +1,12 @@
-let url = url2 = window.location.href //получаем урл сайта
-let videoUrl //дефолтное видео
-let videoUrl2 //полная ссылка видео
+let url
+let url2
 
 document.querySelector(".form__btn").addEventListener("click", function() {
-    document.querySelector(".form__btn").href = "?=" + document.querySelector(".form__text").value //если мы нажали на кнопку, то мы передаем из текстового поля в href ссылку видео
+    document.querySelector(".form__btn").href = window.location.href + "#" + document.querySelector(".form__text").value
 })
-if(window.location.href.includes("?=https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
-    || window.location.href.includes("?=https://youtu.be")) {  
-    if(window.location.href.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
-        url = window.location.href.toString().split("watch?v=") //обрезаем урл
-            .pop() //удаляем ненужный последний элемент
-        url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
-    }
-    if(window.location.href.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
-        url = window.location.href.toString().split("live/") //обрезаем урл
-            .pop() //удаляем ненужный последний элемент
-        url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
-    }
-    if(window.location.href.includes("https://www.youtube.com/shorts/")) {  //если мы вставили шортс ссылку
-        url = window.location.href.toString().split("shorts/") //обрезаем урл
-            .pop() //удаляем ненужный последний элемент
-        url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
-    }
-    if(window.location.href.includes("https://youtu.be")) { //если мы вставили укороченную ссылку
-        url = window.location.href.toString()
-            .split("youtu.be/")  //берем последнее из ссылки до youtu.be/
-            .pop()
-        url2 = window.location.href.toString().split("?=").pop() //обрезаем ссылку для урл
-    }
-
-    window.localStorage.setItem('href', url)  //перекидываем полученный урл на локальное хранилище
-    window.localStorage.setItem('href2', url2)  //перекидываем полученный урл на локальное хранилище
-
-    window.open("index.html", "_self")  //открываем проигрыватель
-}
-
-if(window.localStorage.getItem('href') != "null" 
-    && window.localStorage.getItem('href2') != "null") { //если в локалстораже ничего не лежит то вставляем дефолтное видео
-    videoUrl = window.localStorage.getItem('href')
-    videoUrl2 = window.localStorage.getItem('href2')
-}
-
-
-if(window.location.href.includes("#")) { // Если мы по стрелочке вернемся на главный экран или через урл, чтобы стиралась ссылка на видео на главной
-    window.location.href = window.location.href.split('#')[0]
-}
-
-if(window.localStorage.getItem('href') == null 
-    && window.localStorage.getItem('href2') == null) { //если в локалстораже ничего не лежит то вставляем дефолтное видео
-        videoUrl = "W57EKdp3nf8" //дефолтное видео
-        videoUrl2 = "https://www.youtube.com/watch?v=W57EKdp3nf8" //полная ссылка видео
-}
-
-// Это все нужно для настройки проигрывателя
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-var player;
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-    videoId: videoUrl, // сюда вставляется ссылка, переданная по урл
-    events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-    }
-    });
-}
-function onPlayerReady(event) {
-    event.target.playVideo();
-}
-var done = false;
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-    done = true;
-    }
-}
-function stopVideo() {
-    player.stopVideo();
-}
-//============================================================
 
 const btn = document.querySelectorAll(".btn") //ищем все кнопки
-const table = document.querySelector(".table") //ищем таблицу
+const tableBody = document.querySelector("tbody") //ищем таблицу
 let date
 let day
 let month
@@ -126,6 +50,99 @@ let arrBtn1 = [0]
 let arrBtn2 = [0]
 let arrBtn3 = [0]
 
+window.addEventListener('hashchange', function(){
+    if(window.location.href.includes("#https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
+    || window.location.href.includes("#https://youtu.be")
+    || window.location.href.includes("#https://youtube.com")) {  
+        if(window.location.href.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
+            url = window.location.href.toString().split("watch?v=") //обрезаем урл
+                .pop() //удаляем ненужный последний элемент
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
+            url = window.location.href.toString().split("live/") //обрезаем урл
+                .pop() //удаляем ненужный последний элемент
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://www.youtube.com/shorts")) {  //если мы вставили шортс ссылку
+            url = window.location.href.toString().split("shorts/") //обрезаем урл
+                .pop() //удаляем ненужный последний элемент
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://youtube.com/shorts/")) { //если мы вставили укороченную ссылку
+            url = window.location.href.toString()
+                .split("shorts/")  //берем последнее из ссылки до youtu.be/
+                .pop()
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
+            url = window.location.href.toString()
+                .split("youtu.be/")  //берем последнее из ссылки до youtu.be/
+                .pop()
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        window.localStorage.setItem("href", url) //перекидываем в локальное хранилище
+        window.localStorage.setItem("href2", url2) //перекидываем в локальное хранилище
+        window.open(`index.html#${window.localStorage.getItem("href2")}`, "_self") //открываем плеер с обновленой ссылкой
+        window.location.reload() //перезагружаем страницу
+        player.loadVideoById(window.localStorage.getItem("href")); //передаем ссылку видео плееру
+    }
+});
+
+if(window.localStorage.getItem("href") === null) {
+    window.localStorage.setItem("href", "W57EKdp3nf8")  //дефолтное видео
+    window.localStorage.setItem("href2", "https://www.youtube.com/watch?v=W57EKdp3nf8")   //полная ссылка видео
+    window.location.href = `#${window.localStorage.getItem("href2")}`
+}
+
+// Это все нужно для настройки проигрывателя
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+    videoId: window.localStorage.getItem("href"), // сюда вставляется ссылка, переданная по урл
+    events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+    }
+    });
+}
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+var done = false;
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+    done = true;
+    }
+}
+function stopVideo() {
+    player.stopVideo();
+}
+//============================================================
+
+function timeInSecondFoo(e) { //функция перевода времени в секунды
+    let timeTableArr = e.previousSibling.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
+    let timeTable
+    //Здесь мы переводим из часов, минут и секунд только в секунды
+    if(timeTableArr.length <= 2) { //если нету часов
+        timeTableArr[0] *= 60
+        timeTable = +(timeTableArr[0]) + +(timeTableArr[1])
+    }
+    if(timeTableArr.length > 2) { // если есть часы
+        timeTableArr[0] *= 3600
+        timeTableArr[1] *= 60
+        timeTable = +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
+    }
+}
+
 btn.forEach(function(event) {  // ставим на все кнопки прослушки
     event.addEventListener("click", function btnFoo() { // если мы нажали на эту кнопку то..
         let trTable = document.createElement("tr") // создаем элемент tr
@@ -133,8 +150,11 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         let td2Table = document.createElement("td") // создаем элемент td
         let td3Table = document.createElement("td") // создаем элемент td
         let td4Table = document.createElement("td") // создаем элемент td
-
+        
+        trTable.classList.add("trBlockTable")
+        td3Table.classList.add("td3Table")
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+
         if(event.textContent == "1") { //если содержимое нажатой кнопки равна 1
             td4Table.classList.add("delete-btn--1") //то добавляем класс
         }
@@ -144,9 +164,11 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         if(event.textContent == "3") {
             td4Table.classList.add("delete-btn--3")
         }
-        td3Table.classList.add("td3Table")
 
-        let timeVideoSeconds = !player.getCurrentTime ? 0.0 : Math.floor(player.getCurrentTime()) //получаем время остановы в секундах
+        let timeVideoSeconds = !player.getCurrentTime ? 
+            0.0 
+            : 
+            Math.floor(player.getCurrentTime()) //получаем время остановы в секундах
 
         // Раскладываем полученные из видео секунды на часы, минуты и секунды
         let playerHours = Math.floor(timeVideoSeconds / 60 / 60)
@@ -172,7 +194,7 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         td3Table.textContent = timeVideo //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
           
-        table.prepend(trTable) //засовываем в html созданную строку
+        tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable) //засовываем в html созданную 1 ячейку
         trTable.append(td2Table) //засовываем в html созданную 2 ячейку
         trTable.append(td3Table) //засовываем в html созданную 3 ячейку
@@ -209,8 +231,11 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
                 }
                 
                 if(!timeGraphic2.includes(element)) {
-                    timeGraphic2.splice(timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                    timeGraphic2
+                        .splice(timeGraphic
+                        .indexOf(Math.floor(timeVideoSeconds)), 0, element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
                 }
+                chart.update() //обновляем график
             }
         }
 
@@ -232,19 +257,7 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
 
         dltBtnTable.forEach(function(e) {
             e.onclick = function() {
-                let timeTableArr = e.previousSibling.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
-                let timeTable
-                //Здесь мы переводим из часов, минут и секунд только в секунды
-                if(timeTableArr.length <= 2) { //если нету часов
-                    timeTableArr[0] *= 60
-                    timeTable = +(timeTableArr[0]) + +(timeTableArr[1])
-                }
-                if(timeTableArr.length > 2) { // если есть часы
-                    timeTableArr[0] *= 3600
-                    timeTableArr[1] *= 60
-                    timeTable = +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
-                }
-
+                timeInSecondFoo(e) //переводим время в секунды
                 if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
                     arrBtn1[timeGraphic.indexOf(timeTable)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
                 }
@@ -272,31 +285,18 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
                 event.parentNode.remove()
             })
         })
-
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
             event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-                let seekArr = event.textContent.match( /\d+/g ) //время формата ютуба делим на отдельные элементы
-                let seekVal
-                //Здесь мы переводим из часов, минут и секунд только в секунды
-                if(seekArr.length <= 2) { //если нету часов
-                    seekArr[0] *= 60
-                    seekVal = +(seekArr[0]) + +(seekArr[1])
-                }
-                if(seekArr.length > 2) { // если есть часы
-                    seekArr[0] *= 3600
-                    seekArr[1] *= 60
-                    seekVal = +(seekArr[0]) + +(seekArr[1]) + +(seekArr[2])
-                }
+                timeInSecondFoo(event) //переводим время в секунды
                 player.seekTo(seekVal); // перематываем видео
             })
         })
         chart.update() //обновляем график
     })
-    window.location.href = "#" + videoUrl2//чтобы в урл сохранялась переданная ссылка
 })
 
 // Настройка графика
-let chart = new Chart(document.getElementById("graphic"), {
+let chart = new Chart(document.getElementById("graphic"), { 
     type: 'line',
     data: {
       labels: timeGraphic2,
