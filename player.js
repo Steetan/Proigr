@@ -5,6 +5,44 @@ document.querySelector(".form__btn").addEventListener("click", function() {
     document.querySelector(".form__btn").href = window.location.href + "#" + document.querySelector(".form__text").value
 })
 
+if(window.location.href.includes("#https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
+    || window.location.href.includes("#https://youtu.be")
+    || window.location.href.includes("#https://youtube.com")) {  
+        if(window.location.href.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
+            url = window.location.href.toString().split("watch?v=") //обрезаем урл
+                .pop() //удаляем ненужный последний элемент
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
+            url = window.location.href.toString().split("live/") //обрезаем урл
+                .pop() //удаляем ненужный последний элемент
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://www.youtube.com/shorts")) {  //если мы вставили шортс ссылку
+            url = window.location.href.toString().split("shorts/") //обрезаем урл
+                .pop() //удаляем ненужный последний элемент
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://youtube.com/shorts/")) { //если мы вставили укороченную ссылку
+            url = window.location.href.toString()
+                .split("shorts/")  //берем последнее из ссылки до youtu.be/
+                .pop()
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        if(window.location.href.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
+            url = window.location.href.toString()
+                .split("youtu.be/")  //берем последнее из ссылки до youtu.be/
+                .pop()
+                .replace('?feature=share','')
+            url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
+        }
+        window.localStorage.setItem("href", url) //перекидываем в локальное хранилище
+        window.localStorage.setItem("href2", url2) //перекидываем в локальное хранилище
+}
+
 const btn = document.querySelectorAll(".btn") //ищем все кнопки
 const tableBody = document.querySelector("tbody") //ищем таблицу
 let date
@@ -50,6 +88,54 @@ let arrBtn1 = [0]
 let arrBtn2 = [0]
 let arrBtn3 = [0]
 
+// Настройка графика
+let chart = new Chart(document.getElementById("graphic"), { 
+    type: 'line',
+    data: {
+      labels: timeGraphic2,
+      datasets: [{ 
+          data: arrBtn1,  //1 кнопка
+          label: "Button 1",
+          borderColor: "#3e95cd", //цвет линии
+          fill: false
+        }, { 
+          data: arrBtn2, //2 кнопка
+          label: "Button 2",
+          borderColor: "#8e5ea2", //цвет линии
+          fill: false 
+        }, { 
+          data: arrBtn3, //3 кнопка
+          label: "Button 3",
+          borderColor: "#3cba9f", //цвет линии
+          fill: false
+        }
+      ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'График нажатий кнопок по времени видео' //заголовок графика
+            }
+        },
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Количество нажатий' //надпись по оси y
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Время видео' //надпись по оси x
+          }
+        }
+    }
+}
+});
+//======================================================================
+
 window.addEventListener('hashchange', function(){
     if(window.location.href.includes("#https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
     || window.location.href.includes("#https://youtu.be")
@@ -89,7 +175,7 @@ window.addEventListener('hashchange', function(){
         window.localStorage.setItem("href2", url2) //перекидываем в локальное хранилище
         window.open(`index.html#${window.localStorage.getItem("href2")}`, "_self") //открываем плеер с обновленой ссылкой
         window.location.reload() //перезагружаем страницу
-        player.loadVideoById(window.localStorage.getItem("href")); //передаем ссылку видео плееру
+        player.loadVideoById("window.localStorage.getItem('href')"); //передаем ссылку видео плееру
     }
 });
 
@@ -294,51 +380,3 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         chart.update() //обновляем график
     })
 })
-
-// Настройка графика
-let chart = new Chart(document.getElementById("graphic"), { 
-    type: 'line',
-    data: {
-      labels: timeGraphic2,
-      datasets: [{ 
-          data: arrBtn1,  //1 кнопка
-          label: "Button 1",
-          borderColor: "#3e95cd", //цвет линии
-          fill: false
-        }, { 
-          data: arrBtn2, //2 кнопка
-          label: "Button 2",
-          borderColor: "#8e5ea2", //цвет линии
-          fill: false 
-        }, { 
-          data: arrBtn3, //3 кнопка
-          label: "Button 3",
-          borderColor: "#3cba9f", //цвет линии
-          fill: false
-        }
-      ]
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: 'График нажатий кнопок по времени видео' //заголовок графика
-            }
-        },
-      scales: {
-        y: {
-          title: {
-            display: true,
-            text: 'Количество нажатий' //надпись по оси y
-          }
-        },
-        x: {
-          title: {
-            display: true,
-            text: 'Время видео' //надпись по оси x
-          }
-        }
-    }
-}
-});
-//======================================================================
