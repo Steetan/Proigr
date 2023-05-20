@@ -184,8 +184,9 @@ window.addEventListener('hashchange', function(){
 if(window.localStorage.getItem("href") === null) {
     window.localStorage.setItem("href", "W57EKdp3nf8")  //дефолтное видео
     window.localStorage.setItem("href2", "https://www.youtube.com/watch?v=W57EKdp3nf8")   //полная ссылка видео
-    window.location.href = `#${window.localStorage.getItem("href2")}`
 }
+
+window.location.href = `#${window.localStorage.getItem("href2")}`
 
 // Это все нужно для настройки проигрывателя
 var tag = document.createElement('script');
