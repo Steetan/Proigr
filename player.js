@@ -1,9 +1,15 @@
 let url
 let url2
+let newurl
+let newurl2
 
-document.querySelector(".form__btn").addEventListener("click", function() {
-    window.location.href = ''
-    document.querySelector(".form__btn").href = window.location.href + "#" + document.querySelector(".form__text").value
+if(!window.location.href.includes("#https://")) { //если в строке урл не будет никакой ссылки
+    window.location.href = `#https://www.youtube.com/watch?v=W57EKdp3nf8` //подставляем дефолтную ссылку
+}
+
+document.querySelector(".form__btn").addEventListener("click", function() { //событие на нажатие кнопки Открыть
+    window.location.href = '' //очищаем урл
+    document.querySelector(".form__btn").href = window.location.href + "#" + document.querySelector(".form__text").value //подставляем в урл ссылку которую мы взяли из инпута
 })
 
 if(window.location.href.includes("#https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
@@ -40,9 +46,8 @@ if(window.location.href.includes("#https://www.youtube.com") //проверяе�
                 .replace('?feature=share','')
             url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
         }
-        window.localStorage.setItem("href", url) //перекидываем в локальное хранилище
-        window.localStorage.setItem("href2", url2) //перекидываем в локальное хранилище
-        window.location.href = "#" + window.localStorage.getItem("href2")
+        newurl = url
+        window.location.href = "#" + url2
 }
 
 const btn = document.querySelectorAll(".btn") //ищем все кнопки
@@ -173,20 +178,11 @@ window.addEventListener('hashchange', function(){
                 .replace('?feature=share','')
             url2 = window.location.href.toString().split("#").pop() //обрезаем ссылку для урл
         }
-        window.localStorage.setItem("href", url) //перекидываем в локальное хранилище
-        window.localStorage.setItem("href2", url2) //перекидываем в локальное хранилище
-        window.open(`index.html#${window.localStorage.getItem("href2")}`, "_self") //открываем плеер с обновленой ссылкой
+        newurl = url //передаем созданную ссылку в переменную
+        player.loadVideoById(newurl); //передаем ссылку видео плееру
         window.location.reload() //перезагружаем страницу
-        player.loadVideoById("window.localStorage.getItem('href')"); //передаем ссылку видео плееру
     }
 });
-
-if(window.localStorage.getItem("href") === null) {
-    window.localStorage.setItem("href", "W57EKdp3nf8")  //дефолтное видео
-    window.localStorage.setItem("href2", "https://www.youtube.com/watch?v=W57EKdp3nf8")   //полная ссылка видео
-}
-
-window.location.href = `#${window.localStorage.getItem("href2")}`
 
 // Это все нужно для настройки проигрывателя
 var tag = document.createElement('script');
@@ -196,7 +192,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-    videoId: window.localStorage.getItem("href"), // сюда вставляется ссылка, переданная по урл
+    videoId: newurl, // сюда вставляется ссылка, переданная по урл
     events: {
         'onReady': onPlayerReady,
         'onStateChange': onPlayerStateChange
