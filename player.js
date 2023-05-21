@@ -8,8 +8,7 @@ if(!window.location.href.includes("#https://")) { //если в строке у�
 }
 
 document.querySelector(".form__btn").addEventListener("click", function() { //событие на нажатие кнопки Открыть
-    window.location.href = '' //очищаем урл
-    document.querySelector(".form__btn").href = window.location.href + "#" + document.querySelector(".form__text").value //подставляем в урл ссылку которую мы взяли из инпута
+    window.location.href = window.location.href + "#" + document.querySelector(".form__text").value //подставляем в урл ссылку которую мы взяли из инпута
 })
 
 if(window.location.href.includes("#https://www.youtube.com") //проверяем вставили ли мы обычную ссылку и укороченную ссылку в урл
