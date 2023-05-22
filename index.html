@@ -12,8 +12,8 @@
     <div class="container">
         <h3 class="form-title">Введите ссылку сайта</h3>
         <form class="form" action="#">
-            <input class="form__text" type="text" placeholder="Введите ссылку на ютуб видео...">
-            <button class="form__btn">Открыть</button>
+            <input onmousemove="this.select()" class="form__text" type="text" placeholder="Введите ссылку на ютуб видео...">
+            <button class="form__btn" onclick="btnForm()">Открыть</button>
         </form>
         <div id="player"></div> <!-- Проигрыватель -->
         <div class="block-btns">
@@ -30,7 +30,6 @@
             </tr>
         </table>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="player.js"></script>

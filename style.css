@@ -60,6 +60,7 @@ td {
     width: 100%;
 }
 
+.form__btn,
 .delete-btn {
     border: none;
 }
@@ -81,6 +82,10 @@ td {
 .form__text {
     width: 100%;
     padding-left: 10px;
+}
+
+.form__text:hover {
+    user-select: all;
 }
 
 .form__btn {
