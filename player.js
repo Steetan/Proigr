@@ -27,7 +27,6 @@ function clearURL(urlStr) {
 
 function btnForm() { //событие на нажатие кнопки Открыть
     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
-    let cur_hash = window.location.hash
     if(window.location.hash.includes(inUrl)){
         window.location.reload();
     } else {
