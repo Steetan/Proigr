@@ -28,12 +28,13 @@ function clearURL(urlStr) {
 function btnForm() { //событие на нажатие кнопки Открыть
     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
     let cur_hash = window.location.hash
-    if(!window.location.hash.includes(inUrl)
+    if(!window.location.hash.includes(inUrl){
         if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
             window.location.hash = inUrl
         } else {
             window.location.href += "#" + inUrl
         }
+    }
 }
 
 window.addEventListener('hashchange', function(){ //reload on hash change накладываем прослушку на строку урл
