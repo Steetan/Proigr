@@ -1,14 +1,50 @@
-let urlString
-let fullUrlString
+let vidId = "luKquWe89jo" // defaults
+let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 
-if(!window.location.href.includes("#https://")) { //если в строке урл не будет никакой ссылки
-    window.location.href = `#https://www.youtube.com/watch?v=W57EKdp3nf8` //подставляем дефолтную ссылку
+function clearURL(urlStr) {
+    if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
+        let split
+        if(urlStr.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
+            split = "watch?v="
+        } else if(urlStr.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
+            split = "live/"
+        } else if(urlStr.includes("https://www.youtube.com/shorts")
+        || urlStr.includes("https://youtube.com/shorts/")) {  //если мы вставили шортс ссылку
+            split = "shorts/"
+        } else if (urlStr.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
+            split = "youtu.be/"
+        }    
+        vidId = urlStr //заполняем ид видео
+            .split(split) //обрезаем урл
+            .pop() //удаляем ненужный последний элемент
+            .replace('?feature=share','')
+        vidUrl = urlStr // заполняем урл видео
+            .split("#") //обрезаем урл
+            .pop() //обрезаем ссылку для урл
+            .replace('?feature=share','')        
+    } 
 }
 
 function btnForm() { //событие на нажатие кнопки Открыть
-    window.location.href = "#" + document.querySelector(".form__text").value //подставляем в урл ссылку которую мы взяли из инпут
-    if(window.location.href.includes(fullUrlString)) { //если ссылка введеная в строку для урл повторяется
-        window.open(window.location.href + "#" + fullUrlString, "_self") //то мы открываем страницу с этим урл
+    let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
+    if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
+        window.location.hash = inUrl
+    } else {
+        window.location.href += "#" + inUrl
+    }
+}
+
+window.addEventListener('hashchange', function(){ //reload on hash change накладываем прослушку на строку урл
+    window.location.reload();
+});
+
+clearURL(window.location.href.toString()) // clear url
+
+if(window.location.hash != ("#" + vidUrl)){
+    if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
+        window.location.hash = vidUrl
+    } else {
+        window.location.href += "#" + vidUrl
     }
 }
 
@@ -18,65 +54,21 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-    videoId: urlString, // сюда вставляется ссылка, переданная по урл
-    events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-    }
+        videoId: vidId, // сюда вставляется ссылка, переданная по урл
+        events: {
+            'onReady': onPlayerReady
+        }
     });
 }
 function onPlayerReady(event) {
     event.target.playVideo();
 }
-var done = false;
-function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-        done = true;
-    }
-}
 function stopVideo() {
     player.stopVideo();
 }
-//============================================================
-
-window.addEventListener('hashchange', function(){ //накладываем прослушку на строку урл
-    window.location.reload() //перезагружаем страницу
-});
-
-function getUrlFunc(split) { //общая функция для ключа видео
-    return window.location.href //берем урл
-        .toString() //превращаем в строку
-        .split(split) //обрезаем урл
-        .pop() //удаляем ненужный последний элемент
-        .replace('?feature=share','')
-}
-function getFullUrlFunc() { //общая функция для полной ссылки видео
-    return window.location.href
-        .toString() //превращаем в строку
-        .split("#") //обрезаем урл
-        .pop() //обрезаем ссылку для урл
-        .replace('?feature=share','')
-}
-if(window.location.href.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
-    urlString = getUrlFunc("watch?v=")
-    fullUrlString = getFullUrlFunc()
-}
-if(window.location.href.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
-    urlString = getUrlFunc("live/")
-    fullUrlString = getFullUrlFunc()
-}
-if(window.location.href.includes("https://www.youtube.com/shorts")
-|| window.location.href.includes("https://youtube.com/shorts/")) {  //если мы вставили шортс ссылку
-    urlString = getUrlFunc("shorts/")
-    fullUrlString = getFullUrlFunc()
-}
-if(window.location.href.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
-    urlString = getUrlFunc("youtu.be/")
-    fullUrlString = getFullUrlFunc()
-}
-window.location.href = "#" + fullUrlString //подставляем в строку урл результат
 
 let timeGraphic = []
 let fullTimeGraphic = []
@@ -136,49 +128,39 @@ let chart = new Chart(document.getElementById("graphic"), {
 
 const btn = document.querySelectorAll(".btn") //ищем все кнопки
 const tableBody = document.querySelector("tbody") //ищем таблицу
-let date
-let day
-let month
-let year
-let hours
-let minutes
-let seconds
-
-setInterval(() => { // нужен для обновления даты
-    date = new Date()  //получаем дату
-    day = date.getDate() //получаем день
-    month = date.getMonth() //получаем месяц
-    year = date.getFullYear() //получаем год
-    hours = date.getHours() //получаем часы
-    minutes = date.getMinutes() //получаем минуты
-    seconds = date.getSeconds() //получаем секунды
-    
-    //Добавляем нули к числам если они меньше 10
-    if(day < 10) {
-        day = "0" + day
-    }
-    if(month < 10) {
-        month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
-    }
-    if(hours < 10) {
-        hours = "0" + hours
-    }
-    if(minutes < 10) {
-        minutes = "0" + minutes
-    }
-    if(seconds < 10) {
-        seconds = "0" + seconds
-    }
-}, 500);
 
 btn.forEach(function(event) {  // ставим на все кнопки прослушки
     event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
+        let date = new Date()  //получаем дату
+        let day = date.getDate() //получаем день
+        let month = date.getMonth() //получаем месяц
+        let year = date.getFullYear() //получаем год
+        let hours = date.getHours() //получаем часы
+        let minutes = date.getMinutes() //получаем минуты
+        let seconds = date.getSeconds() //получаем секунды
+    
+        //Добавляем нули к числам если они меньше 10
+        if(day < 10) {
+            day = "0" + day
+        }
+        if(month < 10) {
+            month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
+        }
+        if(hours < 10) {
+            hours = "0" + hours
+        }
+        if(minutes < 10) {
+            minutes = "0" + minutes
+        }
+        if(seconds < 10) {
+            seconds = "0" + seconds
+        }
         let trTable = document.createElement("tr") // создаем элемент tr
         let tdTable = document.createElement("td") // создаем элемент td
         let td2Table = document.createElement("td") // создаем элемент td
         let td3Table = document.createElement("td") // создаем элемент td
         let td4Table = document.createElement("td") // создаем элемент td
-        
+
         trTable.classList.add("trBlockTable") //добавляем классы к строкам
         td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
@@ -227,9 +209,6 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
-          
-        tableBody.prepend(trTable) //засовываем в html созданную строку
-        trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -237,11 +216,11 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
             timeGraphic.sort(function(a, b) { //сортируем по возрастанию
                 return a - b;
             });
-            
+
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-            
+
             for (let element of timeGraphic) {      
                 if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
                     fullTimeGraphic.splice(
@@ -251,16 +230,24 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
             chart.update() //обновляем график
         }
 
+        function createTableString() { //функция создания строки
+            tableBody.prepend(trTable) //засовываем в html созданную строку
+            trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
+        }
+
         // если время из ютуба есть в массиве то
         if(timeGraphic.includes(timeVideoSeconds)) {
-            if(event.classList.contains("btn--1")) { //если нажатая кнопка имеет такой класс
+            if(event.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
                 arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
+                createTableString() //создаем строку
             } 
-            if(event.classList.contains("btn--2")) {
+            if(event.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                 arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
+                createTableString()
             }
-            if(event.classList.contains("btn--3")) {
+            if(event.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
+                createTableString()
             }
         } 
 

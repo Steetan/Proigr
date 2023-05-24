@@ -12,7 +12,7 @@
     <div class="container">
         <h3 class="form-title">Введите ссылку сайта</h3>
         <form class="form" action="#">
-            <input onmousemove="this.select()" class="form__text" type="text" placeholder="Введите ссылку на ютуб видео...">
+            <input onfocus="this.select()" class="form__text" type="text" placeholder="Введите ссылку на ютуб видео...">
             <button class="form__btn" onclick="btnForm()">Открыть</button>
         </form>
         <div id="player"></div> <!-- Проигрыватель -->
@@ -33,6 +33,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="player.js"></script>
-    <script src="graphics.js"></script>
 </body>
 </html>
