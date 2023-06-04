@@ -2,6 +2,7 @@ let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 
 var auth_data = check_auth()
+var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
 function sendBtnEvent(btn, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
