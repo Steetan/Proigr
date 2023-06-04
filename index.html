@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="funcs.css">
+
     <title>Player</title>
 </head>
 <body>
@@ -30,8 +32,17 @@
             </tr>
         </table>
     </div>
-
+    <!-- Диалоговое окно авторизации. Применяется совместно с funcs.{js, css}-->
+    <div id="dialogModal" class="d-modal">
+        <div class="d-modal-content">
+            <span class="d-modal-close">&times;</span>
+            <span id="dialogText"><span>
+        </div>
+    </div>
+            
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="funcs.js"></script>
     <script defer src="player.js"></script>
 </body>
 </html>

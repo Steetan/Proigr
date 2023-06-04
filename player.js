@@ -1,5 +1,69 @@
 let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
+let wsource = 'yt' // default for yt
+
+var auth_data = check_auth()
+var api_url = get_api_url()
+var api_btn_url = "/api/wote/vote/"
+
+function getVotes() {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_btn_url + '?source=' + wsource + '&videoid=' + vidId,
+        headers: headers,
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function(data) {
+            //  - поместить данные в таблицу
+            console.log(data)
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
+
+getVotes()
+
+function sendBtnEvent(btn, vote_time) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_btn_url,
+        headers: headers,
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+            source: wsource,
+            videoid: vidId,
+            button: btn,
+            time: vote_time
+        }),
+        success: function(data) {
+            console.log(data)
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
+
+function delBtnEvent(vote_time) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_btn_url,
+        headers: headers,
+        type: 'DELETE',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+            source: wsource,
+            videoid: vidId,
+            time: vote_time
+        })
+    });
+}
 
 function clearURL(urlStr) {
     if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
@@ -169,20 +233,23 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
-        if(event.textContent == "1") { //если содержимое нажатой кнопки равна 1, 2 или 3
-            td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-        }
-        if(event.textContent == "2") {
-            td4Table.classList.add("delete-btn--2")
-        }
-        if(event.textContent == "3") {
-            td4Table.classList.add("delete-btn--3")
-        }
-
         let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
             0.0 //если нельзя, то ставим ноль
             : 
             Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
+        
+        if(event.textContent == "1") { //если содержимое нажатой кнопки равна 1, 2 или 3
+            sendBtnEvent("yes",timeVideoSeconds)
+            td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+        }
+        if(event.textContent == "2") {
+            sendBtnEvent("no",timeVideoSeconds)
+            td4Table.classList.add("delete-btn--2")
+        }
+        if(event.textContent == "3") {
+            sendBtnEvent("not",timeVideoSeconds)
+            td4Table.classList.add("delete-btn--3")
+        }
 
         function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
             // Раскладываем полученные из видео секунды на часы, минуты и секунды
@@ -314,6 +381,9 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         })
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
             event.addEventListener("click", function() {
+                // 2do: get time in seconds from table and make call of del
+                // let timeInSeconds = event.parentNode[]
+                // delBtnEvent(timeInSeconds)
                 event.parentNode.remove()
             })
         })
