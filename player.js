@@ -5,6 +5,24 @@ let wsource = 'yt' // default for yt
 var auth_data = check_auth()
 var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
+
+function getVotes() {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_btn_url,
+        headers: headers,
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+            source: wsource,
+            videoid: vidId,
+        }),
+    });
+}
+
+var votes = getVotes()
+
 function sendBtnEvent(btn, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
