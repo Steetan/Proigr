@@ -26,7 +26,7 @@ function get_root_domain() {
     // на org.com
 
     if (typeof ROOT_DOMAIN === 'undefined') {
-        return 'blagoroda.org';
+        return '6jlarogap.github.io';
     } else {
         return ROOT_DOMAIN;
     }
