@@ -9,19 +9,23 @@ var api_btn_url = "/api/wote/vote/"
 function getVotes() {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
-        url: api_url + api_btn_url,
+        url: api_url + api_btn_url + '?source=' + wsource + '&videoid=' + vidId,
         headers: headers,
         type: 'GET',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        data: JSON.stringify({
-            source: wsource,
-            videoid: vidId,
         }),
+        success: function(data) {
+            //  - поместить данные в таблицу
+            console.log(data)
+        },
+        error: function (error) {
+            alert(error);
+        }
     });
 }
 
-var votes = getVotes()
+getVotes()
 
 function sendBtnEvent(btn, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
