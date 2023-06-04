@@ -11,12 +11,12 @@ function sendBtnEvent(btn, vote_time) {
         headers: headers,
         method: 'post',
         dataType: 'json',
-        data: {
+        data: JSON.stringify({
             source: 'yt',
             videoid: vidId,
             button: btn,
             time: vote_time
-        },
+        }),
         success: function(data) {
             console.log(data)
         },
