@@ -19,6 +19,9 @@ function sendBtnEvent(btn, vote_time) {
         },
         success: function(data) {
             console.log(data)
+        },
+        error: function (error) {
+            alert(error);
         }
     });
 }
