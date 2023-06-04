@@ -1,5 +1,6 @@
 let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
+let wsource = 'yt' // default for yt
 
 var auth_data = check_auth()
 var api_url = get_api_url()
@@ -10,12 +11,10 @@ function sendBtnEvent(btn, vote_time) {
         url: api_url + api_btn_url,
         headers: headers,
         type: 'POST',
-//        data: JSON.stringify({ url: window.location.href }),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        async: false,
         data: JSON.stringify({
-            source: 'yt',
+            source: wsource,
             videoid: vidId,
             button: btn,
             time: vote_time
@@ -26,6 +25,22 @@ function sendBtnEvent(btn, vote_time) {
         error: function (error) {
             alert(error);
         }
+    });
+}
+
+function delBtnEvent(vote_time) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_btn_url,
+        headers: headers,
+        type: 'DELETE',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+            source: wsource,
+            videoid: vidId,
+            time: vote_time
+        })
     });
 }
 
@@ -345,6 +360,9 @@ btn.forEach(function(event) {  // ставим на все кнопки прос
         })
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
             event.addEventListener("click", function() {
+                // 2do: get time in seconds from table and make call of del
+                // let timeInSeconds = event.parentNode[]
+                // delBtnEvent(timeInSeconds)
                 event.parentNode.remove()
             })
         })
