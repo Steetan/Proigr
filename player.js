@@ -1,6 +1,8 @@
 let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 
+check_auth()
+
 function clearURL(urlStr) {
     if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
         let split
