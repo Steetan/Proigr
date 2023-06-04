@@ -16,7 +16,7 @@ function sendBtnEvent(btn, vote_time) {
             videoid: vidId,
             button: btn,
             time: vote_time
-        }
+        },
         success: function(data) {
             console.log(data)
         }
