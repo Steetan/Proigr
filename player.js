@@ -9,8 +9,11 @@ function sendBtnEvent(btn, vote_time) {
     $.ajax({
         url: api_url + api_btn_url,
         headers: headers,
-        method: 'post',
+        type: 'POST',
+//        data: JSON.stringify({ url: window.location.href }),
+        contentType: 'application/json; charset=utf-8',
         dataType: 'json',
+        async: false,
         data: JSON.stringify({
             source: 'yt',
             videoid: vidId,
