@@ -40,10 +40,10 @@ function sendBtnEvent(auth_data, btn, vote_time) {
             time: vote_time
         }),
         success: function(data) {
-            console.log(data)
+//            console.log(data)
         },
         error: function (error) {
-            alert(error);
+//            alert(error);
         }
     });
 }
