@@ -80,7 +80,7 @@ function modal_dialog_show(html_text) {
 }
 
 
-function check_auth() {
+async function check_auth() {
 
     // Проверяем, есть ли кука авторизации auth_data
     // Если есть кука, то:
@@ -102,87 +102,96 @@ function check_auth() {
     //                  имя бота
     //              -   уходим на страницу телеграма для авторизации
 
-    var result = undefined;
+    async function api_token_authdata (api_url, authdata_token, err_mes) {
+        try {
+            return await $.ajax({
+                url: api_url  + '/api/token/authdata/?token=' + authdata_token,
+                dataType: 'json'
+            });
+        } catch (error) {
+            alert(err_mes);
+        }
+    }
+
+    async function api_token_url (api_url, err_mes) {
+        try {
+            return await $.ajax({
+                url: api_url + '/api/token/url/',
+                type: 'POST',
+                data: JSON.stringify({ url: window.location.href }),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+            });
+        } catch (error) {
+            alert(err_mes);
+        }
+    }
+
     if (result = getCookie('auth_data')) {
         return result;
     }
+
+    var result = undefined;
+    var authdata_token = get_parm('authdata_token');
     const err_mes = 'Ошибка авторизации!'
     const api_url = get_api_url();
 
-    var authdata_token = get_parm('authdata_token');
     if (authdata_token) {
-        $.ajax({
-            url: api_url  + '/api/token/authdata/?token=' + authdata_token,
-            dataType: 'json',
-            async: false,
-            success: function(data) {
-                //  - вырезать токен из адресной строки
-                //  - поставить куку
-                //  - уйти на window.location.href без токена
-                var url = DOCUMENT_URL;
-                url.searchParams.delete('authdata_token');
-                var cookie_str  =
-                    'auth_data=' + encodeURIComponent(JSON.stringify(data)) + ';' +
-                    // 14 дней
-                    'max-age=1209600; ' +
-                    'path=/; ' +
-                    'domain=' + get_root_domain() + '; ' +
-                    'samesite=lax';
-                document.cookie = cookie_str;
-                window.location.assign(url.href);
-            },
-            error: function (error) {
-                alert(err_mes);
-            }
-        });
+        let data = await api_token_authdata(api_url, authdata_token, err_mes);
+        if (data) {
+            //  - вырезать токен из адресной строки
+            //  - поставить куку
+            //  - уйти на window.location.href без токена
+            var url = DOCUMENT_URL;
+            url.searchParams.delete('authdata_token');
+            var cookie_str  =
+                'auth_data=' + encodeURIComponent(JSON.stringify(data)) + ';' +
+                // 14 дней
+                'max-age=1209600; ' +
+                'path=/; ' +
+                'domain=' + get_root_domain() + '; ' +
+                'samesite=lax';
+            document.cookie = cookie_str;
+            window.location.assign(url.href);
+        } else {
+            alert(err_mes);
+        }
     } else {
-        $.ajax({
-            url: api_url + '/api/token/url/',
-            type: 'POST',
-            data: JSON.stringify({ url: window.location.href }),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            async: false,
-            success: function(data) {
-                if (data.bot_username) {
-                    const auth_redirect_url =
-                        'https://t.me/' +
-                        data.bot_username +
-                        '?start=auth_redirect-' + data.token
-                    ;
-                    const bot_url = 'https://t.me/' + data.bot_username;
-                    modal_dialog_show(
-                        '<p>' +
-                            'Для авторизации перейдите по ссылке к телеграм-боту ' +
-                            'и следуйте его указаниям. ' +
-                            'Если переход по ссылке не работает ' +
-                            '<a ' +
-                                'href="' + auth_redirect_url + '">' +
-                                'скопируйте её текст' +
-                            '</a> ' +
-                            '- перейдите в телеграм - и отправьте её в чат - боту ' +
-                            '<a ' +
-                                'href="' + bot_url + '">' +
-                                bot_url +
-                            '</a>' +
-                        '</p>' +
-                        '<p style="text-align:center">' +
-                            '<a ' +
-                                'href="' + auth_redirect_url + '">' +
-                                '<button>Перейти</button>' +
-                            '</a>' +
-                        '</p>'
+        let data = await api_token_url(api_url, err_mes);
+        if (data && data.bot_username) {
+            const auth_redirect_url =
+                'https://t.me/' +
+                data.bot_username +
+                '?start=auth_redirect-' + data.token
+            ;
+            const bot_url = 'https://t.me/' + data.bot_username;
+            modal_dialog_show(
+                '<p>' +
+                    'Для авторизации перейдите по ссылке к телеграм-боту ' +
+                    'и следуйте его указаниям. ' +
+                    'Если переход по ссылке не работает ' +
+                    '<a ' +
+                        'href="' + auth_redirect_url + '">' +
+                        'скопируйте её текст' +
+                    '</a> ' +
+                    '- перейдите в телеграм - и отправьте её в чат - боту ' +
+                    '<a ' +
+                        'href="' + bot_url + '">' +
+                        bot_url +
+                    '</a>' +
+                '</p>' +
+                '<p style="text-align:center">' +
+                    '<a ' +
+                        'href="' + auth_redirect_url + '">' +
+                        '<button>Перейти</button>' +
+                    '</a>' +
+                '</p>'
 
-                    );
-                    // window.location.assign(auth_redirect_url);
-                } else {
-                    alert(err_mes);
-                }
-            },
-            error: function (error) {
-                alert(err_mes);
-            }
-        });
+            );
+            // window.location.assign(auth_redirect_url);
+        } else {
+            alert(err_mes);
+        }
     }
     return result;
 }
