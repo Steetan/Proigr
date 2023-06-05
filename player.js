@@ -25,7 +25,7 @@ function getVotes(auth_data) {
     });
 }
 
-function sendBtnEvent(btn, vote_time) {
+function sendBtnEvent(auth_data, btn, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
         url: api_url + api_btn_url,
@@ -48,7 +48,7 @@ function sendBtnEvent(btn, vote_time) {
     });
 }
 
-function delBtnEvent(vote_time) {
+function delBtnEvent(auth_data, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
         url: api_url + api_btn_url,
@@ -227,15 +227,15 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             if(event.textContent == "1") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                sendBtnEvent("yes",timeVideoSeconds)
+                sendBtnEvent(auth_data, "yes", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
             }
             if(event.textContent == "2") {
-                sendBtnEvent("no",timeVideoSeconds)
+                sendBtnEvent(auth_data, "no", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--2")
             }
             if(event.textContent == "3") {
-                sendBtnEvent("not",timeVideoSeconds)
+                sendBtnEvent(auth_data, "not", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--3")
             }
 
