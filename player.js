@@ -101,7 +101,7 @@ function btnForm() { //событие на нажатие кнопки Откр�
     }
 }
 
-$.document.ready (async function() {
+$(document).ready( async function() {
     var auth_data = await check_auth();
     if (!auth_data) { return; };
     getVotes()
