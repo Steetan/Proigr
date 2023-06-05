@@ -7,7 +7,7 @@ var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
 var player;
 
-function getVotes() {
+function getVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
         url: api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
@@ -104,7 +104,7 @@ function btnForm() { //событие на нажатие кнопки Откр�
 $(document).ready( async function() {
     var auth_data = await check_auth();
     if (!auth_data) { return; };
-    getVotes()
+    getVotes(auth_data)
 
     window.addEventListener('hashchange', function(){ //reload on hash change накладываем прослушку на строку урл
         window.location.reload();
