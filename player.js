@@ -2,7 +2,9 @@ let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 let wsource = 'yt' // default for yt
 
-var auth_data = check_auth()
+var auth_data = await check_auth();
+if (!auth_data) { return; };
+
 var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
