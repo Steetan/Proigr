@@ -1,11 +1,22 @@
 let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 let wsource = 'yt' // default for yt
+var player
 
+// адреса апи
 var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
-var player;
+
+// массивы для таблицы и графика
+var timeGraphic = []
+var fullTimeGraphic = []
+var tdBtnTable = []
+var dltBtnTable = []
+var arrBtn1 = [0]
+var arrBtn2 = [0]
+var arrBtn3 = [0]
+
 
 function getVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
@@ -73,14 +84,6 @@ $(document).ready( async function() {
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var timeGraphic = []
-    var fullTimeGraphic = []
-    var tdBtnTable = []
-    var dltBtnTable = []
-    var arrBtn1 = [0]
-    var arrBtn2 = [0]
-    var arrBtn3 = [0]
 
     // получаем данные о суммах голосов
     getVotes(auth_data);
