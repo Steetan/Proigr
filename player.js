@@ -133,11 +133,11 @@ $(document).ready( async function() {
     let arrBtn3 = [0]
 
     // получаем данные о суммах голосов
-    var data = getVotes(auth_data);
+    var sum_data = getVotes(auth_data);
     // перебор по атрибутам объекта data.buttons: yes, no, not
-    for (let button in data.buttons) {
+    for (let button in sum_data.buttons) {
         // проход по массиву из элементов {time: ..., count: ...}
-        for (let t of data.buttons[button]) {
+        for (let t of sum_data.buttons[button]) {
             if (timeGraphic.IndexOf(t.time) != -1) {
                 timeGraphic.push(t.time);
             }
@@ -150,13 +150,13 @@ $(document).ready( async function() {
     fullTimeGraphic = timeGraphic
     
     // arrBtn1, массив из нулей размерностью как timeGraphic
-    for (let t of data.buttons.yes) {
+    for (let t of sum_data.buttons.yes) {
         arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
     }
-    for (let t of data.buttons.no) {
+    for (let t of sum_data.buttons.no) {
         arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
     }
-    for (let t of data.buttons.not) {
+    for (let t of sum_data.buttons.not) {
         arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
     }
 
