@@ -7,34 +7,47 @@ var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
 var player;
 
-
-function updateChartData(function(data) {
-    // перебор по атрибутам объекта data.buttons: yes, no, not
-    for (let button in sum_data.buttons) {
-        // проход по массиву из элементов {time: ..., count: ...}
-        for (let t of sum_data.buttons[button]) {
-            if (timeGraphic.IndexOf(t.time) != -1) {
-                timeGraphic.push(t.time);
+function getVotes(auth_data) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
+        headers: headers,
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function(data) {  
+            // перебор по атрибутам объекта data.buttons: yes, no, not
+            for (let button in data.buttons) {
+                // проход по массиву из элементов {time: ..., count: ...}
+                for (let t of data.buttons[button]) {
+                    if (timeGraphic.IndexOf(t.time) != -1) {
+                        timeGraphic.push(t.time);
+                    }
+                }
             }
-        }
-    }
-    timeGraphic.sort((a, b) => a - b);
-    // без ((a, b) => a - b) будет 10 раньше 9
+            timeGraphic.sort((a, b) => a - b);
+            // без ((a, b) => a - b) будет 10 раньше 9
 
-    // fullTimeGraphic из timeGraphic
-    fullTimeGraphic = timeGraphic
-    
-    // arrBtn1, массив из нулей размерностью как timeGraphic
-    for (let t of sum_data.buttons.yes) {
-        arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
-    }
-    for (let t of sum_data.buttons.no) {
-        arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
-    }
-    for (let t of sum_data.buttons.not) {
-        arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
-    }
-});
+            // fullTimeGraphic из timeGraphic
+            fullTimeGraphic = timeGraphic
+
+            // arrBtn1, массив из нулей размерностью как timeGraphic
+            for (let t of data.buttons.yes) {
+                arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
+            }
+            for (let t of data.buttons.no) {
+                arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
+            }
+            for (let t of data.buttons.not) {
+                arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
+            }
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
+
 
 $(document).ready( async function() {
     var auth_data = await check_auth();
@@ -322,23 +335,6 @@ $(document).ready( async function() {
     })
 
 });
-
-function getVotes(auth_data) {
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
-        headers: headers,
-        type: 'GET',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        success: function(data) {  
-            updateChartData(data)
-        },
-        error: function (error) {
-            alert(error);
-        }
-    });
-}
 
 function sendBtnEvent(auth_data, btn, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
