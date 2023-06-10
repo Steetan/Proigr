@@ -8,8 +8,7 @@ var api_sum_url = "/api/wote/vote/sums/"
 var player;
 
 
-function updateChartData(data) {
-
+function updateChartData(function(data) {
     // перебор по атрибутам объекта data.buttons: yes, no, not
     for (let button in sum_data.buttons) {
         // проход по массиву из элементов {time: ..., count: ...}
@@ -35,8 +34,7 @@ function updateChartData(data) {
     for (let t of sum_data.buttons.not) {
         arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
     }
-
-}
+});
 
 $(document).ready( async function() {
     var auth_data = await check_auth();
