@@ -7,98 +7,35 @@ var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
 var player;
 
-function getVotes(auth_data) {
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
-        headers: headers,
-        type: 'GET',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        success: function(data) {  
-            console.log(data)
-            return data;
-        },
-        error: function (error) {
-            alert(error);
-        }
-    });
-}
 
-function sendBtnEvent(auth_data, btn, vote_time) {
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_btn_url,
-        headers: headers,
-        type: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({
-            source: wsource,
-            videoid: vidId,
-            button: btn,
-            time: vote_time
-        }),
-        success: function(data) {
-//            console.log(data)
-        },
-        error: function (error) {
-//            alert(error);
-        }
-    });
-}
+function updateChartData(data) {
 
-function delBtnEvent(auth_data, vote_time) {
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_btn_url,
-        headers: headers,
-        type: 'DELETE',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({
-            source: wsource,
-            videoid: vidId,
-            time: vote_time
-        })
-    });
-}
-
-function clearURL(urlStr) {
-    if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
-        let split
-        if(urlStr.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
-            split = "watch?v="
-        } else if(urlStr.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
-            split = "live/"
-        } else if(urlStr.includes("https://www.youtube.com/shorts")
-        || urlStr.includes("https://youtube.com/shorts/")) {  //если мы вставили шортс ссылку
-            split = "shorts/"
-        } else if (urlStr.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
-            split = "youtu.be/"
-        }    
-        vidId = urlStr //заполняем ид видео
-            .split(split) //обрезаем урл
-            .pop() //удаляем ненужный последний элемент
-            .replace('?feature=share','')
-        vidUrl = urlStr // заполняем урл видео
-            .split("#") //обрезаем урл
-            .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')        
-    } 
-}
-
-function btnForm() { //событие на нажатие кнопки Открыть
-    let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
-    if(window.location.hash.includes(inUrl)){
-        window.location.reload();
-    } else {
-        if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
-            window.location.hash = inUrl
-        } else {
-            window.location.href += "#" + inUrl
+    // перебор по атрибутам объекта data.buttons: yes, no, not
+    for (let button in sum_data.buttons) {
+        // проход по массиву из элементов {time: ..., count: ...}
+        for (let t of sum_data.buttons[button]) {
+            if (timeGraphic.IndexOf(t.time) != -1) {
+                timeGraphic.push(t.time);
+            }
         }
     }
+    timeGraphic.sort((a, b) => a - b);
+    // без ((a, b) => a - b) будет 10 раньше 9
+
+    // fullTimeGraphic из timeGraphic
+    fullTimeGraphic = timeGraphic
+    
+    // arrBtn1, массив из нулей размерностью как timeGraphic
+    for (let t of sum_data.buttons.yes) {
+        arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
+    }
+    for (let t of sum_data.buttons.no) {
+        arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
+    }
+    for (let t of sum_data.buttons.not) {
+        arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
+    }
+
 }
 
 $(document).ready( async function() {
@@ -134,32 +71,7 @@ $(document).ready( async function() {
     let arrBtn3 = [0]
 
     // получаем данные о суммах голосов
-    var sum_data = getVotes(auth_data);
-    // перебор по атрибутам объекта data.buttons: yes, no, not
-    for (let button in sum_data.buttons) {
-        // проход по массиву из элементов {time: ..., count: ...}
-        for (let t of sum_data.buttons[button]) {
-            if (timeGraphic.IndexOf(t.time) != -1) {
-                timeGraphic.push(t.time);
-            }
-        }
-    }
-    timeGraphic.sort((a, b) => a - b);
-    // без ((a, b) => a - b) будет 10 раньше 9
-
-    // fullTimeGraphic из timeGraphic
-    fullTimeGraphic = timeGraphic
-    
-    // arrBtn1, массив из нулей размерностью как timeGraphic
-    for (let t of sum_data.buttons.yes) {
-        arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
-    }
-    for (let t of sum_data.buttons.no) {
-        arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
-    }
-    for (let t of sum_data.buttons.not) {
-        arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
-    }
+    getVotes(auth_data);
 
     // Настройка графика
     let chart = new Chart(document.getElementById("graphic"), { 
@@ -413,6 +325,98 @@ $(document).ready( async function() {
 
 });
 
+function getVotes(auth_data) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
+        headers: headers,
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function(data) {  
+            updateChartData(data)
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
+
+function sendBtnEvent(auth_data, btn, vote_time) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_btn_url,
+        headers: headers,
+        type: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+            source: wsource,
+            videoid: vidId,
+            button: btn,
+            time: vote_time
+        }),
+        success: function(data) {
+//            console.log(data)
+        },
+        error: function (error) {
+//            alert(error);
+        }
+    });
+}
+
+function btnForm() { //событие на нажатие кнопки Открыть
+    let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
+    if(window.location.hash.includes(inUrl)){
+        window.location.reload();
+    } else {
+        if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
+            window.location.hash = inUrl
+        } else {
+            window.location.href += "#" + inUrl
+        }
+    }
+}
+
+function delBtnEvent(auth_data, vote_time) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_btn_url,
+        headers: headers,
+        type: 'DELETE',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+            source: wsource,
+            videoid: vidId,
+            time: vote_time
+        })
+    });
+}
+
+function clearURL(urlStr) {
+    if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
+        let split
+        if(urlStr.includes("https://www.youtube.com/watch?v=")) {  //если мы вставили обычную ссылку
+            split = "watch?v="
+        } else if(urlStr.includes("https://www.youtube.com/live/")) {  //если мы вставили live ссылку
+            split = "live/"
+        } else if(urlStr.includes("https://www.youtube.com/shorts")
+        || urlStr.includes("https://youtube.com/shorts/")) {  //если мы вставили шортс ссылку
+            split = "shorts/"
+        } else if (urlStr.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
+            split = "youtu.be/"
+        }    
+        vidId = urlStr //заполняем ид видео
+            .split(split) //обрезаем урл
+            .pop() //удаляем ненужный последний элемент
+            .replace('?feature=share','')
+        vidUrl = urlStr // заполняем урл видео
+            .split("#") //обрезаем урл
+            .pop() //обрезаем ссылку для урл
+            .replace('?feature=share','')        
+    } 
+}
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: vidId, // сюда вставляется ссылка, переданная по урл
