@@ -41,6 +41,7 @@ function getVotes(auth_data) {
             for (let t of data.buttons.not) {
                 arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
             }
+            chart.update() //обновляем график
         },
         error: function (error) {
             alert(error);
