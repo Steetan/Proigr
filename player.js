@@ -9,14 +9,13 @@ var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
 
 // массивы для таблицы и графика
-var timeGraphic = []
-var fullTimeGraphic = []
-var tdBtnTable = []
-var dltBtnTable = []
+var timeGraphic = [0]
+var fullTimeGraphic = [0]
+var tdBtnTable = [0]
+var dltBtnTable = [0]
 var arrBtn1 = [0]
 var arrBtn2 = [0]
 var arrBtn3 = [0]
-
 
 function getVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
