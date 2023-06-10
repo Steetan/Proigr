@@ -74,13 +74,13 @@ $(document).ready( async function() {
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    let timeGraphic = []
-    let fullTimeGraphic = []
-    let tdBtnTable = []
-    let dltBtnTable = []
-    let arrBtn1 = [0]
-    let arrBtn2 = [0]
-    let arrBtn3 = [0]
+    var timeGraphic = []
+    var fullTimeGraphic = []
+    var tdBtnTable = []
+    var dltBtnTable = []
+    var arrBtn1 = [0]
+    var arrBtn2 = [0]
+    var arrBtn3 = [0]
 
     // получаем данные о суммах голосов
     getVotes(auth_data);
