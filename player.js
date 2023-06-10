@@ -15,9 +15,8 @@ function getVotes(auth_data) {
         type: 'GET',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        success: function(data) {
-            //  - поместить данные в таблицу
-            console.log(data)
+        success: function(data) {  
+            return data;
         },
         error: function (error) {
             alert(error);
@@ -104,7 +103,6 @@ function btnForm() { //событие на нажатие кнопки Откр�
 $(document).ready( async function() {
     var auth_data = await check_auth();
     if (!auth_data) { return; };
-    getVotes(auth_data)
 
     window.addEventListener('hashchange', function(){ //reload on hash change накладываем прослушку на строку урл
         window.location.reload();
@@ -133,6 +131,34 @@ $(document).ready( async function() {
     let arrBtn1 = [0]
     let arrBtn2 = [0]
     let arrBtn3 = [0]
+
+    // получаем данные о суммах голосов
+    var data = getVotes(auth_data);
+    // перебор по атрибутам объекта data.buttons: yes, no, not
+    for (let button in data.buttons) {
+        // проход по массиву из элементов {time: ..., count: ...}
+        for (let t of data.buttons[button]) {
+            if (timeGraphic.IndexOf(t.time) != -1) {
+                timeGraphic.push(t.time);
+            }
+        }
+    }
+    timeGraphic.sort((a, b) => a - b);
+    // без ((a, b) => a - b) будет 10 раньше 9
+
+    // fullTimeGraphic из timeGraphic
+    fullTimeGraphic = timeGraphic
+    
+    // arrBtn1, массив из нулей размерностью как timeGraphic
+    for (let t of data.buttons.yes) {
+        arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
+    }
+    for (let t of data.buttons.no) {
+        arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
+    }
+    for (let t of data.buttons.not) {
+        arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
+    }
 
     // Настройка графика
     let chart = new Chart(document.getElementById("graphic"), { 
