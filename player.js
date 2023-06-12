@@ -26,11 +26,11 @@ function getVotes(auth_data) {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function(data) {  
-            // перебор по атрибутам объекта data.buttons: yes, no, not
+/*            // перебор по атрибутам объекта data.buttons: yes, no, not
             for (let button in data.buttons) {
                 // проход по массиву из элементов {time: ..., count: ...}
                 for (let t of data.buttons[button]) {
-//                    if (timeGraphic.IndexOf(t.time.toString()) != -1) {
+                    if (timeGraphic.IndexOf(t.time.toString()) != -1) {
                         timeGraphic.push(t.time);
                     }
                 }
@@ -52,6 +52,7 @@ function getVotes(auth_data) {
                 arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
             }
             chart.update() //обновляем график
+  */
         },
         error: function (error) {
             alert(error);
