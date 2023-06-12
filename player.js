@@ -81,6 +81,7 @@ function getUserVotes(auth_data) {
         dataType: 'json',
         success: function(data) {  
             // put user votes in table
+            console.log(data)
         },
         error: function (error) {
             alert(error);
