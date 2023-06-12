@@ -30,7 +30,7 @@ function getVotes(auth_data) {
             for (let button in data.buttons) {
                 // проход по массиву из элементов {time: ..., count: ...}
                 for (let t of data.buttons[button]) {
-                    if (timeGraphic.IndexOf(t.time.toString()) != -1) {
+//                    if (timeGraphic.IndexOf(t.time.toString()) != -1) {
                         timeGraphic.push(t.time);
                     }
                 }
