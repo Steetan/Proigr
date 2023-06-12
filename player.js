@@ -67,7 +67,6 @@ function getVotes(auth_data) {
     });
 }
 
-
 $(document).ready( async function() {
     var auth_data = await check_auth();
     if (!auth_data) { return; };
@@ -93,7 +92,7 @@ $(document).ready( async function() {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     // Настройка графика
-    let chart = new Chart(document.getElementById("graphic"), { 
+    var chart = new Chart(document.getElementById("graphic"), { 
         type: 'line',
         data: {
           labels: fullTimeGraphic,
