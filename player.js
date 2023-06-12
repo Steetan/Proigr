@@ -17,6 +17,60 @@ var arrBtn1 = [0]
 var arrBtn2 = [0]
 var arrBtn3 = [0]
 
+// Это все нужно для настройки проигрывателя
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Настройка графика
+var chart = new Chart(document.getElementById("graphic"), { 
+    type: 'line',
+    data: {
+      labels: fullTimeGraphic,
+      datasets: [{ 
+          data: arrBtn1, //Кнопка
+          label: "Button 1", //Наименование кнопки
+          borderColor: "#3e95cd", //цвет линии
+          fill: false
+        }, { 
+          data: arrBtn2,
+          label: "Button 2",
+          borderColor: "#8e5ea2",
+          fill: false 
+        }, { 
+          data: arrBtn3,
+          label: "Button 3",
+          borderColor: "#3cba9f",
+          fill: false
+        }
+      ]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'График нажатий кнопок по времени видео' //заголовок графика
+            }
+        },
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: 'Количество нажатий' //надпись по оси y
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Время видео' //надпись по оси x
+          }
+        }
+    }
+}
+});
+
+
 function getVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
@@ -84,59 +138,6 @@ $(document).ready( async function() {
             window.location.href += "#" + vidUrl
         }
     }
-
-    // Это все нужно для настройки проигрывателя
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    // Настройка графика
-    var chart = new Chart(document.getElementById("graphic"), { 
-        type: 'line',
-        data: {
-          labels: fullTimeGraphic,
-          datasets: [{ 
-              data: arrBtn1, //Кнопка
-              label: "Button 1", //Наименование кнопки
-              borderColor: "#3e95cd", //цвет линии
-              fill: false
-            }, { 
-              data: arrBtn2,
-              label: "Button 2",
-              borderColor: "#8e5ea2",
-              fill: false 
-            }, { 
-              data: arrBtn3,
-              label: "Button 3",
-              borderColor: "#3cba9f",
-              fill: false
-            }
-          ]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'График нажатий кнопок по времени видео' //заголовок графика
-                }
-            },
-          scales: {
-            y: {
-              title: {
-                display: true,
-                text: 'Количество нажатий' //надпись по оси y
-              }
-            },
-            x: {
-              title: {
-                display: true,
-                text: 'Время видео' //надпись по оси x
-              }
-            }
-        }
-    }
-    });
     
     const btn = document.querySelectorAll(".btn") //ищем все кнопки
     const tableBody = document.querySelector("tbody") //ищем таблицу
