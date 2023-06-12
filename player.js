@@ -49,15 +49,15 @@ function getVotes(auth_data) {
             // перебор по атрибутам объекта data.buttons: yes, no, not
             for (let t of data.buttons.yes) {
                 updateTimeAxis(t.time)
-                arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
+                arrBtn1[t.time] = t.count
             }
             for (let t of data.buttons.no) {
                 updateTimeAxis(t.time)
-                arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
+                arrBtn2[t.time] = t.count
             }
             for (let t of data.buttons.not) {
                 updateTimeAxis(t.time)
-                arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
+                arrBtn3[t.time] = t.count
             }            
             chart.update() //обновляем график
         },
