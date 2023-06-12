@@ -92,9 +92,6 @@ $(document).ready( async function() {
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // получаем данные о суммах голосов
-    getVotes(auth_data);
-
     // Настройка графика
     let chart = new Chart(document.getElementById("graphic"), { 
         type: 'line',
@@ -141,8 +138,7 @@ $(document).ready( async function() {
         }
     }
     });
-    //======================================================================
-
+    
     const btn = document.querySelectorAll(".btn") //ищем все кнопки
     const tableBody = document.querySelector("tbody") //ищем таблицу
 
@@ -244,19 +240,6 @@ $(document).ready( async function() {
             tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
             dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
 
-            function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
-                //Здесь мы переводим из часов, минут и секунд только в секунды
-                if(timeTableArr.length <= 2) { //если нету часов
-                    timeTableArr[0] *= 60
-                    return +(timeTableArr[0]) + +(timeTableArr[1]) //возвращаем полученное
-                }
-                if(timeTableArr.length > 2) { // если есть часы
-                    timeTableArr[0] *= 3600
-                    timeTableArr[1] *= 60
-                    return +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
-                }
-            }
-
             dltBtnTable.forEach(function(e) {
                 e.onclick = function() {
                     if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
@@ -319,10 +302,25 @@ $(document).ready( async function() {
                 trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
             }
 
+            // получаем данные о суммах голосов
+            getVotes(auth_data);
         })
     })
 
 });
+
+function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
+    //Здесь мы переводим из часов, минут и секунд только в секунды
+    if(timeTableArr.length <= 2) { //если нету часов
+        timeTableArr[0] *= 60
+        return +(timeTableArr[0]) + +(timeTableArr[1]) //возвращаем полученное
+    }
+    if(timeTableArr.length > 2) { // если есть часы
+        timeTableArr[0] *= 3600
+        timeTableArr[1] *= 60
+        return +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
+    }
+}
 
 function sendBtnEvent(auth_data, btn, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
