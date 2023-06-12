@@ -7,6 +7,7 @@ var player
 var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
+var api_user_votes_url = "/api/wote/vote/my/"
 
 // массивы для таблицы и графика
 var timeGraphic = [0]
@@ -70,8 +71,24 @@ var chart = new Chart(document.getElementById("graphic"), {
 }
 });
 
+function getUserVotes(auth_data) {
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    $.ajax({
+        url: api_url + api_user_votes_url + '?source=' + wsource + '&videoid=' + vidId,
+        headers: headers,
+        type: 'GET',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function(data) {  
+            // put user votes in table
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+}
 
-function getVotes(auth_data) {
+function getSumVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
         url: api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
@@ -80,7 +97,6 @@ function getVotes(auth_data) {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function(data) {  
-            
             function updateTimeAxis(timeVideoSeconds) {
                 // если времени нет в массиве
                 if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -304,7 +320,7 @@ $(document).ready( async function() {
         })
     })
     // получаем данные о суммах голосов
-    getVotes(auth_data);
+    getSumVotes(auth_data);
 });
 
 function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
