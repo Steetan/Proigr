@@ -301,12 +301,10 @@ $(document).ready( async function() {
                 tableBody.prepend(trTable) //засовываем в html созданную строку
                 trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
             }
-
-            // получаем данные о суммах голосов
-            getVotes(auth_data);
         })
     })
-
+    // получаем данные о суммах голосов
+    getVotes(auth_data);
 });
 
 function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
