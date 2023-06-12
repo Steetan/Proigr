@@ -17,8 +17,6 @@ var arrBtn1 = [0]
 var arrBtn2 = [0]
 var arrBtn3 = [0]
 
-function updateChart(time)
-
 function getVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
