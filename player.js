@@ -17,6 +17,8 @@ var arrBtn1 = [0]
 var arrBtn2 = [0]
 var arrBtn3 = [0]
 
+function updateChart(time)
+
 function getVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
@@ -26,33 +28,40 @@ function getVotes(auth_data) {
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function(data) {  
-/*            // перебор по атрибутам объекта data.buttons: yes, no, not
-            for (let button in data.buttons) {
-                // проход по массиву из элементов {time: ..., count: ...}
-                for (let t of data.buttons[button]) {
-                    if (timeGraphic.IndexOf(t.time.toString()) != -1) {
-                        timeGraphic.push(t.time);
-                    }
-                }
+            
+            function updateTimeAxis(timeVideoSeconds) {
+                // если времени нет в массиве
+                if(!timeGraphic.includes(timeVideoSeconds)) {
+                    timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+                    timeGraphic.sort(function(a, b) { //сортируем по возрастанию
+                        return a - b;
+                    });
+
+                    //добавляем к массивам кнопок нули для нового времени
+                    arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) 
+                    arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+                    arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+  
+                    // заполняем шкалу человекочитаемого времени
+                    fullTimeGraphic.splice(
+                        timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                } 
             }
-            timeGraphic.sort((a, b) => a - b);
-            // без ((a, b) => a - b) будет 10 раньше 9
-
-            // fullTimeGraphic из timeGraphic
-            fullTimeGraphic = timeGraphic
-
-            // arrBtn1, массив из нулей размерностью как timeGraphic
+            
+            // перебор по атрибутам объекта data.buttons: yes, no, not
             for (let t of data.buttons.yes) {
+                updateTimeAxis(t.time)
                 arrBtn1[timeGraphic.IndexOf(t.time)] = t.count
             }
             for (let t of data.buttons.no) {
+                updateTimeAxis(t.time)
                 arrBtn2[timeGraphic.IndexOf(t.time)] = t.count
             }
             for (let t of data.buttons.not) {
+                updateTimeAxis(t.time)
                 arrBtn3[timeGraphic.IndexOf(t.time)] = t.count
-            }
+            }            
             chart.update() //обновляем график
-  */
         },
         error: function (error) {
             alert(error);
@@ -193,31 +202,6 @@ $(document).ready( async function() {
                 td4Table.classList.add("delete-btn--3")
             }
 
-            function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
-                // Раскладываем полученные из видео секунды на часы, минуты и секунды
-                let playerHours = Math.floor(timeVideoSeconds / 60 / 60)
-                let playerMinutes = Math.floor((timeVideoSeconds / 60) - (playerHours * 60))
-                let playerSeconds = Math.floor(timeVideoSeconds % 60)
-
-                // если секунды меньше десяти то добавляем 0
-                if (playerSeconds < 10) {
-                    playerSeconds = "0" + playerSeconds
-                }
-
-                // если останова не имеет часы то
-                if(playerHours <= 0) {
-                    return `${playerMinutes}:${playerSeconds}` //возвращаем полученное
-                }
-                // если останова имеет часы то отображаем их
-                if (playerHours > 0) {
-                    return `${playerHours}:${playerMinutes}:${playerSeconds}`
-                }
-                // если останова имеет часы и имеет минуты которые меньше 10
-                if (playerHours > 0 && playerMinutes < 10) {
-                    return `${playerHours}:0${playerMinutes}:${playerSeconds}`
-                }
-            }
-
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
             td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
@@ -241,11 +225,6 @@ $(document).ready( async function() {
                     }
                 }
                 chart.update() //обновляем график
-            }
-
-            function createTableString() { //функция создания строки
-                tableBody.prepend(trTable) //засовываем в html созданную строку
-                trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
             }
 
             // если время из ютуба есть в массиве то
@@ -335,6 +314,13 @@ $(document).ready( async function() {
                 })
             })
             chart.update() //обновляем график
+            
+            
+            function createTableString() { //функция создания строки
+                tableBody.prepend(trTable) //засовываем в html созданную строку
+                trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
+            }
+
         })
     })
 
@@ -428,4 +414,29 @@ function onPlayerReady(event) {
 }
 function stopVideo() {
     player.stopVideo();
+}
+
+function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
+    // Раскладываем полученные из видео секунды на часы, минуты и секунды
+    let playerHours = Math.floor(timeVideoSeconds / 60 / 60)
+    let playerMinutes = Math.floor((timeVideoSeconds / 60) - (playerHours * 60))
+    let playerSeconds = Math.floor(timeVideoSeconds % 60)
+
+    // если секунды меньше десяти то добавляем 0
+    if (playerSeconds < 10) {
+        playerSeconds = "0" + playerSeconds
+    }
+
+    // если останова не имеет часы то
+    if(playerHours <= 0) {
+        return `${playerMinutes}:${playerSeconds}` //возвращаем полученное
+    }
+    // если останова имеет часы то отображаем их
+    if (playerHours > 0) {
+        return `${playerHours}:${playerMinutes}:${playerSeconds}`
+    }
+    // если останова имеет часы и имеет минуты которые меньше 10
+    if (playerHours > 0 && playerMinutes < 10) {
+        return `${playerHours}:0${playerMinutes}:${playerSeconds}`
+    }
 }
