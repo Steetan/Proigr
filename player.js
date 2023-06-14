@@ -105,21 +105,21 @@ function getUserVotes(auth_data) {
                 td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
                 td3Table.textContent = getFullTimeFunc(t.time) //засовываем в 3 ячейку время на видео
                 td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
-                
+
                 if(t.button == "yes") {
-                    arrBtn1[countTime]++
+                    arrBtn1[countTime] = 1
                     arrBtn2[countTime] = 0
                     arrBtn3[countTime] = 0
                     td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
                 }
                 if(t.button == "no") {
-                    arrBtn2[countTime]++
+                    arrBtn2[countTime] = 1
                     arrBtn1[countTime] = 0
                     arrBtn3[countTime] = 0
                     td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
                 }
                 if(t.button == "not") {
-                    arrBtn3[countTime]++
+                    arrBtn3[countTime] = 1
                     arrBtn1[countTime] = 0
                     arrBtn2[countTime] = 0
                     td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
