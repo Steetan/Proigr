@@ -76,6 +76,8 @@ var chart = new Chart(document.getElementById("graphic"), {
 }
 });
 
+let countTime = 0
+
 function getUserVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
@@ -87,7 +89,23 @@ function getUserVotes(auth_data) {
         success: function(data) {  
             // put user votes in table
             for (let t of data.votes) {
-                console.log(t)
+                if(t.button == "yes") {
+                    arrBtn1[countTime]++
+                    arrBtn2[countTime] = 0
+                    arrBtn3[countTime] = 0
+                }
+                if(t.button == "no") {
+                    arrBtn2[countTime]++
+                    arrBtn1[countTime] = 0
+                    arrBtn3[countTime] = 0
+                }
+                if(t.button == "not") {
+                    arrBtn3[countTime]++
+                    arrBtn1[countTime] = 0
+                    arrBtn2[countTime] = 0
+                }
+                timeGraphic[countTime] = getTimeSeconds(t.time)
+                countTime++
                 trTable = document.createElement("tr") // создаем элемент tr
                 tdTable = document.createElement("td") // создаем элемент td
                 td2Table = document.createElement("td") // создаем элемент td
