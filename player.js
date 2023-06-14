@@ -89,9 +89,23 @@ function getUserVotes(auth_data) {
             console.log(data)
             for (let t of data.votes) {
                 console.log(t)
-            }
-            for (let t of data.votes) {
-                // console.log(t.time)
+                trTable = document.createElement("tr") // создаем элемент tr
+                tdTable = document.createElement("td") // создаем элемент td
+                td2Table = document.createElement("td") // создаем элемент td
+                td3Table = document.createElement("td") // создаем элемент td
+                td4Table = document.createElement("td") // создаем элемент td
+    
+                trTable.classList.add("trBlockTable") //добавляем классы к строкам
+                td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
+                td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+
+                tdTable.textContent = t.update_timestamp //засовываем в первую ячейку дату и время
+                td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
+                td3Table.textContent = getFullTimeFunc(t.time) //засовываем в 3 ячейку время на видео
+                td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+
+                document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
+                trTable.append(tdTable, td2Table, td3Table, td4Table)
             }
         },
         error: function (error) {
@@ -206,6 +220,11 @@ $(document).ready( async function() {
             trTable.classList.add("trBlockTable") //добавляем классы к строкам
             td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
             td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+
+            tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+            td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
+            td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+            td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
             let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
                 0.0 //если нельзя, то ставим ноль
