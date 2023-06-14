@@ -89,7 +89,7 @@ function getUserVotes(auth_data) {
         success: function(data) {  
             // put user votes in table
             for (let t of data.votes) {
-                timeGraphic[countTime] = getTimeSeconds(t.time)
+                timeGraphic[countTime] = t.time
 
                 trTable = document.createElement("tr") // создаем элемент tr
                 tdTable = document.createElement("td") // создаем элемент td
@@ -129,6 +129,10 @@ function getUserVotes(auth_data) {
                 trTable.append(tdTable, td2Table, td3Table, td4Table)
                 countTime++
             }
+            console.log(arrBtn1)
+            console.log(arrBtn2)
+            console.log(arrBtn3)
+            console.log(timeGraphic)
 
             document.querySelectorAll(".delete-btn").forEach(function(e) {
                 e.onclick = function() {
