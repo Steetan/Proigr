@@ -88,6 +88,7 @@ function getUserVotes(auth_data) {
         dataType: 'json',
         success: function(data) {  
             // put user votes in table
+            console.log(data)
             for (let t of data.votes) {
                 timeGraphic[countTime] = t.time
 
