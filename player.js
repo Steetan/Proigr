@@ -89,23 +89,8 @@ function getUserVotes(auth_data) {
         success: function(data) {  
             // put user votes in table
             for (let t of data.votes) {
-                if(t.button == "yes") {
-                    arrBtn1[countTime]++
-                    arrBtn2[countTime] = 0
-                    arrBtn3[countTime] = 0
-                }
-                if(t.button == "no") {
-                    arrBtn2[countTime]++
-                    arrBtn1[countTime] = 0
-                    arrBtn3[countTime] = 0
-                }
-                if(t.button == "not") {
-                    arrBtn3[countTime]++
-                    arrBtn1[countTime] = 0
-                    arrBtn2[countTime] = 0
-                }
                 timeGraphic[countTime] = getTimeSeconds(t.time)
-                countTime++
+
                 trTable = document.createElement("tr") // создаем элемент tr
                 tdTable = document.createElement("td") // создаем элемент td
                 td2Table = document.createElement("td") // создаем элемент td
@@ -120,9 +105,29 @@ function getUserVotes(auth_data) {
                 td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
                 td3Table.textContent = getFullTimeFunc(t.time) //засовываем в 3 ячейку время на видео
                 td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+                
+                if(t.button == "yes") {
+                    arrBtn1[countTime]++
+                    arrBtn2[countTime] = 0
+                    arrBtn3[countTime] = 0
+                    td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+                }
+                if(t.button == "no") {
+                    arrBtn2[countTime]++
+                    arrBtn1[countTime] = 0
+                    arrBtn3[countTime] = 0
+                    td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
+                }
+                if(t.button == "not") {
+                    arrBtn3[countTime]++
+                    arrBtn1[countTime] = 0
+                    arrBtn2[countTime] = 0
+                    td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
+                }
 
                 document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
                 trTable.append(tdTable, td2Table, td3Table, td4Table)
+                countTime++
             }
 
             document.querySelectorAll(".delete-btn").forEach(function(e) {
