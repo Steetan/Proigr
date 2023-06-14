@@ -109,7 +109,6 @@ function getUserVotes(auth_data) {
 
             document.querySelectorAll(".delete-btn").forEach(function(e) {
                 e.onclick = function() {
-                    alert("ttt")
                     if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
                         arrBtn1[timeGraphic.indexOf(
                             getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
@@ -148,6 +147,14 @@ function getUserVotes(auth_data) {
                     }
                     chart.update() //обновляем график
                 }
+            })
+            document.querySelectorAll(".delete-btn").forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+                event.addEventListener("click", function() {
+                    // 2do: get time in seconds from table and make call of del
+                    // let timeInSeconds = event.parentNode[]
+                    // delBtnEvent(timeInSeconds)
+                    event.parentNode.remove()
+                })
             })
         },
         error: function (error) {
