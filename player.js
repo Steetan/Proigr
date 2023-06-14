@@ -246,15 +246,15 @@ $(document).ready( async function() {
 
             // если время из ютуба есть в массиве то
             if(timeGraphic.includes(timeVideoSeconds)) {
-                if(event.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
+                if(event.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
                     arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
                     createTableString() //создаем строку
                 } 
-                if(event.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+                if(event.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                     arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
                     createTableString()
                 }
-                if(event.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+                if(event.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                     arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
                     createTableString()
                 }
