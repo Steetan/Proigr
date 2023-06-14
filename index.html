@@ -31,11 +31,20 @@
         </form>
         <div id="player"></div> <!-- Проигрыватель -->
         <div class="block-btns">
-            <button class="btn btn--1">1</button>
-            <button class="btn btn--2">2</button>
-            <button class="btn btn--3">3</button>
+            <button class="btn btn--1">Да</button>
+            <button class="btn btn--2">Нет</button>
+            <button class="btn btn--3">Неясно</button>
         </div>
-        <canvas id="graphic"></canvas>
+        <div class="graphic-container">
+            <canvas id="graphic"></canvas>
+        </div>
+        <button class="graphic-button">Обновить график</button>
+        <div class="buttons">
+            <a href="#" class="buttons__btn buttons__btn--map">Карта</a>
+            <input type="text" class="buttons__input buttons__input--left">
+            <input type="text" class="buttons__input buttons__input--right">
+            <a href="#" class="buttons__btn buttons__btn--scheme">Схема</a>
+        </div>
         <table class="table">
             <tr>
                 <td>Дата и время</td>

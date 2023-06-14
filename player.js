@@ -3,6 +3,9 @@ let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 let wsource = 'yt' // default for yt
 var player
 
+document.querySelector(".buttons__input--left").value = "0:00"
+document.querySelector(".buttons__input--right").value = "0:00"
+
 // адреса апи
 var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
@@ -25,6 +28,7 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Настройка графика
+var canvas = document.getElementById("graphic")
 var chart = new Chart(document.getElementById("graphic"), { 
     type: 'line',
     data: {
@@ -48,6 +52,7 @@ var chart = new Chart(document.getElementById("graphic"), {
       ]
     },
     options: {
+        maintainAspectRatio : false,
         plugins: {
             title: {
                 display: true,
@@ -70,11 +75,6 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 }
 });
-
-chart.onclick = function(evt){
-    var activePoints = chart.getPointsAtEvent(evt);
-    alert(chart.datasets[0].activePoints.indexOf(activePoints[0]))
-};
 
 function getUserVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
@@ -143,6 +143,7 @@ function getSumVotes(auth_data) {
     });
 }
 
+
 $(document).ready( async function() {
     var auth_data = await check_auth();
     if (!auth_data) { return; };
@@ -190,11 +191,11 @@ $(document).ready( async function() {
             if(seconds < 10) {
                 seconds = "0" + seconds
             }
-            let trTable = document.createElement("tr") // создаем элемент tr
-            let tdTable = document.createElement("td") // создаем элемент td
-            let td2Table = document.createElement("td") // создаем элемент td
-            let td3Table = document.createElement("td") // создаем элемент td
-            let td4Table = document.createElement("td") // создаем элемент td
+            trTable = document.createElement("tr") // создаем элемент tr
+            tdTable = document.createElement("td") // создаем элемент td
+            td2Table = document.createElement("td") // создаем элемент td
+            td3Table = document.createElement("td") // создаем элемент td
+            td4Table = document.createElement("td") // создаем элемент td
 
             trTable.classList.add("trBlockTable") //добавляем классы к строкам
             td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
@@ -202,18 +203,18 @@ $(document).ready( async function() {
 
             let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
                 0.0 //если нельзя, то ставим ноль
-                : 
+                :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            if(event.textContent == "1") { //если содержимое нажатой кнопки равна 1, 2 или 3
+            if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                 sendBtnEvent(auth_data, "yes", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
             }
-            if(event.textContent == "2") {
+            if(event.textContent == "Нет") {
                 sendBtnEvent(auth_data, "no", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--2")
             }
-            if(event.textContent == "3") {
+            if(event.textContent == "Неясно") {
                 sendBtnEvent(auth_data, "not", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--3")
             }
@@ -317,7 +318,6 @@ $(document).ready( async function() {
                 })
             })
             chart.update() //обновляем график
-            
             
             function createTableString() { //функция создания строки
                 tableBody.prepend(trTable) //засовываем в html созданную строку
@@ -426,12 +426,41 @@ function onYouTubeIframeAPIReady() {
         }
     });
 }
+
 function onPlayerReady(event) {
     event.target.playVideo();
+    setInterval(() => {
+        if(player.getPlayerState() == 1) {
+            var intervalInput = setInterval(() => {
+                if(!(player.getCurrentTime() - 2 < 0)) {
+                    document.querySelector(".buttons__input--left").value = valueSecondsInput = getFullTimeFunc(Math.floor(player.getCurrentTime() - 2))
+                } else {
+                    document.querySelector(".buttons__input--left").value = "0:00"
+                }
+                document.querySelector(".buttons__input--right").value = getFullTimeFunc(Math.floor(player.getCurrentTime() + 2))
+                if(player.getPlayerState() == 2) {
+                    clearInterval(intervalInput)
+                }
+            }, 500);
+        }
+    }, 100);
 }
 function stopVideo() {
     player.stopVideo();
-}
+} 
+
+document.querySelector(".graphic-button").addEventListener("click", function() {
+    chart.update()
+})
+
+document.querySelector(".buttons__btn--map").addEventListener("click", function() {
+    document.querySelector(".buttons__btn--map").href = 
+        `https://map.blagoroda.org/?videoid=${vidId}&source=yt&f=${getTimeSeconds(document.querySelector(".buttons__input--left").value.match( /\d+/g ))}&t=${getTimeSeconds(document.querySelector(".buttons__input--right").value.match( /\d+/g ))}`
+})
+
+document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {
+    document.querySelector(".buttons__btn--scheme").href = `https://graph.blagoroda.org/?videoid=${vidId}&source=yt`
+})
 
 function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
     // Раскладываем полученные из видео секунды на часы, минуты и секунды
@@ -442,6 +471,11 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
     // если секунды меньше десяти то добавляем 0
     if (playerSeconds < 10) {
         playerSeconds = "0" + playerSeconds
+    }
+    
+    // если минуты меньше десяти то добавляем 0
+    if (playerMinutes < 10 && playerHours >= 1) {
+        playerMinutes = "0" + playerMinutes
     }
 
     // если останова не имеет часы то
