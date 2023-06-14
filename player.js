@@ -89,6 +89,10 @@ function getUserVotes(auth_data) {
         success: function(data) {  
             // put user votes in table
             console.log(data)
+            var timeGraphic = [0]
+            var arrBtn1 = [0]
+            var arrBtn2 = [0]
+            var arrBtn3 = [0]
             for (let t of data.votes) {
                 timeGraphic[countTime] = t.time
 
