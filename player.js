@@ -86,7 +86,6 @@ function getUserVotes(auth_data) {
         dataType: 'json',
         success: function(data) {  
             // put user votes in table
-            console.log(data)
             for (let t of data.votes) {
                 console.log(t)
                 trTable = document.createElement("tr") // создаем элемент tr
@@ -107,6 +106,49 @@ function getUserVotes(auth_data) {
                 document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
                 trTable.append(tdTable, td2Table, td3Table, td4Table)
             }
+            dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
+
+            dltBtnTable.forEach(function(e) {
+                e.onclick = function() {
+                    if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+                        arrBtn1[timeGraphic.indexOf(
+                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
+                    }
+                    if(e.classList.contains("delete-btn--2")) {
+                        arrBtn2[timeGraphic.indexOf(
+                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]--
+                    }
+                    if(e.classList.contains("delete-btn--3")) {
+                        arrBtn3[timeGraphic.indexOf(
+                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]--
+                    }
+
+                    if(arrBtn1[timeGraphic.indexOf(
+                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+                    && arrBtn2[timeGraphic.indexOf(
+                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0 
+                    && arrBtn3[timeGraphic.indexOf(
+                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0) {
+                        arrBtn1.splice(
+                                timeGraphic.indexOf(
+                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1) //удаляем точку времени и и точки у кнопок
+                        arrBtn2.splice(
+                                timeGraphic.indexOf(
+                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                        arrBtn3.splice(
+                                timeGraphic.indexOf(
+                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+
+                        fullTimeGraphic.splice(
+                                timeGraphic.indexOf(
+                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1) //удаляем точку времени
+                        timeGraphic.splice(
+                                timeGraphic.indexOf(
+                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                    }
+                    chart.update() //обновляем график
+                }
+            })
         },
         error: function (error) {
             alert(error);
