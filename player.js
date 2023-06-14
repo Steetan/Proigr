@@ -32,17 +32,17 @@ var chart = new Chart(document.getElementById("graphic"), {
       datasets: [{ 
           data: arrBtn1, //Кнопка
           label: "Да", //Наименование кнопки
-          borderColor: "#3e95cd", //цвет линии
+          borderColor: "#3cba9f", // зелёный
           fill: false
         }, { 
           data: arrBtn2,
           label: "Нет",
-          borderColor: "#8e5ea2",
+          borderColor: "#f44336", // красный
           fill: false 
         }, { 
           data: arrBtn3,
           label: "Неясно",
-          borderColor: "#3cba9f",
+          borderColor: "#3e95cd", // синий
           fill: false
         }
       ]
