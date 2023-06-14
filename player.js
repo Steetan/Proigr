@@ -87,8 +87,7 @@ function getUserVotes(auth_data) {
         success: function(data) {  
             // put user votes in table
             console.log(data)
-            console.log(data[0])
-            console.log(votes[0])
+            console.log(data.buttons)
         },
         error: function (error) {
             alert(error);
@@ -441,6 +440,12 @@ function onPlayerReady(event) {
                 }
                 document.querySelector(".buttons__input--right").value = getFullTimeFunc(Math.floor(player.getCurrentTime() + 2))
                 if(player.getPlayerState() == 2) {
+                    if(!(player.getCurrentTime() - 2 < 0)) {
+                        document.querySelector(".buttons__input--left").value = valueSecondsInput = getFullTimeFunc(Math.floor(player.getCurrentTime() - 2))
+                    } else {
+                        document.querySelector(".buttons__input--left").value = "0:00"
+                    }
+                    document.querySelector(".buttons__input--right").value = getFullTimeFunc(Math.floor(player.getCurrentTime() + 2))
                     clearInterval(intervalInput)
                 }
             }, 500);
