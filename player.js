@@ -88,7 +88,7 @@ function getUserVotes(auth_data) {
             // put user votes in table
             console.log(data)
             for (let t of data.votes) {
-                timeGraphic[indexof(t)] = t.time
+                timeGraphic[data.votes.indexof(t)] = t.time
 
                 trTable = document.createElement("tr") // создаем элемент tr
                 tdTable = document.createElement("td") // создаем элемент td
@@ -106,21 +106,21 @@ function getUserVotes(auth_data) {
                 td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
                 if(t.button == "yes") {
-                    arrBtn1[indexof(t)] = 1
-                    arrBtn2[indexof(t)] = 0
-                    arrBtn3[indexof(t)] = 0
+                    arrBtn1[data.votes.indexof(t)] = 1
+                    arrBtn2[data.votes.indexof(t)] = 0
+                    arrBtn3[data.votes.indexof(t)] = 0
                     td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
                 }
                 if(t.button == "no") {
-                    arrBtn2[indexof(t)] = 1
-                    arrBtn1[indexof(t)] = 0
-                    arrBtn3[indexof(t)] = 0
+                    arrBtn2[data.votes.indexof(t)] = 1
+                    arrBtn1[data.votes.indexof(t)] = 0
+                    arrBtn3[data.votes.indexof(t)] = 0
                     td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
                 }
                 if(t.button == "not") {
-                    arrBtn3[indexof(t)] = 1
-                    arrBtn1[indexof(t)] = 0
-                    arrBtn2[indexof(t)] = 0
+                    arrBtn3[data.votes.indexof(t)] = 1
+                    arrBtn1[data.votes.indexof(t)] = 0
+                    arrBtn2[data.votes.indexof(t)] = 0
                     td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
                 }
 
