@@ -84,7 +84,8 @@ function getUserVotes(auth_data) {
             console.log(data)
         },
         error: function (error) {
-            alert(error);
+            // no user votes in api
+            console.log(error);
         }
     });
 }
@@ -133,7 +134,8 @@ function getSumVotes(auth_data) {
             chart.update() //обновляем график
         },
         error: function (error) {
-            alert(error);
+            // no sums in api for this video
+            console.log(error);
         }
     });
 }
@@ -353,10 +355,10 @@ function sendBtnEvent(auth_data, btn, vote_time) {
             time: vote_time
         }),
         success: function(data) {
-//            console.log(data)
+            console.log(data)
         },
         error: function (error) {
-//            alert(error);
+            console.log(error);
         }
     });
 }
