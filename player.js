@@ -1,5 +1,5 @@
-let vidId = "luKquWe89jo" // defaults
-let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
+let vidId = "mq7B8m7KVRQ" // defaults
+let vidUrl = "https://www.youtube.com/watch?v=mq7B8m7KVRQ"
 let wsource = 'yt' // default for yt
 var player
 
@@ -31,17 +31,17 @@ var chart = new Chart(document.getElementById("graphic"), {
       labels: fullTimeGraphic,
       datasets: [{ 
           data: arrBtn1, //Кнопка
-          label: "Button 1", //Наименование кнопки
+          label: "Да", //Наименование кнопки
           borderColor: "#3e95cd", //цвет линии
           fill: false
         }, { 
           data: arrBtn2,
-          label: "Button 2",
+          label: "Нет",
           borderColor: "#8e5ea2",
           fill: false 
         }, { 
           data: arrBtn3,
-          label: "Button 3",
+          label: "Неясно",
           borderColor: "#3cba9f",
           fill: false
         }
@@ -200,15 +200,15 @@ $(document).ready( async function() {
                 : 
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            if(event.textContent == "1") { //если содержимое нажатой кнопки равна 1, 2 или 3
+            if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                 sendBtnEvent(auth_data, "yes", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
             }
-            if(event.textContent == "2") {
+            if(event.textContent == "Нет") {
                 sendBtnEvent(auth_data, "no", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--2")
             }
-            if(event.textContent == "3") {
+            if(event.textContent == "Неясно") {
                 sendBtnEvent(auth_data, "not", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--3")
             }
