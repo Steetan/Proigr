@@ -106,10 +106,10 @@ function getUserVotes(auth_data) {
                 document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
                 trTable.append(tdTable, td2Table, td3Table, td4Table)
             }
-            dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
 
-            dltBtnTable.forEach(function(e) {
+            document.querySelectorAll(".delete-btn").forEach(function(e) {
                 e.onclick = function() {
+                    alert("ttt")
                     if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
                         arrBtn1[timeGraphic.indexOf(
                             getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
