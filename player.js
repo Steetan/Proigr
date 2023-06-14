@@ -37,7 +37,7 @@ var chart = new Chart(document.getElementById("graphic"), {
         }, { 
           data: arrBtn2,
           label: "Нет",
-          borderColor: "#f44336", // красный
+          borderColor: "#e06666", // алый
           fill: false 
         }, { 
           data: arrBtn3,
