@@ -88,6 +88,7 @@ function getUserVotes(auth_data) {
             // put user votes in table
             console.log(data)
             console.log(data[0])
+            console.log(votes[0])
         },
         error: function (error) {
             alert(error);
