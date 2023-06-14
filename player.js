@@ -76,6 +76,8 @@ var chart = new Chart(document.getElementById("graphic"), {
 }
 });
 
+let countTime = 0
+
 function getUserVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
@@ -88,7 +90,7 @@ function getUserVotes(auth_data) {
             // put user votes in table
             console.log(data)
             for (let t of data.votes) {
-                // timeGraphic[data.votes.indexOf(t)] = t.time
+                timeGraphic[countTime] = t.time
 
                 trTable = document.createElement("tr") // создаем элемент tr
                 tdTable = document.createElement("td") // создаем элемент td
@@ -105,28 +107,28 @@ function getUserVotes(auth_data) {
                 td3Table.textContent = t.time //засовываем в 3 ячейку время на видео
                 td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
-                // if(t.button == "yes") {
-                //     arrBtn1[data.votes.indexOf(t)] = 1
-                //     arrBtn2[data.votes.indexOf(t)] = 0
-                //     arrBtn3[data.votes.indexOf(t)] = 0
-                //     td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-                // }
-                // if(t.button == "no") {
-                //     arrBtn2[data.votes.indexOf(t)] = 1
-                //     arrBtn1[data.votes.indexOf(t)] = 0
-                //     arrBtn3[data.votes.indexOf(t)] = 0
-                //     td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
-                // }
-                // if(t.button == "not") {
-                //     arrBtn3[data.votes.indexOf(t)] = 1
-                //     arrBtn1[data.votes.indexOf(t)] = 0
-                //     arrBtn2[data.votes.indexOf(t)] = 0
-                //     td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
-                // }
+                if(t.button == "yes") {
+                    arrBtn1[countTime] = 1
+                    arrBtn2[countTime] = 0
+                    arrBtn3[countTime] = 0
+                    td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+                }
+                if(t.button == "no") {
+                    arrBtn2[countTime] = 1
+                    arrBtn1[countTime] = 0
+                    arrBtn3[countTime] = 0
+                    td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
+                }
+                if(t.button == "not") {
+                    arrBtn3[countTime] = 1
+                    arrBtn1[countTime] = 0
+                    arrBtn2[countTime] = 0
+                    td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
+                }
 
                 document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
                 trTable.append(tdTable, td2Table, td3Table, td4Table)
-
+                countTime++
             }
             console.log(arrBtn1)
             console.log(arrBtn2)
