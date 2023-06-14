@@ -87,10 +87,10 @@ function getUserVotes(auth_data) {
         success: function(data) {  
             // put user votes in table
             console.log(data)
-            for (let t of data) {
+            for (let t of data.buttons.no) {
                 console.log(t)
             }
-            for (let t of data) {
+            for (let t of data.buttons.no) {
                 console.log(t.time)
             }
         },
