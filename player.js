@@ -104,7 +104,7 @@ function getUserVotes(auth_data) {
 
                 tdTable.textContent = t.update_timestamp //засовываем в первую ячейку дату и время
                 td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
-                td3Table.textContent = t.time //засовываем в 3 ячейку время на видео
+                td3Table.textContent = getFullTimeFunc(t.time) //засовываем в 3 ячейку время на видео
                 td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
             //     if(t.button == "yes") {
