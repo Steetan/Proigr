@@ -126,8 +126,8 @@ function getUserVotes(auth_data) {
             //         td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
             //     }
 
-            //     document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
-            //     trTable.append(tdTable, td2Table, td3Table, td4Table)
+                document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
+                trTable.append(tdTable, td2Table, td3Table, td4Table)
             //     countTime++
             }
             // console.log(arrBtn1)
