@@ -28,8 +28,6 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Настройка графика
-
-// var canvas = document.getElementById("graphic")
 var chart = new Chart(document.getElementById("graphic"), { 
     type: 'line',
     data: {
