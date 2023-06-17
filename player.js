@@ -262,7 +262,7 @@ function getSumVotes(auth_data) {
 
 
 $(document).ready( async function() {
-    var auth_data = await check_auth();
+    auth_data = await check_auth();
     if (!auth_data) { return; };
 
     window.addEventListener('hashchange', function(){ //reload on hash change накладываем прослушку на строку урл
