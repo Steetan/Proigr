@@ -1,3 +1,4 @@
+var auth_data
 let vidId = "mq7B8m7KVRQ" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=mq7B8m7KVRQ"
 let wsource = 'yt' // default for yt
