@@ -159,41 +159,39 @@ function getUserVotes(auth_data) {
 
             document.querySelectorAll(".delete-btn").forEach(function(e) {
                 e.onclick = function() {
+                    let timeSeconds = getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))
                     if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
-                        arrBtn1[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
+                        arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
                     }
                     if(e.classList.contains("delete-btn--2")) {
-                        arrBtn2[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]--
+                        arrBtn2[timeGraphic.indexOf(timeSeconds)]--
                     }
                     if(e.classList.contains("delete-btn--3")) {
-                        arrBtn3[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]--
+                        arrBtn3[timeGraphic.indexOf(timeSeconds)]--
                     }
 
                     if(arrBtn1[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+                            timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
                     && arrBtn2[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0 
+                            timeSeconds)] == 0 
                     && arrBtn3[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0) {
+                            timeSeconds)] == 0) {
                         arrBtn1.splice(
                                 timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1) //удаляем точку времени и и точки у кнопок
+                                    timeSeconds), 1) //удаляем точку времени и и точки у кнопок
                         arrBtn2.splice(
                                 timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                                    timeSeconds), 1)
                         arrBtn3.splice(
                                 timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                                    timeSeconds), 1)
 
                         fullTimeGraphic.splice(
                                 timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1) //удаляем точку времени
+                                    timeSeconds), 1) //удаляем точку времени
                         timeGraphic.splice(
                                 timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                                    timeSeconds), 1)
                     }
                     chart.update() //обновляем график
                 }
@@ -382,41 +380,31 @@ $(document).ready( async function() {
 
             dltBtnTable.forEach(function(e) {
                 e.onclick = function() {
+                    let timeSeconds = getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))
                     if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
-                        arrBtn1[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
+                        arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
                     }
                     if(e.classList.contains("delete-btn--2")) {
-                        arrBtn2[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]--
+                        arrBtn2[timeGraphic.indexOf(timeSeconds)]--
                     }
                     if(e.classList.contains("delete-btn--3")) {
-                        arrBtn3[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))]--
+                        arrBtn3[timeGraphic.indexOf(timeSeconds)]--
                     }
 
-                    if(arrBtn1[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
-                    && arrBtn2[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0 
-                    && arrBtn3[timeGraphic.indexOf(
-                            getTimeSeconds(e.previousSibling.textContent.match( /\d+/g )))] == 0) {
+                    if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+                    && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
+                    && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
                         arrBtn1.splice(
-                                timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1) //удаляем точку времени и и точки у кнопок
+                                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
                         arrBtn2.splice(
-                                timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                                timeGraphic.indexOf(timeSeconds), 1)
                         arrBtn3.splice(
-                                timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                                timeGraphic.indexOf(timeSeconds), 1)
 
                         fullTimeGraphic.splice(
-                                timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1) //удаляем точку времени
+                                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
                         timeGraphic.splice(
-                                timeGraphic.indexOf(
-                                    getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))), 1)
+                                timeGraphic.indexOf(timeSeconds), 1)
                     }
                     chart.update() //обновляем график
                 }
