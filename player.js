@@ -481,6 +481,19 @@ function btnForm() { //событие на нажатие кнопки Откр�
     }
 }
 
+/*
+    async function api_token_authdata (api_url, authdata_token, err_mes) {
+        try {
+            return await $.ajax({
+                url: api_url  + '/api/token/authdata/?token=' + authdata_token,
+                dataType: 'json'
+            });
+        } catch (error) {
+            alert(err_mes);
+        }
+    }
+*/
+
 function delBtnEvent(auth_data, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
