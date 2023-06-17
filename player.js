@@ -21,7 +21,7 @@ var arrBtn1 = [0]
 var arrBtn2 = [0]
 var arrBtn3 = [0]
 
-// Это все нужно для настройки проигрывателя
+// настройка проигрывателя
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -75,8 +75,30 @@ var chart = new Chart(document.getElementById("graphic"), {
 }
 });
 
-let countTime = 0
+async function delBtnEvent(event) {
+    if(!auth_data || !event) return;
+    let vote_time = event.parentNode[]
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    try { 
+        await $.ajax({
+            url: api_url + api_btn_url,
+            headers: headers,
+            type: 'DELETE',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+                source: wsource,
+                videoid: vidId,
+                time: vote_time
+            })
+        });
+        event.parentNode.remove()
+    } catch (error) {
+        alert(err_mes);
+    }    
+}
 
+let countTime = 0
 function getUserVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
@@ -178,9 +200,7 @@ function getUserVotes(auth_data) {
             document.querySelectorAll(".delete-btn").forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
                 event.addEventListener("click", function() {
                     // 2do: get time in seconds from table and make call of del
-                    // let timeInSeconds = event.parentNode[]
-                    // delBtnEvent(timeInSeconds)
-                    event.parentNode.remove()
+                    delBtnEvent(event)
                 })
             })
         },
@@ -473,35 +493,6 @@ function btnForm() { //событие на нажатие кнопки Откр�
             window.location.href += "#" + inUrl
         }
     }
-}
-
-/*
-    async function api_token_authdata (api_url, authdata_token, err_mes) {
-        try {
-            return await $.ajax({
-                url: api_url  + '/api/token/authdata/?token=' + authdata_token,
-                dataType: 'json'
-            });
-        } catch (error) {
-            alert(err_mes);
-        }
-    }
-*/
-
-function delBtnEvent(auth_data, vote_time) {
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_btn_url,
-        headers: headers,
-        type: 'DELETE',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({
-            source: wsource,
-            videoid: vidId,
-            time: vote_time
-        })
-    });
 }
 
 function clearURL(urlStr) {
