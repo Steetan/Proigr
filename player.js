@@ -76,9 +76,9 @@ var chart = new Chart(document.getElementById("graphic"), {
 }
 });
 
-async function delBtnEvent(event) {
+async function onDelBtnEvent(event) {
     if(!auth_data || !event) return;
-    let vote_time = getTimeSeconds(event.parentNode.textContent.match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
+    let timeSeconds = getTimeSeconds(event.parentNode.textContent.match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     try { 
         await $.ajax({
@@ -90,16 +90,50 @@ async function delBtnEvent(event) {
             data: JSON.stringify({
                 source: wsource,
                 videoid: vidId,
-                time: vote_time
+                time: timeSeconds
             })
         });
+
+        if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+            arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
+        }
+        if(e.classList.contains("delete-btn--2")) {
+            arrBtn2[timeGraphic.indexOf(timeSeconds)]--
+        }
+        if(e.classList.contains("delete-btn--3")) {
+            arrBtn3[timeGraphic.indexOf(timeSeconds)]--
+        }
+
+        if(arrBtn1[timeGraphic.indexOf(
+                timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+        && arrBtn2[timeGraphic.indexOf(
+                timeSeconds)] == 0 
+        && arrBtn3[timeGraphic.indexOf(
+                timeSeconds)] == 0) {
+            arrBtn1.splice(
+                    timeGraphic.indexOf(
+                        timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+            arrBtn2.splice(
+                    timeGraphic.indexOf(
+                        timeSeconds), 1)
+            arrBtn3.splice(
+                    timeGraphic.indexOf(
+                        timeSeconds), 1)
+
+            fullTimeGraphic.splice(
+                    timeGraphic.indexOf(
+                        timeSeconds), 1) //удаляем точку времени
+            timeGraphic.splice(
+                    timeGraphic.indexOf(
+                        timeSeconds), 1)
+        }
         event.parentNode.remove()
     } catch (error) {
         alert(err_mes);
     }    
 }
 
-let countTime = 0
+// let countTime = 0
 function getUserVotes(auth_data) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
@@ -112,8 +146,7 @@ function getUserVotes(auth_data) {
             // put user votes in table
             console.log(data)
             for (let t of data.votes) {
-                timeGraphic[countTime] = t.time
-
+//                timeGraphic[countTime] = t.time
                 trTable = document.createElement("tr") // создаем элемент tr
                 tdTable = document.createElement("td") // создаем элемент td
                 td2Table = document.createElement("td") // создаем элемент td
@@ -159,49 +192,18 @@ function getUserVotes(auth_data) {
 
             document.querySelectorAll(".delete-btn").forEach(function(e) {
                 e.onclick = function() {
-                    let timeSeconds = getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))
-                    if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
-                        arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-                    }
-                    if(e.classList.contains("delete-btn--2")) {
-                        arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-                    }
-                    if(e.classList.contains("delete-btn--3")) {
-                        arrBtn3[timeGraphic.indexOf(timeSeconds)]--
-                    }
-
-                    if(arrBtn1[timeGraphic.indexOf(
-                            timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
-                    && arrBtn2[timeGraphic.indexOf(
-                            timeSeconds)] == 0 
-                    && arrBtn3[timeGraphic.indexOf(
-                            timeSeconds)] == 0) {
-                        arrBtn1.splice(
-                                timeGraphic.indexOf(
-                                    timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-                        arrBtn2.splice(
-                                timeGraphic.indexOf(
-                                    timeSeconds), 1)
-                        arrBtn3.splice(
-                                timeGraphic.indexOf(
-                                    timeSeconds), 1)
-
-                        fullTimeGraphic.splice(
-                                timeGraphic.indexOf(
-                                    timeSeconds), 1) //удаляем точку времени
-                        timeGraphic.splice(
-                                timeGraphic.indexOf(
-                                    timeSeconds), 1)
-                    }
+                    onDelBtnEvent(e)
                     chart.update() //обновляем график
                 }
             })
+            /* duplicate
             document.querySelectorAll(".delete-btn").forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
                 event.addEventListener("click", function() {
                     // 2do: get time in seconds from table and make call of del
-                    delBtnEvent(event)
+                    onDelBtnEvent(event)
                 })
             })
+            */
         },
         error: function (error) {
             alert(error);
@@ -413,7 +415,7 @@ $(document).ready( async function() {
                 event.addEventListener("click", function() {
                     // 2do: get time in seconds from table and make call of del
                     // let timeInSeconds = event.parentNode[]
-                    // delBtnEvent(timeInSeconds)
+                    // onDelBtnEvent(timeInSeconds)
                     event.parentNode.remove()
                 })
             })
