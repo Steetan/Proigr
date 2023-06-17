@@ -77,7 +77,7 @@ var chart = new Chart(document.getElementById("graphic"), {
 
 async function delBtnEvent(event) {
     if(!auth_data || !event) return;
-    let vote_time = event.parentNode[]
+    let vote_time = event.parentNode
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     try { 
         await $.ajax({
