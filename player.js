@@ -327,16 +327,16 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                await sendBtnEvent("yes", timeVideoSeconds)
-                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+                sendBtnEvent("yes", timeVideoSeconds)
+//                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
             }
             if(event.textContent == "Нет") {
-                await sendBtnEvent("no", timeVideoSeconds)
-                td4Table.classList.add("delete-btn--2")
+                sendBtnEvent("no", timeVideoSeconds)
+//                td4Table.classList.add("delete-btn--2")
             }
             if(event.textContent == "Неясно") {
-                await sendBtnEvent("not", timeVideoSeconds)
-                td4Table.classList.add("delete-btn--3")
+                sendBtnEvent("not", timeVideoSeconds)
+//                td4Table.classList.add("delete-btn--3")
             }
 
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
