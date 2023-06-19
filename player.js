@@ -187,13 +187,14 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
 async function onDelBtnEvent(event) {
     if(!auth_data) return;
+    let timeSeconds = getTimeSeconds(event.previousSibling.textContent.match( /\d+/g ))
     const response = await api_request(api_url + api_btn_url, {
             method: 'DELETE',
             json: {
                 source: wsource,
                 videoid: vidId,
-                button: btn,
-                time: timeVideoSeconds
+//                button: btn,
+                time: timeSeconds
             },
             auth_token: auth_data.auth_token
     });
