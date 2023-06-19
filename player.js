@@ -271,15 +271,6 @@ async function getSumVotes() {
     } else {
         alert(data);
     }
-
-    $.ajax({
-        success: function(data) {  
-           
-        },
-        error: function (error) {
-            alert(response);
-        }
-    });
 }
 
 
