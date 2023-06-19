@@ -88,7 +88,6 @@ async function sendBtnEvent(btn, vote_time) {
             },
             auth_token: auth_data.auth_token
     });
-    console.log(response);
     if (response.ok) {
         let date = new Date()  //получаем дату
         let day = date.getDate() //получаем день
@@ -125,7 +124,7 @@ async function sendBtnEvent(btn, vote_time) {
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
-        td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
+        td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
