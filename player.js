@@ -73,8 +73,126 @@ var chart = new Chart(document.getElementById("graphic"), {
           }
         }
     }
-}
 });
+
+async function sendBtnEvent(btn, vote_time) {
+    if(!auth_data) return;
+    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
+    const response = await api_request(
+        api_url + api_btn_url,
+        {
+            headers: headers,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+                source: wsource,
+                videoid: vidId,
+                button: btn,
+                time: vote_time
+            }),
+        }
+    );
+    if (response.ok) {
+        let date = new Date()  //получаем дату
+        let day = date.getDate() //получаем день
+        let month = date.getMonth() //получаем месяц
+        let year = date.getFullYear() //получаем год
+        let hours = date.getHours() //получаем часы
+        let minutes = date.getMinutes() //получаем минуты
+        let seconds = date.getSeconds() //получаем секунды
+
+        //Добавляем нули к числам если они меньше 10
+        if(day < 10) {
+            day = "0" + day
+        }
+        if(month < 10) {
+            month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
+        }
+        if(hours < 10) {
+            hours = "0" + hours
+        }
+        if(minutes < 10) {
+            minutes = "0" + minutes
+        }
+        if(seconds < 10) {
+            seconds = "0" + seconds
+        }
+        trTable = document.createElement("tr") // создаем элемент tr
+        tdTable = document.createElement("td") // создаем элемент td
+        td2Table = document.createElement("td") // создаем элемент td
+        td3Table = document.createElement("td") // создаем элемент td
+        td4Table = document.createElement("td") // создаем элемент td
+
+        trTable.classList.add("trBlockTable") //добавляем классы к строкам
+        td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
+        td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+
+        tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+        td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
+        td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+        td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+
+        // если времени из ютуба нету в массиве то
+        if(!timeGraphic.includes(timeVideoSeconds)) {
+            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+            timeGraphic.sort(function(a, b) { //сортируем по возрастанию
+                return a - b;
+            });
+
+            arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
+            arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+            arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+
+            for (let element of timeGraphic) {      
+                if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
+                    fullTimeGraphic.splice(
+                        timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                }
+            }
+            chart.update() //обновляем график
+        }
+
+        // если время из ютуба есть в массиве то
+        if(timeGraphic.includes(timeVideoSeconds)) {
+            if(event.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
+                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
+                createTableString() //создаем строку
+            } 
+            if(event.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+                arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
+                createTableString()
+            }
+            if(event.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+                arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
+                createTableString()
+            }
+        } 
+
+        dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
+        dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+            event.addEventListener("click", function() {
+                onDelBtnEvent(event)
+            })
+        })
+
+        tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
+        tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
+            event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
+                player.seekTo(getTimeSeconds(event.textContent.match( /\d+/g ))); // перематываем видео на полученные секунды
+            })
+        })
+        chart.update() //обновляем график
+        
+        function createTableString() { //функция создания строки
+            const tableBody = document.querySelector("tbody") //ищем таблицу
+            tableBody.prepend(trTable) //засовываем в html созданную строку
+            trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
+        }
+    } else {
+        alert(response);
+    }   
+}
 
 async function onDelBtnEvent(event) {
     if(!auth_data || !event) return;
@@ -354,125 +472,6 @@ function getTimeSeconds(timeTableArr) { //функция перевода вре
         timeTableArr[1] *= 60
         return +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
     }
-}
-
-async function sendBtnEvent(btn, vote_time) {
-    if(!auth_data) return;
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    const response = await api_request(
-        api_url + api_btn_url,
-        {
-            headers: headers,
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({
-                source: wsource,
-                videoid: vidId,
-                button: btn,
-                time: vote_time
-            }),
-        }
-    );
-    if (response.ok) {
-        let date = new Date()  //получаем дату
-        let day = date.getDate() //получаем день
-        let month = date.getMonth() //получаем месяц
-        let year = date.getFullYear() //получаем год
-        let hours = date.getHours() //получаем часы
-        let minutes = date.getMinutes() //получаем минуты
-        let seconds = date.getSeconds() //получаем секунды
-
-        //Добавляем нули к числам если они меньше 10
-        if(day < 10) {
-            day = "0" + day
-        }
-        if(month < 10) {
-            month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
-        }
-        if(hours < 10) {
-            hours = "0" + hours
-        }
-        if(minutes < 10) {
-            minutes = "0" + minutes
-        }
-        if(seconds < 10) {
-            seconds = "0" + seconds
-        }
-        trTable = document.createElement("tr") // создаем элемент tr
-        tdTable = document.createElement("td") // создаем элемент td
-        td2Table = document.createElement("td") // создаем элемент td
-        td3Table = document.createElement("td") // создаем элемент td
-        td4Table = document.createElement("td") // создаем элемент td
-
-        trTable.classList.add("trBlockTable") //добавляем классы к строкам
-        td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-        td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
-
-        tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
-        td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
-        td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
-        td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
-
-        // если времени из ютуба нету в массиве то
-        if(!timeGraphic.includes(timeVideoSeconds)) {
-            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
-            timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                return a - b;
-            });
-
-            arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
-            arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-            arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-
-            for (let element of timeGraphic) {      
-                if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                    fullTimeGraphic.splice(
-                        timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-                }
-            }
-            chart.update() //обновляем график
-        }
-
-        // если время из ютуба есть в массиве то
-        if(timeGraphic.includes(timeVideoSeconds)) {
-            if(event.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
-                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
-                createTableString() //создаем строку
-            } 
-            if(event.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
-                arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
-                createTableString()
-            }
-            if(event.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
-                arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-                createTableString()
-            }
-        } 
-
-        dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
-        dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
-            event.addEventListener("click", function() {
-                onDelBtnEvent(event)
-            })
-        })
-
-        tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
-        tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
-            event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-                player.seekTo(getTimeSeconds(event.textContent.match( /\d+/g ))); // перематываем видео на полученные секунды
-            })
-        })
-        chart.update() //обновляем график
-        
-        function createTableString() { //функция создания строки
-            const tableBody = document.querySelector("tbody") //ищем таблицу
-            tableBody.prepend(trTable) //засовываем в html созданную строку
-            trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
-        }
-    } else {
-        alert(response);
-    }   
 }
 
 function btnForm() { //событие на нажатие кнопки Открыть
