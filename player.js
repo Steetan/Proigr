@@ -76,7 +76,7 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
-document.getElementById("graphic").addEventListener('mousemove', function(event) {
+document.getElementById("graphic").addEventListener('click', function(event) {
     let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
     
     if (points.length > 0) {
