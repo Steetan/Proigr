@@ -130,7 +130,7 @@ async function onDelBtnEvent(event) {
         }
         event.parentNode.remove()
     } else {
-        alert(err_mes);
+        alert(response);
     }
 }
 
