@@ -394,23 +394,21 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             document.querySelectorAll(".td3Table").forEach(function(i) {
-                console.log(timeVideoSeconds)
-                console.log(getTimeSeconds(i.textContent.match( /\d+/g )))
                 if(getTimeSeconds(i.textContent.match( /\d+/g )) == timeVideoSeconds) {
-                    console.log(event.classList.contains(i.previousSibling.textContent))
-                    if(event.classList.contains(i.previousSibling.textContent)) {
-                        if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                            sendBtnEvent("yes", timeVideoSeconds)
-                        }
-                        if(event.textContent == "Нет") {
-                            sendBtnEvent("no", timeVideoSeconds)
-                        }
-                        if(event.textContent == "Неясно") {
-                            sendBtnEvent("not", timeVideoSeconds)
-                        }
+                    if(!event.classList.contains(i.previousSibling.textContent)) {
+                        //отправка и обновление
                     }
                 }
             })
+            if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                sendBtnEvent("yes", timeVideoSeconds)
+            }
+            if(event.textContent == "Нет") {
+                sendBtnEvent("no", timeVideoSeconds)
+            }
+            if(event.textContent == "Неясно") {
+                sendBtnEvent("not", timeVideoSeconds)
+            }
         })
     })
     // получаем данные о суммах голосов
