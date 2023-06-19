@@ -148,19 +148,16 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             chart.update() //обновляем график
         }
 
-        // если время из ютуба есть в массиве то
-        // if(timeGraphic.includes(timeVideoSeconds)) {
-            if(btn == 'yes') {
-                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
-            }
-            if (btn == 'no') {
-                arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
-            }
-            if (btn == 'not') {
-                arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-            }
-            createTableString() //создаем строку   
-        //   } 
+        if(btn == 'yes') {
+            arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
+        }
+        if (btn == 'no') {
+            arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
+        }
+        if (btn == 'not') {
+            arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
+        }
+        createTableString() //создаем строку   
 
         dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
