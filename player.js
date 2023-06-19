@@ -434,7 +434,7 @@ $(document).ready( async function() {
     const btn = document.querySelectorAll(".btn") //ищем все кнопки
     btn.forEach(function(event) {  // ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
-
+            let countSendBtn = 0;
             // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
             // if (button exists in table) return;
             
@@ -443,17 +443,25 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                sendBtnEvent("yes", timeVideoSeconds)
-//                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-            }
-            if(event.textContent == "Нет") {
-                sendBtnEvent("no", timeVideoSeconds)
-//                td4Table.classList.add("delete-btn--2")
-            }
-            if(event.textContent == "Неясно") {
-                sendBtnEvent("not", timeVideoSeconds)
-//                td4Table.classList.add("delete-btn--3")
+            document.querySelectorAll(".td3Table").forEach(function(event) {
+                if(timeVideoSeconds == getTimeSeconds(event.textContent)) {
+                    countSendBtn++
+                }
+            })
+
+            if(countSendBtn < 1) {
+                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                    sendBtnEvent("yes", timeVideoSeconds)
+    //                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+                }
+                if(event.textContent == "Нет") {
+                    sendBtnEvent("no", timeVideoSeconds)
+    //                td4Table.classList.add("delete-btn--2")
+                }
+                if(event.textContent == "Неясно") {
+                    sendBtnEvent("not", timeVideoSeconds)
+    //                td4Table.classList.add("delete-btn--3")
+                }
             }
         })
     })
