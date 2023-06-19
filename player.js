@@ -327,15 +327,15 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                sendBtnEvent("yes", timeVideoSeconds)
+                await sendBtnEvent("yes", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
             }
             if(event.textContent == "Нет") {
-                sendBtnEvent("no", timeVideoSeconds)
+                await sendBtnEvent("no", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--2")
             }
             if(event.textContent == "Неясно") {
-                sendBtnEvent("not", timeVideoSeconds)
+                await sendBtnEvent("not", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--3")
             }
 
@@ -453,27 +453,31 @@ function getTimeSeconds(timeTableArr) { //функция перевода вре
     }
 }
 
-function sendBtnEvent(btn, vote_time) {
+async function sendBtnEvent(btn, vote_time) {
+    if(!auth_data) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_btn_url,
-        headers: headers,
-        type: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({
-            source: wsource,
-            videoid: vidId,
-            button: btn,
-            time: vote_time
-        }),
-        success: function(data) {
-            console.log(data)
-        },
-        error: function (error) {
-            console.log(error);
+    let timeSeconds = getTimeSeconds(event.parentNode.textContent.match( /\d+/g )) // match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
+    const response = await api_request(
+        api_url + api_btn_url,
+        {
+            headers: headers,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({
+                source: wsource,
+                videoid: vidId,
+                button: btn,
+                time: vote_time
+            }),
         }
-    });
+    );
+    if (response.ok) {
+        // api returns nothing in this method
+        const data = response.data;
+    } else {
+        alert(response);
+    }   
 }
 
 function btnForm() { //событие на нажатие кнопки Открыть
