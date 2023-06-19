@@ -76,6 +76,19 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
+document.getElementById("graphic").addEventListener('mousemove', function(evt) {
+    let activePoints = myChart.getElementsAtEvent(evt);
+  
+    if (activePoints.length > 0) {
+      let firstPoint = activePoints[0];
+      let data = firstPoint._chart.config.data;
+      let dataIndex = firstPoint._index;
+      let value = data.datasets[firstPoint._datasetIndex].data[dataIndex];
+      console.log(value);
+    }
+  });
+  
+
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
     const response = await api_request(api_url + api_btn_url, {
@@ -170,7 +183,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
             }
         }
-
         chart.update() //обновляем график        
     } else {
         alert(response);
