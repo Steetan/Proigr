@@ -400,14 +400,16 @@ $(document).ready( async function() {
                     }
                 }
             })
-            if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                sendBtnEvent("yes", timeVideoSeconds)
-            }
-            if(event.textContent == "Нет") {
-                sendBtnEvent("no", timeVideoSeconds)
-            }
-            if(event.textContent == "Неясно") {
-                sendBtnEvent("not", timeVideoSeconds)
+            if(timeGraphic.includes(timeVideoSeconds)) {
+                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                    sendBtnEvent("yes", timeVideoSeconds)
+                }
+                if(event.textContent == "Нет") {
+                    sendBtnEvent("no", timeVideoSeconds)
+                }
+                if(event.textContent == "Неясно") {
+                    sendBtnEvent("not", timeVideoSeconds)
+                }
             }
         })
     })
