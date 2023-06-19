@@ -255,7 +255,7 @@ async function getSumVotes() {
             } 
         }   
     } else {
-        alert(data);
+        alert(response);
     }
 }
 
