@@ -80,13 +80,11 @@ document.getElementById("graphic").addEventListener('mousemove', function(event)
     let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
     
     if (points.length > 0) {
-      let firstPoint = points[0];
-      let label = chart.data.labels[firstPoint.index];
-      let value = chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-      console.log(label + ": " + value);
+        let firstPoint = points[0];
+        let label = chart.data.labels[firstPoint.index];
+        player.seekTo(getTimeSeconds(label.match( /\d+/g )));
     }
   });
-  
 
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
