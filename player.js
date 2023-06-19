@@ -79,7 +79,7 @@ var chart = new Chart(document.getElementById("graphic"), {
 async function onDelBtnEvent(event) {
     if(!auth_data || !event) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    let timeSeconds = getTimeSeconds(event.parentNode.textContent.match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
+    let timeSeconds = getTimeSeconds(event.parentNode.textContent.match( /\d+/g )) // match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
     const response = await api_request(
         api_url + api_btn_url, 
         {
