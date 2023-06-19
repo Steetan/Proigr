@@ -394,6 +394,8 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             document.querySelectorAll(".td3Table").forEach(function(i) {
+                console.log(timeVideoSeconds)
+                console.log(getTimeSeconds(i.textContent.match( /\d+/g )))
                 if(getTimeSeconds(i.textContent.match( /\d+/g )) == timeVideoSeconds) {
                     console.log(event.classList.contains(i.previousSibling.textContent))
                     if(event.classList.contains(i.previousSibling.textContent)) {
