@@ -90,8 +90,7 @@ async function onDelBtnEvent(event) {
             data: JSON.stringify({
                 source: wsource,
                 videoid: vidId,
-                time: timeSeconds    
-            });
+                time: timeSeconds })
         }
     );
     if (response.ok) {
