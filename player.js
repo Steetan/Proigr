@@ -76,15 +76,15 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
-document.getElementById("graphic").addEventListener('click', function(event) {
+document.getElementById("graphic").onclick = function(event) {
     let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
     
     if (points.length > 0) {
         let firstPoint = points[0];
         let label = chart.data.labels[firstPoint.index];
-        player.seekTo(getTimeSeconds(label.match( /\d+/g )));
+        player.seekTo(getTimeSeconds(label));
     }
-  });
+  }
 
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
