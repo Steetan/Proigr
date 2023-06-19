@@ -156,15 +156,15 @@ async function sendBtnEvent(btn, vote_time) {
 
         // если время из ютуба есть в массиве то
         if(timeGraphic.includes(timeVideoSeconds)) {
-            if(btn == "yes" && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
+            if(btn.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
                 arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
                 createTableString() //создаем строку
             } 
-            if(btn == "no" && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            if(btn.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                 arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
                 createTableString()
             }
-            if(btn == "not" && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            if(btn.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
                 createTableString()
             }
@@ -191,11 +191,7 @@ async function sendBtnEvent(btn, vote_time) {
             trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
         }
     } else {
-        // alert(response);
-        window.onerror = function(msg, url, linenumber) {
-            alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-            return true;
-        }
+        alert(response);
     }   
 }
 
@@ -219,14 +215,15 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         const data = response.data;
+
         
-        if(event.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+        if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
-        if(event.classList.contains("delete-btn--2")) {
+        if(e.classList.contains("delete-btn--2")) {
             arrBtn2[timeGraphic.indexOf(timeSeconds)]--
         }
-        if(event.classList.contains("delete-btn--3")) {
+        if(e.classList.contains("delete-btn--3")) {
             arrBtn3[timeGraphic.indexOf(timeSeconds)]--
         }
         if(arrBtn1[timeGraphic.indexOf(
@@ -274,6 +271,7 @@ async function getUserVotes() {
     if (response.ok) {
         // put data in table 
         const data = response.data;
+        console.log(data)
     
         // put user votes in table
         for (let t of data.votes) {
@@ -375,11 +373,7 @@ async function getSumVotes() {
             } 
         }   
     } else {
-        // alert(response);
-        window.onerror = function(msg, url, linenumber) {
-            alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
-            return true;
-        }
+        alert(response);
     }
 }
 
@@ -405,6 +399,7 @@ $(document).ready( async function() {
     const btn = document.querySelectorAll(".btn") //ищем все кнопки
     btn.forEach(function(event) {  // ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
+            let countSendBtn = 0;
             // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
             // if (button exists in table) return;
             
@@ -419,17 +414,19 @@ $(document).ready( async function() {
                 }
             })
 
-            if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                sendBtnEvent("yes", timeVideoSeconds)
-//                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-            }
-            if(event.textContent == "Нет") {
-                sendBtnEvent("no", timeVideoSeconds)
-//                td4Table.classList.add("delete-btn--2")
-            }
-            if(event.textContent == "Неясно") {
-                sendBtnEvent("not", timeVideoSeconds)
-//                td4Table.classList.add("delete-btn--3")
+            if(countSendBtn < 1) {
+                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                    sendBtnEvent("yes", timeVideoSeconds)
+    //                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+                }
+                if(event.textContent == "Нет") {
+                    sendBtnEvent("no", timeVideoSeconds)
+    //                td4Table.classList.add("delete-btn--2")
+                }
+                if(event.textContent == "Неясно") {
+                    sendBtnEvent("not", timeVideoSeconds)
+    //                td4Table.classList.add("delete-btn--3")
+                }
             }
         })
     })
