@@ -137,13 +137,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
         arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
 
-        for (let element of timeGraphic) {      
-            if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                fullTimeGraphic.splice(
-                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 1, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            }
-        }
-
         if(btn == 'yes') {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
         }
@@ -171,6 +164,14 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 player.seekTo(getTimeSeconds(event.textContent.match( /\d+/g ))); // перематываем видео на полученные секунды
             })
         })
+
+        for (let element of timeGraphic) {      
+            if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
+                fullTimeGraphic.splice(
+                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 1, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            }
+        }
+
         chart.update() //обновляем график        
     } else {
         alert(response);
