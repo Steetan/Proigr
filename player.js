@@ -313,8 +313,6 @@ $(document).ready( async function() {
     }
     
     const btn = document.querySelectorAll(".btn") //ищем все кнопки
-    const tableBody = document.querySelector("tbody") //ищем таблицу
-
     btn.forEach(function(event) {  // ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
 
@@ -468,6 +466,7 @@ async function sendBtnEvent(btn, vote_time) {
         chart.update() //обновляем график
         
         function createTableString() { //функция создания строки
+            const tableBody = document.querySelector("tbody") //ищем таблицу
             tableBody.prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
         }
