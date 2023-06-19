@@ -78,11 +78,11 @@ var chart = new Chart(document.getElementById("graphic"), {
 
 async function onDelBtnEvent(event) {
     if(!auth_data || !event) return;
-    let timeSeconds = getTimeSeconds(event.parentNode.textContent.match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    try { 
-        await $.ajax({
-            url: api_url + api_btn_url,
+    let timeSeconds = getTimeSeconds(event.parentNode.textContent.match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
+    const response = await api_request(
+        api_url + api_btn_url, 
+        {
             headers: headers,
             type: 'DELETE',
             contentType: 'application/json; charset=utf-8',
@@ -90,10 +90,13 @@ async function onDelBtnEvent(event) {
             data: JSON.stringify({
                 source: wsource,
                 videoid: vidId,
-                time: timeSeconds
-            })
-        });
-
+                time: timeSeconds    
+        }                            
+    );
+    if (response.ok) {
+        // api returns nothing in this method
+        const data = response.data;
+        
         if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
@@ -103,7 +106,6 @@ async function onDelBtnEvent(event) {
         if(e.classList.contains("delete-btn--3")) {
             arrBtn3[timeGraphic.indexOf(timeSeconds)]--
         }
-
         if(arrBtn1[timeGraphic.indexOf(
                 timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
         && arrBtn2[timeGraphic.indexOf(
@@ -119,7 +121,6 @@ async function onDelBtnEvent(event) {
             arrBtn3.splice(
                     timeGraphic.indexOf(
                         timeSeconds), 1)
-
             fullTimeGraphic.splice(
                     timeGraphic.indexOf(
                         timeSeconds), 1) //удаляем точку времени
@@ -128,74 +129,84 @@ async function onDelBtnEvent(event) {
                         timeSeconds), 1)
         }
         event.parentNode.remove()
-    } catch (error) {
+    } else {
         alert(err_mes);
-    }    
+    }
 }
 
 // let countTime = 0
-function getUserVotes(auth_data) {
+function getUserVotes() {
+    if(!auth_data || !event) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_user_votes_url + '?source=' + wsource + '&videoid=' + vidId,
-        headers: headers,
-        type: 'GET',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        success: function(data) {  
-            // put user votes in table
-            console.log(data)
-            for (let t of data.votes) {
-//                timeGraphic[countTime] = t.time
-                trTable = document.createElement("tr") // создаем элемент tr
-                tdTable = document.createElement("td") // создаем элемент td
-                td2Table = document.createElement("td") // создаем элемент td
-                td3Table = document.createElement("td") // создаем элемент td
-                td4Table = document.createElement("td") // создаем элемент td
+    const response = await api_request(
+        api_url + api_user_votes_url + '?source=' + wsource + '&videoid=' + vidId,
+        {
+            headers: headers,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }                            
+    );
+    if (response.ok) {
+        // put data in table 
+        const data = response.data;
+        console.log(data)
     
-                trTable.classList.add("trBlockTable") //добавляем классы к строкам
-                td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-                td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+        // put user votes in table
+        for (let t of data.votes) {
+            trTable = document.createElement("tr") // создаем элемент tr
+            tdTable = document.createElement("td") // создаем элемент td
+            td2Table = document.createElement("td") // создаем элемент td
+            td3Table = document.createElement("td") // создаем элемент td
+            td4Table = document.createElement("td") // создаем элемент td
 
-                tdTable.textContent = t.update_timestamp //засовываем в первую ячейку дату и время
-                td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
-                td3Table.textContent = getFullTimeFunc(t.time) //засовываем в 3 ячейку время на видео
-                td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+            trTable.classList.add("trBlockTable") //добавляем классы к строкам
+            td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
+//            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
-            //     if(t.button == "yes") {
-            //         arrBtn1[countTime] = 1
-            //         arrBtn2[countTime] = 0
-            //         arrBtn3[countTime] = 0
-            //         td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-            //     }
-            //     if(t.button == "no") {
-            //         arrBtn2[countTime] = 1
-            //         arrBtn1[countTime] = 0
-            //         arrBtn3[countTime] = 0
-            //         td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
-            //     }
-            //     if(t.button == "not") {
-            //         arrBtn3[countTime] = 1
-            //         arrBtn1[countTime] = 0
-            //         arrBtn2[countTime] = 0
-            //         td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
-            //     }
+            tdTable.textContent = t.update_timestamp //засовываем в первую ячейку дату и время
+            td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
+            td3Table.textContent = getFullTimeFunc(t.time) //засовываем в 3 ячейку время на видео
+            td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+               
+            if(t.button == "yes") {
+        //         arrBtn1[countTime] = 1
+        //         arrBtn2[countTime] = 0
+        //         arrBtn3[countTime] = 0
+                 td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+             }
+             if(t.button == "no") {
+        //         arrBtn2[countTime] = 1
+        //         arrBtn1[countTime] = 0
+        //         arrBtn3[countTime] = 0
+                 td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
+             }
+             if(t.button == "not") {
+        //         arrBtn3[countTime] = 1
+        //         arrBtn1[countTime] = 0
+        //         arrBtn2[countTime] = 0
+                 td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
+             }
 
-                document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
-                trTable.append(tdTable, td2Table, td3Table, td4Table)
+            document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
+            trTable.append(tdTable, td2Table, td3Table, td4Table)
             //     countTime++
-            }
-            // console.log(arrBtn1)
-            // console.log(arrBtn2)
-            // console.log(arrBtn3)
-            // console.log(timeGraphic)
 
             document.querySelectorAll(".delete-btn").forEach(function(e) {
                 e.onclick = function() {
                     onDelBtnEvent(e)
                     chart.update() //обновляем график
                 }
-            })
+            });
+        }
+    } else {
+        alert(response);
+    }
+
+            // console.log(arrBtn1)
+            // console.log(arrBtn2)
+            // console.log(arrBtn3)
+            // console.log(timeGraphic)
             /* duplicate
             document.querySelectorAll(".delete-btn").forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
                 event.addEventListener("click", function() {
@@ -204,58 +215,67 @@ function getUserVotes(auth_data) {
                 })
             })
             */
-        },
-        error: function (error) {
-            alert(error);
-        }
-    });
 }
 
-function getSumVotes(auth_data) {
+function getSumVotes() {
+    if(!auth_data || !event) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    $.ajax({
-        url: api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
-        headers: headers,
-        type: 'GET',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        success: function(data) {  
-            function updateTimeAxis(timeVideoSeconds) {
-                // если времени нет в массиве
-                if(!timeGraphic.includes(timeVideoSeconds)) {
-                    timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
-                    timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                        return a - b;
-                    });
+    const response = await api_request(
+        api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
+        {
+            headers: headers,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }                            
+    );
+    if (response.ok) {
+        // put data in table 
+        const data = response.data;
+        console.log(data)
+        // put user votes in graph
 
-                    //добавляем к массивам кнопок нули для нового времени
-                    arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) 
-                    arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-                    arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-  
-                    // заполняем шкалу человекочитаемого времени
-                    fullTimeGraphic.splice(
-                        timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-                } 
-            }
-            
-            // перебор по атрибутам объекта data.buttons: yes, no, not
-            for (let t of data.buttons.yes) {
-                updateTimeAxis(t.time)
-                arrBtn1[timeGraphic.indexOf(t.time)] = t.count
-            }
-            for (let t of data.buttons.no) {
-                updateTimeAxis(t.time)
-                arrBtn2[timeGraphic.indexOf(t.time)] = t.count
-            }
-            for (let t of data.buttons.not) {
-                updateTimeAxis(t.time)
-                arrBtn3[timeGraphic.indexOf(t.time)] = t.count
-            }            
-            chart.update() //обновляем график
+        // перебор по атрибутам объекта data.buttons: yes, no, not
+        for (let t of data.buttons.yes) {
+            updateTimeAxis(t.time)
+            arrBtn1[timeGraphic.indexOf(t.time)] = t.count
+        }
+        for (let t of data.buttons.no) {
+            updateTimeAxis(t.time)
+            arrBtn2[timeGraphic.indexOf(t.time)] = t.count
+        }
+        for (let t of data.buttons.not) {
+            updateTimeAxis(t.time)
+            arrBtn3[timeGraphic.indexOf(t.time)] = t.count
+        }            
+        chart.update() //обновляем график
+
+        function updateTimeAxis(timeVideoSeconds) {
+            // если времени нет в массиве
+            if(!timeGraphic.includes(timeVideoSeconds)) {
+                timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+                timeGraphic.sort(function(a, b) { //сортируем по возрастанию
+                    return a - b;
+                });
+                //добавляем к массивам кнопок нули для нового времени
+                arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) 
+                arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+                arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+                // заполняем шкалу человекочитаемого времени
+                fullTimeGraphic.splice(
+                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            } 
+        }   
+    } else {
+        alert(data);
+    }
+
+    $.ajax({
+        success: function(data) {  
+           
         },
         error: function (error) {
-            alert(error);
+            alert(response);
         }
     });
 }
