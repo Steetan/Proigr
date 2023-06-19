@@ -140,7 +140,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         for (let element of timeGraphic) {      
             if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
                 fullTimeGraphic.splice(
-                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 1, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
             }
         }
 
