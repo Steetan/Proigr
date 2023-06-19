@@ -77,7 +77,7 @@ var chart = new Chart(document.getElementById("graphic"), {
 });
 
 document.getElementById("graphic").addEventListener('mousemove', function(evt) {
-    let activePoints = myChart.getElementsAtEvent(evt);
+    let activePoints = chart.getElementsAtEvent(evt);
   
     if (activePoints.length > 0) {
       let firstPoint = activePoints[0];
