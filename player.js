@@ -150,13 +150,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         // если время из ютуба есть в массиве то
         // if(timeGraphic.includes(timeVideoSeconds)) {
-            if(btn = 'yes') {
+            if(btn == 'yes') {
                 arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
             }
-            if (btn = 'no') {
+            if (btn == 'no') {
                 arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
             }
-            if (btn = 'not') {
+            if (btn == 'not') {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
             }
             createTableString() //создаем строку   
