@@ -76,7 +76,7 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
-async function sendBtnEvent(btn, vote_time) {
+async function sendBtnEvent(btn, voteTime) {
     if(!auth_data) return;
     const response = await api_request(api_url + api_btn_url, {
             method: 'POST',
@@ -84,7 +84,7 @@ async function sendBtnEvent(btn, vote_time) {
                 source: wsource,
                 videoid: vidId,
                 button: btn,
-                time: vote_time
+                time: voteTime
             },
             auth_token: auth_data.auth_token
     });
@@ -125,7 +125,7 @@ async function sendBtnEvent(btn, vote_time) {
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
         td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
-        td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+        td3Table.textContent = voteTime //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
         // если времени из ютуба нету в массиве то
