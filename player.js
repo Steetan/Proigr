@@ -164,7 +164,7 @@ async function getUserVotes() {
             td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
 //            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
-            let d = new Date(t.update_timestamp);
+            let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
 //            const options = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: 'numeric' };
 //            tdTable.textContent =  d.toLocaleDateString('undefined', options); //засовываем в первую ячейку дату и время
             tdTable.textContent =  d.toLocaleDateString(); //засовываем в первую ячейку дату и время
@@ -298,6 +298,10 @@ $(document).ready( async function() {
 
     btn.forEach(function(event) {  // ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
+
+            // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
+            // if (button exists in table) return;
+            
             let date = new Date()  //получаем дату
             let day = date.getDate() //получаем день
             let month = date.getMonth() //получаем месяц
