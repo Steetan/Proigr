@@ -453,8 +453,8 @@ $(document).ready( async function() {
         })
     })
     // получаем данные о суммах голосов
-    getSumVotes(auth_data);
-    getUserVotes(auth_data);
+    getSumVotes();
+    getUserVotes();
 });
 
 function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
