@@ -164,7 +164,8 @@ async function getUserVotes() {
             td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
 //            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
-            tdTable.textContent = t.update_timestamp //засовываем в первую ячейку дату и время
+            let d = new Date(t.update_timestamp);
+            tdTable.textContent =  d //засовываем в первую ячейку дату и время
             td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(t.time) //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
