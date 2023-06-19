@@ -158,7 +158,19 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
             }
             createTableString() //создаем строку
-        } 
+
+ /*
+            if(btn == "yes" && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
+                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
+                createTableString() //создаем строку
+            } 
+            if(btn == "no" && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+                arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
+                createTableString()
+            }
+            if(btn == "not" && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+*/            
+          } 
 
         dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
@@ -201,41 +213,6 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
-
-/*
-        dltBtnTable.forEach(function(e) {
-            e.onclick = function() {
-                let timeSeconds = getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))
-                if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
-                    arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-                }
-                if(e.classList.contains("delete-btn--2")) {
-                    arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-                }
-                if(e.classList.contains("delete-btn--3")) {
-                    arrBtn3[timeGraphic.indexOf(timeSeconds)]--
-                }
-
-                if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
-                && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
-                && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
-                    arrBtn1.splice(
-                            timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-                    arrBtn2.splice(
-                            timeGraphic.indexOf(timeSeconds), 1)
-                    arrBtn3.splice(
-                            timeGraphic.indexOf(timeSeconds), 1)
-
-                    fullTimeGraphic.splice(
-                            timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
-                    timeGraphic.splice(
-                            timeGraphic.indexOf(timeSeconds), 1)
-                }
-                chart.update() //обновляем график
-            }
-        })
-
-*/
 
         
         if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
