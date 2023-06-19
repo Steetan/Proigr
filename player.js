@@ -395,6 +395,7 @@ $(document).ready( async function() {
 
             document.querySelectorAll(".td3Table").forEach(function(i) {
                 if(getTimeSeconds(i.textContent.match( /\d+/g )) == timeVideoSeconds) {
+                    console.log(event.classList.contains(i.previousSibling.textContent))
                     if(event.classList.contains(i.previousSibling.textContent)) {
                         if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                             sendBtnEvent("yes", timeVideoSeconds)
