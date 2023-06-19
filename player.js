@@ -145,7 +145,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                         timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
                 }
             }
+            chart.update() //обновляем график
+        }
 
+        // если время из ютуба есть в массиве то
+        // if(timeGraphic.includes(timeVideoSeconds)) {
             if(btn = 'yes') {
                 arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
             }
@@ -155,15 +159,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             if (btn = 'not') {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
             }
-            createTableString() //создаем строку  
-
-            chart.update() //обновляем график
-        }
-
-        // если время из ютуба есть в массиве то
-        if(timeGraphic.includes(timeVideoSeconds)) {
- 
-          } 
+            createTableString() //создаем строку   
+        //   } 
 
         dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
