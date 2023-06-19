@@ -269,11 +269,11 @@ async function getUserVotes() {
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
             day = d.getDate()
-            month = d.getDate()
-            year = d.getDate()
-            hours = d.getDate()
-            minutes = d.getDate()
-            seconds = d.getDate()
+            month = d.getMonth()
+            year = d.getFullYear()
+            hours = d.getHours()
+            minutes = d.getMinutes()
+            seconds = d.getSeconds()
             //Добавляем нули к числам если они меньше 10
             if(day < 10) {
                 day = "0" + day
