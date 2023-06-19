@@ -82,7 +82,8 @@ document.getElementById("graphic").onclick = function(event) {
     if (points.length > 0) {
         let firstPoint = points[0];
         let label = chart.data.labels[firstPoint.index];
-        player.seekTo(getTimeSeconds(label));
+        console.log(label)
+        // player.seekTo(getTimeSeconds(label.match( /\d+/g )));
     }
   }
 
