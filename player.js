@@ -186,22 +186,18 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 }
 
 async function onDelBtnEvent(event) {
-    if(!auth_data || !event) return;
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    let timeSeconds = getTimeSeconds(event.previousSibling.textContent.match( /\d+/g )) // match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
-    const response = await api_request(
-        api_url + api_btn_url, 
-        {
-            headers: headers,
-            type: 'DELETE',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({
+    if(!auth_data) return;
+    let timeSeconds = getTimeSeconds(event.previousSibling.textContent.match( /\d+/g ))
+    const response = await api_request(api_url + api_btn_url, {
+            method: 'DELETE',
+            json: {
                 source: wsource,
                 videoid: vidId,
-                time: timeSeconds })
-        }
-    );
+                time: timeSeconds
+            },
+            auth_token: auth_data.auth_token
+    });
+        
     if (response.ok) {
         // api returns nothing in this method
         const data = response.data;
