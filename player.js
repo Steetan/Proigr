@@ -162,34 +162,32 @@ async function getUserVotes() {
 
             trTable.classList.add("trBlockTable") //добавляем классы к строкам
             td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-//            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
-//            const options = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: 'numeric' };
-//            tdTable.textContent =  d.toLocaleDateString('undefined', options); //засовываем в первую ячейку дату и время
             tdTable.textContent =  d.toLocaleDateString(); //засовываем в первую ячейку дату и время
             td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
                
-            if(t.button == "yes") {
+        //    if(t.button == "yes") {
         //         arrBtn1[countTime] = 1
         //         arrBtn2[countTime] = 0
         //         arrBtn3[countTime] = 0
-                 td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-             }
-             if(t.button == "no") {
+        //         td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+        //     }
+        //     if(t.button == "no") {
         //         arrBtn2[countTime] = 1
         //         arrBtn1[countTime] = 0
         //         arrBtn3[countTime] = 0
-                 td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
-             }
-             if(t.button == "not") {
+        //         td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
+        //     }
+        //    if(t.button == "not") {
         //         arrBtn3[countTime] = 1
         //         arrBtn1[countTime] = 0
         //         arrBtn2[countTime] = 0
-                 td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
-             }
+        //         td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
+        //     }
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
@@ -202,23 +200,9 @@ async function getUserVotes() {
                 chart.update() //обновляем график
             }
         });
-
     } else {
         alert(response);
     }
-
-            // console.log(arrBtn1)
-            // console.log(arrBtn2)
-            // console.log(arrBtn3)
-            // console.log(timeGraphic)
-            /* duplicate
-            document.querySelectorAll(".delete-btn").forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
-                event.addEventListener("click", function() {
-                    // 2do: get time in seconds from table and make call of del
-                    onDelBtnEvent(event)
-                })
-            })
-            */
 }
 
 async function getSumVotes() {
