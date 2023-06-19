@@ -396,17 +396,18 @@ $(document).ready( async function() {
 
             for (let i of document.querySelectorAll(".td3Table")) {
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
+                    alert("ttt")
                     if(i.previousSibling.textContent == event.textContent) {
                         continue
                     } 
                     if(i.previousSibling.textContent != event.textContent) {
-                        if(event.textContent == "yes") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                        if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                             sendBtnEvent("yes", timeVideoSeconds)
                         }
-                        if(event.textContent == "no") {
+                        if(event.textContent == "Нет") {
                             sendBtnEvent("no", timeVideoSeconds)
                         }
-                        if(event.textContent == "not") {
+                        if(event.textContent == "Неясно") {
                             sendBtnEvent("not", timeVideoSeconds)
                         }
                     }
