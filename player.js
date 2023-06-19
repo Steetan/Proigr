@@ -76,15 +76,14 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
-document.getElementById("graphic").addEventListener('mousemove', function(evt) {
-    let activePoints = chart.getElementsAtEvent(evt);
-  
-    if (activePoints.length > 0) {
-      let firstPoint = activePoints[0];
-      let data = firstPoint._chart.config.data;
-      let dataIndex = firstPoint._index;
-      let value = data.datasets[firstPoint._datasetIndex].data[dataIndex];
-      console.log(value);
+chart.addEventListener('mousemove', function(event) {
+    let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+    
+    if (points.length > 0) {
+      let firstPoint = points[0];
+      let label = chart.data.labels[firstPoint.index];
+      let value = chart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+      console.log(label + ": " + value);
     }
   });
   
