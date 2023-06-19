@@ -1,6 +1,6 @@
 var auth_data
-let vidId = "mq7B8m7KVRQ" // defaults
-let vidUrl = "https://www.youtube.com/watch?v=mq7B8m7KVRQ"
+let vidId = "luKquWe89jo" // defaults
+let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 let wsource = 'yt' // default for yt
 var player
 
