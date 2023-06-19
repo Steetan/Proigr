@@ -200,7 +200,7 @@ async function onDelBtnEvent(event) {
         
     if (response.ok) {
         // api returns nothing in this method
-        const data = response.data;
+        // const data = response.data;
 
 /*
         dltBtnTable.forEach(function(e) {
