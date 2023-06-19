@@ -394,12 +394,9 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
 
-            for (let i of document.querySelectorAll(".td3Table")) {
+            document.querySelectorAll(".td3Table").forEach(function(i) {
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                     alert("ttt")
-                    if(i.previousSibling.textContent == event.textContent) {
-                        continue
-                    } 
                     if(i.previousSibling.textContent != event.textContent) {
                         if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                             sendBtnEvent("yes", timeVideoSeconds)
@@ -412,7 +409,7 @@ $(document).ready( async function() {
                         }
                     }
                 }
-            }
+            })
         })
     })
     // получаем данные о суммах голосов
