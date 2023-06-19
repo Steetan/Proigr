@@ -165,8 +165,9 @@ async function getUserVotes() {
 //            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp);
-            const options = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: 'numeric' };
-            tdTable.textContent =  d.toLocaleDateString('undefined', options); //засовываем в первую ячейку дату и время
+//            const options = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: 'numeric' };
+//            tdTable.textContent =  d.toLocaleDateString('undefined', options); //засовываем в первую ячейку дату и время
+            tdTable.textContent =  d.toLocaleDateString(); //засовываем в первую ячейку дату и время
             td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
