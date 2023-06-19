@@ -344,15 +344,15 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                sendBtnEvent(auth_data, "yes", timeVideoSeconds)
+                sendBtnEvent("yes", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
             }
             if(event.textContent == "Нет") {
-                sendBtnEvent(auth_data, "no", timeVideoSeconds)
+                sendBtnEvent("no", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--2")
             }
             if(event.textContent == "Неясно") {
-                sendBtnEvent(auth_data, "not", timeVideoSeconds)
+                sendBtnEvent("not", timeVideoSeconds)
                 td4Table.classList.add("delete-btn--3")
             }
 
@@ -470,7 +470,7 @@ function getTimeSeconds(timeTableArr) { //функция перевода вре
     }
 }
 
-function sendBtnEvent(auth_data, btn, vote_time) {
+function sendBtnEvent(btn, vote_time) {
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     $.ajax({
         url: api_url + api_btn_url,
