@@ -148,19 +148,17 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             chart.update() //обновляем график
         }
 
-        // если время из ютуба есть в массиве то
-        // if(timeGraphic.includes(timeVideoSeconds)) {
-            if(btn == 'yes') {
-                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
-            }
-            if (btn == 'no') {
-                arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
-            }
-            if (btn == 'not') {
-                arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-            }
-            createTableString() //создаем строку   
-        //   } 
+        // если нажатая кнопка равна yes, no, not 
+        if(btn == 'yes') {
+            arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
+        }
+        if (btn == 'no') {
+            arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
+        }
+        if (btn == 'not') {
+            arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
+        }
+        createTableString() //создаем строку   
 
         dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
@@ -204,7 +202,6 @@ async function onDelBtnEvent(event) {
         // api returns nothing in this method
         // const data = response.data;
 
-        
         if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
@@ -259,7 +256,6 @@ async function getUserVotes() {
     if (response.ok) {
         // put data in table 
         const data = response.data;
-        console.log(data)
     
         // put user votes in table
         for (let t of data.votes) {
@@ -274,29 +270,10 @@ async function getUserVotes() {
             td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
-            tdTable.textContent =  d.toLocaleDateString(); //засовываем в первую ячейку дату и время
+            tdTable.textContent =  `${d.toLocaleDateString()} ${t.update_timestamp * 1000}`; //засовываем в первую ячейку дату и время
             td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
-               
-        //    if(t.button == "yes") {
-        //         arrBtn1[countTime] = 1
-        //         arrBtn2[countTime] = 0
-        //         arrBtn3[countTime] = 0
-        //         td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-        //     }
-        //     if(t.button == "no") {
-        //         arrBtn2[countTime] = 1
-        //         arrBtn1[countTime] = 0
-        //         arrBtn3[countTime] = 0
-        //         td4Table.classList.add("delete-btn--2") //то добавляем определенный класс
-        //     }
-        //    if(t.button == "not") {
-        //         arrBtn3[countTime] = 1
-        //         arrBtn1[countTime] = 0
-        //         arrBtn2[countTime] = 0
-        //         td4Table.classList.add("delete-btn--3") //то добавляем определенный класс
-        //     }
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
@@ -398,15 +375,12 @@ $(document).ready( async function() {
             if(!timeGraphic.includes(timeVideoSeconds)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
-    //                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
                 }
                 if(event.textContent == "Нет") {
                     sendBtnEvent("no", timeVideoSeconds)
-    //                td4Table.classList.add("delete-btn--2")
                 }
                 if(event.textContent == "Неясно") {
                     sendBtnEvent("not", timeVideoSeconds)
-    //                td4Table.classList.add("delete-btn--3")
                 }
             }
         })
