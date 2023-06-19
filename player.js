@@ -135,7 +135,7 @@ async function onDelBtnEvent(event) {
 }
 
 // let countTime = 0
-function getUserVotes() {
+async function getUserVotes() {
     if(!auth_data || !event) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     const response = await api_request(
@@ -217,7 +217,7 @@ function getUserVotes() {
             */
 }
 
-function getSumVotes() {
+async function getSumVotes() {
     if(!auth_data || !event) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     const response = await api_request(
