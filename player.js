@@ -394,12 +394,10 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
 
-            if(timeGraphic.includes(timeVideoSeconds)) {
-                for (const i of document.querySelectorAll(".td3Table")) {
-                    if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
-                        if(i.previousSibling.textContent == event.textContent) {
-                            continue
-                        }
+            for (const i of document.querySelectorAll(".td3Table")) {
+                if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
+                    if(i.previousSibling.textContent == event.textContent) {
+                        continue
                     } else {
                         if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                             sendBtnEvent("yes", timeVideoSeconds)
@@ -412,7 +410,6 @@ $(document).ready( async function() {
                         }
                     }
                 }
-
             }
         })
     })
