@@ -416,10 +416,7 @@ $(document).ready( async function() {
             })
             dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
                 event.addEventListener("click", function() {
-                    // 2do: get time in seconds from table and make call of del
-                    // let timeInSeconds = event.parentNode[]
-                    // onDelBtnEvent(timeInSeconds)
-                    event.parentNode.remove()
+                    onDelBtnEvent(event)
                 })
             })
             tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
