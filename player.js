@@ -400,7 +400,7 @@ $(document).ready( async function() {
                     }
                 }
             })
-            if(timeGraphic.includes(timeVideoSeconds)) {
+            if(!timeGraphic.includes(timeVideoSeconds)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
