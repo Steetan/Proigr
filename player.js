@@ -129,6 +129,7 @@ async function onDelBtnEvent(event) {
                         timeSeconds), 1)
         }
         event.parentNode.remove()
+        chart.update()
     } else {
         alert(response);
     }
@@ -195,10 +196,7 @@ async function getUserVotes() {
         
         const del_btn = document.querySelectorAll(".delete-btn") //ищем все кнопки удаления
         del_btn.forEach(function(e) {
-            e.onclick = function() {
-                onDelBtnEvent(e)
-                chart.update() //обновляем график
-            }
+            e.onclick = function() { onDelBtnEvent(e) }
         });
     } else {
         alert(response);
@@ -551,7 +549,7 @@ function stopVideo() {
 } 
 
 document.querySelector(".graphic-button").addEventListener("click", function() {
-    chart.update()
+    getSumVotes()
 })
 
 document.querySelector(".buttons__btn--map").addEventListener("click", function() {
