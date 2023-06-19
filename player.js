@@ -193,15 +193,14 @@ async function getUserVotes() {
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
-            //     countTime++
-
-            document.querySelectorAll(".delete-btn").forEach(function(e) {
-                e.onclick = function() {
-                    onDelBtnEvent(e)
-                    chart.update() //обновляем график
-                }
-            });
         }
+        document.querySelectorAll(".delete-btn").forEach(function(e) {
+            e.onclick = function() {
+                onDelBtnEvent(e)
+                chart.update() //обновляем график
+            }
+        });
+
     } else {
         alert(response);
     }
