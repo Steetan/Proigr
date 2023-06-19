@@ -91,7 +91,8 @@ async function onDelBtnEvent(event) {
                 source: wsource,
                 videoid: vidId,
                 time: timeSeconds    
-        }                            
+            });
+        }
     );
     if (response.ok) {
         // api returns nothing in this method
