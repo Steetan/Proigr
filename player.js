@@ -156,15 +156,15 @@ async function sendBtnEvent(btn, vote_time) {
 
         // если время из ютуба есть в массиве то
         if(timeGraphic.includes(timeVideoSeconds)) {
-            if(event.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
+            if(btn == "no" && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
                 arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
                 createTableString() //создаем строку
             } 
-            if(event.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            if(btn == "not" && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                 arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
                 createTableString()
             }
-            if(event.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            if(btn == "yes" && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
                 createTableString()
             }
@@ -215,50 +215,14 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         const data = response.data;
-
-/*
-        dltBtnTable.forEach(function(e) {
-            e.onclick = function() {
-                let timeSeconds = getTimeSeconds(e.previousSibling.textContent.match( /\d+/g ))
-                if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
-                    arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-                }
-                if(e.classList.contains("delete-btn--2")) {
-                    arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-                }
-                if(e.classList.contains("delete-btn--3")) {
-                    arrBtn3[timeGraphic.indexOf(timeSeconds)]--
-                }
-
-                if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
-                && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
-                && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
-                    arrBtn1.splice(
-                            timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-                    arrBtn2.splice(
-                            timeGraphic.indexOf(timeSeconds), 1)
-                    arrBtn3.splice(
-                            timeGraphic.indexOf(timeSeconds), 1)
-
-                    fullTimeGraphic.splice(
-                            timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
-                    timeGraphic.splice(
-                            timeGraphic.indexOf(timeSeconds), 1)
-                }
-                chart.update() //обновляем график
-            }
-        })
-
-*/
-
         
-        if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+        if(event.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
-        if(e.classList.contains("delete-btn--2")) {
+        if(event.classList.contains("delete-btn--2")) {
             arrBtn2[timeGraphic.indexOf(timeSeconds)]--
         }
-        if(e.classList.contains("delete-btn--3")) {
+        if(event.classList.contains("delete-btn--3")) {
             arrBtn3[timeGraphic.indexOf(timeSeconds)]--
         }
         if(arrBtn1[timeGraphic.indexOf(
@@ -306,7 +270,6 @@ async function getUserVotes() {
     if (response.ok) {
         // put data in table 
         const data = response.data;
-        console.log(data)
     
         // put user votes in table
         for (let t of data.votes) {
@@ -434,7 +397,6 @@ $(document).ready( async function() {
     const btn = document.querySelectorAll(".btn") //ищем все кнопки
     btn.forEach(function(event) {  // ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
-            let countSendBtn = 0;
             // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
             // if (button exists in table) return;
             
@@ -449,19 +411,17 @@ $(document).ready( async function() {
                 }
             })
 
-            if(countSendBtn < 1) {
-                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                    sendBtnEvent("yes", timeVideoSeconds)
-    //                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
-                }
-                if(event.textContent == "Нет") {
-                    sendBtnEvent("no", timeVideoSeconds)
-    //                td4Table.classList.add("delete-btn--2")
-                }
-                if(event.textContent == "Неясно") {
-                    sendBtnEvent("not", timeVideoSeconds)
-    //                td4Table.classList.add("delete-btn--3")
-                }
+            if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                sendBtnEvent("yes", timeVideoSeconds)
+//                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
+            }
+            if(event.textContent == "Нет") {
+                sendBtnEvent("no", timeVideoSeconds)
+//                td4Table.classList.add("delete-btn--2")
+            }
+            if(event.textContent == "Неясно") {
+                sendBtnEvent("not", timeVideoSeconds)
+//                td4Table.classList.add("delete-btn--3")
             }
         })
     })
