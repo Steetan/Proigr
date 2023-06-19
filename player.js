@@ -394,18 +394,19 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
 
-            for (const i of document.querySelectorAll(".td3Table")) {
+            for (let i of document.querySelectorAll(".td3Table")) {
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                     if(i.previousSibling.textContent == event.textContent) {
                         continue
-                    } else {
-                        if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                    } 
+                    if(i.previousSibling.textContent != event.textContent) {
+                        if(event.textContent == "yes") { //если содержимое нажатой кнопки равна 1, 2 или 3
                             sendBtnEvent("yes", timeVideoSeconds)
                         }
-                        if(event.textContent == "Нет") {
+                        if(event.textContent == "no") {
                             sendBtnEvent("no", timeVideoSeconds)
                         }
-                        if(event.textContent == "Неясно") {
+                        if(event.textContent == "not") {
                             sendBtnEvent("not", timeVideoSeconds)
                         }
                     }
