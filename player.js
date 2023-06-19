@@ -191,7 +191,11 @@ async function sendBtnEvent(btn, vote_time) {
             trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
         }
     } else {
-        alert(response);
+        // alert(response);
+        window.onerror = function(msg, url, linenumber) {
+            alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+            return true;
+        }
     }   
 }
 
@@ -371,7 +375,11 @@ async function getSumVotes() {
             } 
         }   
     } else {
-        alert(response);
+        // alert(response);
+        window.onerror = function(msg, url, linenumber) {
+            alert('Error message: '+msg+'\nURL: '+url+'\nLine Number: '+linenumber);
+            return true;
+        }
     }
 }
 
