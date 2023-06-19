@@ -145,7 +145,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                         timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
                 }
             }
-            chart.update() //обновляем график
         }
 
         if(btn == 'yes') {
