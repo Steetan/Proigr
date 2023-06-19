@@ -78,25 +78,6 @@ var chart = new Chart(document.getElementById("graphic"), {
 
 async function sendBtnEvent(btn, vote_time) {
     if(!auth_data) return;
-
-
-/*    
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    const response = await api_request(
-        api_url + api_btn_url,
-        {
-            headers: headers,
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({
-                source: wsource,
-                videoid: vidId,
-                button: btn,
-                time: vote_time
-            }),
-
-*/
     const response = await api_request(api_url + api_btn_url, {
             method: 'POST',
             json: {
@@ -108,10 +89,6 @@ async function sendBtnEvent(btn, vote_time) {
             auth_token: auth_data.auth_token
     });
     console.log(response);
-
-    //  if (resonse.ok) {
-    //      иди дальше
-    //  }
     if (response.ok) {
         let date = new Date()  //получаем дату
         let day = date.getDate() //получаем день
