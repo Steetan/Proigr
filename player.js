@@ -72,6 +72,7 @@ var chart = new Chart(document.getElementById("graphic"), {
             text: 'Время видео' //надпись по оси x
           }
         }
+      }
     }
 });
 
