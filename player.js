@@ -200,13 +200,13 @@ async function onDelBtnEvent(event) {
         // api returns nothing in this method
         // const data = response.data;
 
-        if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+        if(event.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
-        if(e.classList.contains("delete-btn--2")) {
+        if(event.classList.contains("delete-btn--2")) {
             arrBtn2[timeGraphic.indexOf(timeSeconds)]--
         }
-        if(e.classList.contains("delete-btn--3")) {
+        if(event.classList.contains("delete-btn--3")) {
             arrBtn3[timeGraphic.indexOf(timeSeconds)]--
         }
         if(arrBtn1[timeGraphic.indexOf(
@@ -393,16 +393,26 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            if(!timeGraphic.includes(timeVideoSeconds)) {
-                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                    sendBtnEvent("yes", timeVideoSeconds)
+
+            if(timeGraphic.includes(timeVideoSeconds)) {
+                for (const i of document.querySelectorAll(".td3Table")) {
+                    if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
+                        if(i.previousSibling.textContent == event.textContent) {
+                            continue
+                        }
+                    } else {
+                        if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                            sendBtnEvent("yes", timeVideoSeconds)
+                        }
+                        if(event.textContent == "Нет") {
+                            sendBtnEvent("no", timeVideoSeconds)
+                        }
+                        if(event.textContent == "Неясно") {
+                            sendBtnEvent("not", timeVideoSeconds)
+                        }
+                    }
                 }
-                if(event.textContent == "Нет") {
-                    sendBtnEvent("no", timeVideoSeconds)
-                }
-                if(event.textContent == "Неясно") {
-                    sendBtnEvent("not", timeVideoSeconds)
-                }
+
             }
         })
     })
