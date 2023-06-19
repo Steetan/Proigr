@@ -136,7 +136,7 @@ async function onDelBtnEvent(event) {
 
 // let countTime = 0
 async function getUserVotes() {
-    if(!auth_data || !event) return;
+    if(!auth_data) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     const response = await api_request(
         api_url + api_user_votes_url + '?source=' + wsource + '&videoid=' + vidId,
@@ -218,7 +218,7 @@ async function getUserVotes() {
 }
 
 async function getSumVotes() {
-    if(!auth_data || !event) return;
+    if(!auth_data) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
     const response = await api_request(
         api_url + api_sum_url + '?source=' + wsource + '&videoid=' + vidId,
