@@ -128,24 +128,20 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
-        // если времени из ютуба нету в массиве то
-        if(!timeGraphic.includes(timeVideoSeconds)) {
-            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
-            timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                return a - b;
-            });
+        timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+        timeGraphic.sort(function(a, b) { //сортируем по возрастанию
+            return a - b;
+        });
 
-            arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
-            arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-            arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+        arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
+        arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+        arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
 
-            for (let element of timeGraphic) {      
-                if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                    fullTimeGraphic.splice(
-                        timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-                }
+        for (let element of timeGraphic) {      
+            if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
+                fullTimeGraphic.splice(
+                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
             }
-            chart.update() //обновляем график
         }
 
         if(btn == 'yes') {
@@ -156,9 +152,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
         if (btn == 'not') {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-        }
-        
-        createTableString() //создаем строку   
+        } 
 
         const tableBody = document.querySelector("tbody") //ищем таблицу
         tableBody.prepend(trTable) //засовываем в html созданную строку
