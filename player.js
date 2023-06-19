@@ -157,7 +157,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         if (btn == 'not') {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         }
-        createTableString() //создаем строку   
+
+        const tableBody = document.querySelector("tbody") //ищем таблицу
+        tableBody.prepend(trTable) //засовываем в html созданную строку
+        trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
         dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
@@ -172,13 +175,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 player.seekTo(getTimeSeconds(event.textContent.match( /\d+/g ))); // перематываем видео на полученные секунды
             })
         })
-        chart.update() //обновляем график
-        
-        function createTableString() { //функция создания строки
-            const tableBody = document.querySelector("tbody") //ищем таблицу
-            tableBody.prepend(trTable) //засовываем в html созданную строку
-            trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
-        }
+        chart.update() //обновляем график        
     } else {
         alert(response);
     }   
