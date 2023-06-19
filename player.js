@@ -447,8 +447,8 @@ $(document).ready( async function() {
         })
     })
     // получаем данные о суммах голосов
-    getSumVotes();
-    getUserVotes();
+    await getSumVotes();
+    await getUserVotes();
 });
 
 function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
