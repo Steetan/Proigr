@@ -395,6 +395,7 @@ $(document).ready( async function() {
 
 
             document.querySelectorAll(".td3Table").forEach(function(i) {
+                alert("ggg")
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                     alert("ttt")
                     if(i.previousSibling.textContent != event.textContent) {
