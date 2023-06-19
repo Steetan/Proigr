@@ -270,7 +270,8 @@ async function getUserVotes() {
             td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
-            tdTable.textContent =  `${d.toLocaleDateString()} ${t.update_timestamp * 1000}`; //засовываем в первую ячейку дату и время
+            // tdTable.textContent =  `${d.toLocaleDateString()}`; //засовываем в первую ячейку дату и время
+            tdTable.textContent =  `${d}`; //засовываем в первую ячейку дату и время
             td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
