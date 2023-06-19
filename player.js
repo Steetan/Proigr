@@ -76,24 +76,18 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
-async function sendBtnEvent(btn, vote_time) {
+async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    const response = await api_request(
-        api_url + api_btn_url,
-        {
-            headers: headers,
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({
+    const response = await api_request(api_url + api_btn_url, {
+            method: 'POST',
+            json: {
                 source: wsource,
                 videoid: vidId,
                 button: btn,
-                time: vote_time
-            }),
-        }
-    );
+                time: timeVideoSeconds
+            },
+            auth_token: auth_data.auth_token
+    });
     if (response.ok) {
         let date = new Date()  //получаем дату
         let day = date.getDate() //получаем день
@@ -156,19 +150,15 @@ async function sendBtnEvent(btn, vote_time) {
 
         // если время из ютуба есть в массиве то
         if(timeGraphic.includes(timeVideoSeconds)) {
-            if(btn == "yes" && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
-                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
-                createTableString() //создаем строку
-            } 
-            if(btn == "no" && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            if(btn = 'yes') {
+                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
+            } else if (btn = 'no') {
                 arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
-                createTableString()
-            }
-            if(btn == "not" && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            } else if (btn = 'not') {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-                createTableString()
             }
-        } 
+            createTableString() //создаем строку   
+          } 
 
         dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
         dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
@@ -196,25 +186,21 @@ async function sendBtnEvent(btn, vote_time) {
 }
 
 async function onDelBtnEvent(event) {
-    if(!auth_data || !event) return;
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    let timeSeconds = getTimeSeconds(event.previousSibling.textContent.match( /\d+/g )) // match( /(\d{2})?\:?(\d{2})\:(\d{2})$/g ))
-    const response = await api_request(
-        api_url + api_btn_url, 
-        {
-            headers: headers,
-            type: 'DELETE',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({
+    if(!auth_data) return;
+    let timeSeconds = getTimeSeconds(event.previousSibling.textContent.match( /\d+/g ))
+    const response = await api_request(api_url + api_btn_url, {
+            method: 'DELETE',
+            json: {
                 source: wsource,
                 videoid: vidId,
-                time: timeSeconds })
-        }
-    );
+                time: timeSeconds
+            },
+            auth_token: auth_data.auth_token
+    });
+        
     if (response.ok) {
         // api returns nothing in this method
-        const data = response.data;
+        // const data = response.data;
 
         
         if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
@@ -399,7 +385,6 @@ $(document).ready( async function() {
     const btn = document.querySelectorAll(".btn") //ищем все кнопки
     btn.forEach(function(event) {  // ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
-            let countSendBtn = 0;
             // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
             // if (button exists in table) return;
             
@@ -408,13 +393,7 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            document.querySelectorAll(".td3Table").forEach(function(event) {
-                if(timeVideoSeconds == getTimeSeconds(event.textContent)) {
-                    countSendBtn++
-                }
-            })
-
-            if(countSendBtn < 1) {
+            if(timeGraphic.includes(timeVideoSeconds)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
     //                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
