@@ -76,24 +76,18 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
-async function sendBtnEvent(btn, vote_time) {
+async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
-    var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
-    const response = await api_request(
-        api_url + api_btn_url,
-        {
-            headers: headers,
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({
+    const response = await api_request(api_url + api_btn_url, {
+            method: 'POST',
+            json: {
                 source: wsource,
                 videoid: vidId,
                 button: btn,
-                time: vote_time
-            }),
-        }
-    );
+                time: timeVideoSeconds
+            },
+            auth_token: auth_data.auth_token
+    });
     if (response.ok) {
         let date = new Date()  //получаем дату
         let day = date.getDate() //получаем день
@@ -130,7 +124,7 @@ async function sendBtnEvent(btn, vote_time) {
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
-        td2Table.textContent = event.textContent //засовываем во вторую ячейку наименование кнопки
+        td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
@@ -156,18 +150,14 @@ async function sendBtnEvent(btn, vote_time) {
 
         // если время из ютуба есть в массиве то
         if(timeGraphic.includes(timeVideoSeconds)) {
-            if(event.classList.contains("btn--1") && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) { //если нажатая кнопка имеет такой класс и количество нажатий у этой кнопки в эту секунду меньше 1
-                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу
-                createTableString() //создаем строку
-            } 
-            if(event.classList.contains("btn--2") && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            if(btn = 'yes') {
+                arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
+            } else if (btn = 'no') {
                 arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
-                createTableString()
-            }
-            if(event.classList.contains("btn--3") && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1 && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1) {
+            } else if (btn = 'not') {
                 arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-                createTableString()
             }
+            createTableString() //создаем строку
         } 
 
         dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
