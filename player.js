@@ -393,7 +393,7 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            if(timeGraphic.includes(timeVideoSeconds)) {
+            if(!timeGraphic.includes(timeVideoSeconds)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
     //                td4Table.classList.add("delete-btn--1") //то добавляем определенный класс
