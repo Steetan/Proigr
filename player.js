@@ -80,12 +80,12 @@ document.getElementById("graphic").onclick = function(event) {
     let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
     if (points.length > 0) {
         let firstPoint = points[0];
-        let labelAll = chart.data.labels[firstPoint.index];
-        let timeLabel = labelAll.split(':').map(num => parseInt(num));
-        player.seekTo(getTimeSeconds(timeLabel));
-        document.querySelector(".buttons__input--left").value = getTimeSeconds(timeLabel) - 2
-        document.querySelector(".buttons__input--right").value = getTimeSeconds(timeLabel) + 2
-        console.log(timeLabel)
+        let labelAll = String(chart.data.labels[firstPoint.index]);
+        player.seekTo(getTimeSeconds(labelAll));
+        document.querySelector(".buttons__input--left").value = getTimeSeconds(labelAll.match( /\d+/g ))
+        document.querySelector(".buttons__input--right").value = getTimeSeconds(labelAll.match( /\d+/g ))
+        console.log(labelAll)
+        console.log(labelAll.match( /\d+/g ))
     }
   }
 
