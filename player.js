@@ -83,8 +83,8 @@ document.getElementById("graphic").onclick = function(event) {
         let labelAll = String(chart.data.labels[firstPoint.index]);
         player.seekTo(getTimeSeconds(labelAll.match( /\d+/g )));
         
-        document.querySelector(".buttons__input--left").value = timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
-        document.querySelector(".buttons__input--right").value = timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
+        timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
+        timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
     }
   }
 
