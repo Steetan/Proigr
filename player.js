@@ -138,23 +138,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
 
-        // если времени из ютуба нету в массиве то
-        if(!timeGraphic.includes(timeVideoSeconds)) {
-            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
-            timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                return a - b;
-            });
-
-            arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
-            arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-            arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-
-            for (let element of timeGraphic) {      
-                if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                    fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-                }
-            }
-        }
+        updateTimeAxis(timeVideoSeconds)
 
         if(btn == 'yes') {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
@@ -363,8 +347,7 @@ async function getSumVotes() {
                 arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
                 arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
                 // заполняем шкалу человекочитаемого времени
-                fullTimeGraphic.splice(
-                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
             } 
         }   
     } else {
