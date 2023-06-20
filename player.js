@@ -303,7 +303,6 @@ async function getUserVotes() {
             if(seconds < 10) {
                 seconds = "0" + seconds
             }
-            // tdTable.textContent =  `${d.toLocaleDateString()}`; //засовываем в первую ячейку дату и время
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
             td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
@@ -473,10 +472,12 @@ function clearURL(urlStr) {
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
             .replace('?feature=share','')
+            .slice(0, urlStr.indexOf("&t="))
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')        
+            .replace('?feature=share','')  
+            .slice(0, urlStr.indexOf("&t="))      
     } 
 }
 function onYouTubeIframeAPIReady() {
@@ -523,7 +524,9 @@ document.querySelector(".graphic-button").addEventListener("click", function() {
 
 document.querySelector(".buttons__btn--map").addEventListener("click", function() {
     document.querySelector(".buttons__btn--map").href = 
-        `https://map.blagoroda.org/?videoid=${vidId}&source=yt&f=${getTimeSeconds(document.querySelector(".buttons__input--left").value.match( /\d+/g ))}&t=${getTimeSeconds(document.querySelector(".buttons__input--right").value.match( /\d+/g ))}`
+        "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt" 
+        + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value.match( /\d+/g )) 
+        + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value.match( /\d+/g ))
 })
 
 document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {
