@@ -472,12 +472,12 @@ function clearURL(urlStr) {
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
             .replace('?feature=share','')
-            .slice(0, urlStr.indexOf("&t="))
+            .replace(/&t.*/, "")
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
             .replace('?feature=share','')  
-            .slice(0, urlStr.indexOf("&t="))      
+            .replace(/&t.*/, "")   
     } 
 }
 function onYouTubeIframeAPIReady() {
