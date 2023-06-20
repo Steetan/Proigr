@@ -212,7 +212,7 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
-
+        console.log(event.previousSibling.previousSibling)
         if(event.previousSibling.previousSibling == "yes") { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
