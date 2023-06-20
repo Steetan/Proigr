@@ -130,7 +130,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td2Table = document.createElement("td") // создаем элемент td
         td3Table = document.createElement("td") // создаем элемент td
         td4Table = document.createElement("td") // создаем элемент td
-
         trTable.classList.add("trBlockTable") //добавляем классы к строкам
         td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
