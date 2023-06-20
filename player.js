@@ -82,8 +82,9 @@ document.getElementById("graphic").onclick = function(event) {
         let firstPoint = points[0];
         let labelAll = String(chart.data.labels[firstPoint.index]);
         player.seekTo(getTimeSeconds(labelAll.match( /\d+/g )));
-        document.querySelector(".buttons__input--left").value = getFullTimeFunc(getTimeSeconds(labelAll.match( /\d+/g )) - 2)
-        document.querySelector(".buttons__input--right").value = getFullTimeFunc(getTimeSeconds(labelAll.match( /\d+/g )) + 2)
+        
+        document.querySelector(".buttons__input--left").value = timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
+        document.querySelector(".buttons__input--right").value = timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
     }
   }
 
@@ -487,30 +488,31 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
+function timeForEdit(time) {
+    if(!(player.getCurrentTime() - 2 < 0)) {
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
+    } else {
+        document.querySelector(".buttons__input--left").value = "0:00"
+    }
+    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
+}
+
 function onPlayerReady(event) {
     event.target.playVideo();
     setInterval(() => {
         if(player.getPlayerState() == 1) {
             var intervalInput = setInterval(() => {
-                if(!(player.getCurrentTime() - 2 < 0)) {
-                    document.querySelector(".buttons__input--left").value = valueSecondsInput = getFullTimeFunc(Math.floor(player.getCurrentTime() - 2))
-                } else {
-                    document.querySelector(".buttons__input--left").value = "0:00"
-                }
-                document.querySelector(".buttons__input--right").value = getFullTimeFunc(Math.floor(player.getCurrentTime() + 2))
+                timeForEdit(Math.floor(player.getCurrentTime()))
                 if(player.getPlayerState() == 2) {
-                    if(!(player.getCurrentTime() - 2 < 0)) {
-                        document.querySelector(".buttons__input--left").value = valueSecondsInput = getFullTimeFunc(Math.floor(player.getCurrentTime() - 2))
-                    } else {
-                        document.querySelector(".buttons__input--left").value = "0:00"
-                    }
-                    document.querySelector(".buttons__input--right").value = getFullTimeFunc(Math.floor(player.getCurrentTime() + 2))
+                    timeForEdit(Math.floor(player.getCurrentTime()))
                     clearInterval(intervalInput)
                 }
             }, 500);
         }
     }, 100);
 }
+
+
 function stopVideo() {
     player.stopVideo();
 } 
