@@ -136,7 +136,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
         td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
-        td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+        td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -285,6 +285,7 @@ async function getUserVotes() {
             hours = d.getHours()
             minutes = d.getMinutes()
             seconds = d.getSeconds()
+
             //Добавляем нули к числам если они меньше 10
             if(day < 10) {
                 day = "0" + day
@@ -310,8 +311,7 @@ async function getUserVotes() {
             trTable.append(tdTable, td2Table, td3Table, td4Table)
         }
         
-        const del_btn = document.querySelectorAll(".delete-btn") //ищем все кнопки удаления
-        del_btn.forEach(function(e) {
+        document.querySelectorAll(".delete-btn").forEach(function(e) { //ищем все кнопки удаления и ставим на них прослушку
             e.onclick = function() { onDelBtnEvent(e) }
         });
     } else {
@@ -390,8 +390,7 @@ $(document).ready( async function() {
         }
     }
     
-    const btn = document.querySelectorAll(".btn") //ищем все кнопки
-    btn.forEach(function(event) {  // ставим на все кнопки прослушки
+    document.querySelectorAll(".btn").forEach(function(event) {  // ищем все кнопки и ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
             // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
             // if (button exists in table) return;
@@ -511,7 +510,6 @@ function onPlayerReady(event) {
         }
     }, 100);
 }
-
 
 function stopVideo() {
     player.stopVideo();
