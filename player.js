@@ -83,8 +83,8 @@ document.getElementById("graphic").onclick = function(event) {
         let labelAll = chart.data.labels[firstPoint.index];
         let timeLabel = String(labelAll).split(':').map(num => parseInt(num));
         player.seekTo(getTimeSeconds(timeLabel));
-        document.querySelector(".buttons__input--left").value = getTimeSeconds(timeLabel) - 2
-        document.querySelector(".buttons__input--right").value = getTimeSeconds(timeLabel) + 2
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(getTimeSeconds(timeLabel) - 2)
+        document.querySelector(".buttons__input--right").value = getFullTimeFunc(getTimeSeconds(timeLabel) + 2)
     }
   }
 
