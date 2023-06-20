@@ -81,10 +81,9 @@ document.getElementById("graphic").onclick = function(event) {
     if (points.length > 0) {
         let firstPoint = points[0];
         let labelAll = String(chart.data.labels[firstPoint.index]);
-        player.seekTo(getTimeSeconds(labelAll.match( /\d+/g )));
+        player.seekTo(getTimeSeconds(labelAll));
         
-        timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
-        timeForEdit(getTimeSeconds(labelAll.match( /\d+/g )))
+        timeForEdit(getTimeSeconds(labelAll))
     }
   }
 
@@ -181,7 +180,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
             event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-                player.seekTo(getTimeSeconds(event.textContent.match( /\d+/g ))); // перематываем видео на полученные секунды
+                player.seekTo(getTimeSeconds(event.textContent)); // перематываем видео на полученные секунды
             })
         })
 
@@ -198,7 +197,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
 async function onDelBtnEvent(event) {
     if(!auth_data) return;
-    let timeSeconds = getTimeSeconds(event.previousSibling.textContent.match( /\d+/g ))
+    let timeSeconds = getTimeSeconds(event.previousSibling.textContent)
     const response = await api_request(api_url + api_btn_url, {
             method: 'DELETE',
             json: {
@@ -404,7 +403,7 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             document.querySelectorAll(".td3Table").forEach(function(i) {
-                if(getTimeSeconds(i.textContent.match( /\d+/g )) == timeVideoSeconds) {
+                if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                     if(!event.classList.contains(i.previousSibling.textContent)) {
                         //отправка и обновление
                     }
@@ -430,6 +429,8 @@ $(document).ready( async function() {
 
 function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
     //Здесь мы переводим из часов, минут и секунд только в секунды
+    timeTableArr = String(timeTableArr).match( /\d+/g )
+
     if(timeTableArr.length <= 2) { //если нету часов
         timeTableArr[0] *= 60
         return +(timeTableArr[0]) + +(timeTableArr[1]) //возвращаем полученное
@@ -524,8 +525,8 @@ document.querySelector(".graphic-button").addEventListener("click", function() {
 document.querySelector(".buttons__btn--map").addEventListener("click", function() {
     document.querySelector(".buttons__btn--map").href = 
         "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt" 
-        + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value.match( /\d+/g )) 
-        + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value.match( /\d+/g ))
+        + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
+        + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
 })
 
 document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {
