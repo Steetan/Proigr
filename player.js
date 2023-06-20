@@ -15,7 +15,7 @@ var api_user_votes_url = "/api/wote/vote/my/"
 
 // массивы для таблицы и графика
 var timeGraphic = [0]
-var fullTimeGraphic = [0]
+var fullTimeGraphic = ["0:00"]
 var tdBtnTable = [0]
 var dltBtnTable = [0]
 var arrBtn1 = [0]
@@ -489,7 +489,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function timeForEdit(time) {
-    if(!(player.getCurrentTime() - 2 < 0)) {
+    if(!(time - 2 < 0)) {
         document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
     } else {
         document.querySelector(".buttons__input--left").value = "0:00"
