@@ -334,7 +334,6 @@ async function getSumVotes() {
     if (response.ok) {
         // put data in table 
         const data = response.data;
-        console.log(data)
         // put user votes in graph
 
         // перебор по атрибутам объекта data.buttons: yes, no, not
