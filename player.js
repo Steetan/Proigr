@@ -81,11 +81,9 @@ document.getElementById("graphic").onclick = function(event) {
     if (points.length > 0) {
         let firstPoint = points[0];
         let labelAll = String(chart.data.labels[firstPoint.index]);
-        player.seekTo(getTimeSeconds(labelAll));
-        document.querySelector(".buttons__input--left").value = getTimeSeconds(labelAll.match( /\d+/g ))
-        document.querySelector(".buttons__input--right").value = getTimeSeconds(labelAll.match( /\d+/g ))
-        console.log(labelAll)
-        console.log(labelAll.match( /\d+/g ))
+        player.seekTo(getTimeSeconds(labelAll.match( /\d+/g )));
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(getTimeSeconds(labelAll.match( /\d+/g )) - 2)
+        document.querySelector(".buttons__input--right").value = getFullTimeFunc(getTimeSeconds(labelAll.match( /\d+/g )) + 2)
     }
   }
 
