@@ -76,6 +76,17 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
+document.getElementById("graphic").onclick = function(event) {
+    let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+    
+    if (points.length > 0) {
+        let firstPoint = points[0];
+        let labelAll = chart.data.labels[firstPoint.index];
+        let timeLabel = String(labelAll).split(':').map(num => parseInt(num));
+        player.seekTo(getTimeSeconds(timeLabel));
+    }
+  }
+
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
     const response = await api_request(api_url + api_btn_url, {
@@ -155,9 +166,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
         if (btn == 'not') {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-        }
-        
-        createTableString() //создаем строку   
+        } 
 
         const tableBody = document.querySelector("tbody") //ищем таблицу
         tableBody.prepend(trTable) //засовываем в html созданную строку
@@ -176,6 +185,12 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 player.seekTo(getTimeSeconds(event.textContent.match( /\d+/g ))); // перематываем видео на полученные секунды
             })
         })
+
+        for (let element of timeGraphic) {      
+            if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
+                fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            }
+        }
         chart.update() //обновляем график        
     } else {
         alert(response);
@@ -199,13 +214,13 @@ async function onDelBtnEvent(event) {
         // api returns nothing in this method
         // const data = response.data;
 
-        if(e.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+        if(event.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
-        if(e.classList.contains("delete-btn--2")) {
+        if(event.classList.contains("delete-btn--2")) {
             arrBtn2[timeGraphic.indexOf(timeSeconds)]--
         }
-        if(e.classList.contains("delete-btn--3")) {
+        if(event.classList.contains("delete-btn--3")) {
             arrBtn3[timeGraphic.indexOf(timeSeconds)]--
         }
         if(arrBtn1[timeGraphic.indexOf(
@@ -268,11 +283,11 @@ async function getUserVotes() {
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
             day = d.getDate()
-            month = d.getDate()
-            year = d.getDate()
-            hours = d.getDate()
-            minutes = d.getDate()
-            seconds = d.getDate()
+            month = d.getMonth()
+            year = d.getFullYear()
+            hours = d.getHours()
+            minutes = d.getMinutes()
+            seconds = d.getSeconds()
             //Добавляем нули к числам если они меньше 10
             if(day < 10) {
                 day = "0" + day
@@ -392,6 +407,13 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
+            document.querySelectorAll(".td3Table").forEach(function(i) {
+                if(getTimeSeconds(i.textContent.match( /\d+/g )) == timeVideoSeconds) {
+                    if(!event.classList.contains(i.previousSibling.textContent)) {
+                        //отправка и обновление
+                    }
+                }
+            })
             if(!timeGraphic.includes(timeVideoSeconds)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)

@@ -27,7 +27,7 @@ a {
 
 .container {
     margin: 0 auto;
-    max-width: 800px;
+    max-width: 1000px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,7 +115,6 @@ td {
 .buttons {
     display: flex;
     gap: 10px;
-    align-items: center;
 }
 
 .buttons__input {
@@ -136,6 +135,7 @@ td {
     border: none;
     border-radius: 5px;
     color: #fff;
+    text-align: center;
 }
 
 @media (max-width: 500px) {
