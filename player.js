@@ -85,6 +85,7 @@ document.getElementById("graphic").onclick = function(event) {
         player.seekTo(getTimeSeconds(timeLabel));
         document.querySelector(".buttons__input--left").value = getTimeSeconds(timeLabel) - 2
         document.querySelector(".buttons__input--right").value = getTimeSeconds(timeLabel) + 2
+        console.log(getTimeSeconds(timeLabel))
     }
   }
 
