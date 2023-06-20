@@ -376,7 +376,6 @@ async function getSumVotes() {
     }
 }
 
-
 $(document).ready( async function() {
     auth_data = await check_auth();
     if (!auth_data) { return; };
