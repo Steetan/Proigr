@@ -212,14 +212,13 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
-        console.log(event.previousSibling.previousSibling)
-        if(event.previousSibling.previousSibling == "yes") { //если кнопка элемента имеет такой класс
+        if(event.previousSibling.previousSibling.textContent == "yes") { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
-        if(event.previousSibling.previousSibling == "no") {
+        if(event.previousSibling.previousSibling.textContent == "no") {
             arrBtn2[timeGraphic.indexOf(timeSeconds)]--
         }
-        if(event.previousSibling.previousSibling == "not") {
+        if(event.previousSibling.previousSibling.textContent == "not") {
             arrBtn3[timeGraphic.indexOf(timeSeconds)]--
         }
         if(arrBtn1[timeGraphic.indexOf(
