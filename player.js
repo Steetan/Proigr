@@ -303,6 +303,22 @@ async function getUserVotes() {
     }
 }
 
+function updateTimeAxis(timeVideoSeconds) {
+    // если времени нет в массиве
+    if(!timeGraphic.includes(timeVideoSeconds)) {
+        timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+        timeGraphic.sort(function(a, b) { //сортируем по возрастанию
+            return a - b;
+        });
+        //добавляем к массивам кнопок нули для нового времени
+        arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) 
+        arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+        arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+        // заполняем шкалу человекочитаемого времени
+        fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+    } 
+} 
+
 async function getSumVotes() {
     if(!auth_data) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
@@ -333,23 +349,7 @@ async function getSumVotes() {
             updateTimeAxis(t.time)
             arrBtn3[timeGraphic.indexOf(t.time)] = t.count
         }            
-        chart.update() //обновляем график
-
-        function updateTimeAxis(timeVideoSeconds) {
-            // если времени нет в массиве
-            if(!timeGraphic.includes(timeVideoSeconds)) {
-                timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
-                timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                    return a - b;
-                });
-                //добавляем к массивам кнопок нули для нового времени
-                arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) 
-                arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-                arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-                // заполняем шкалу человекочитаемого времени
-                fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            } 
-        }   
+        chart.update() //обновляем график  
     } else {
         alert(response);
     }
