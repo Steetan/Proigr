@@ -30,6 +30,7 @@
             <button class="form__btn" onclick="btnForm()">Открыть</button>
         </form>
         <div id="player"></div> <!-- Проигрыватель -->
+        <div id="slider"></div> <!-- Проигрыватель -->
         <div class="block-btns">
             <button class="btn btn--2 no">Нет</button>
             <button class="btn btn--3 not">Неясно</button>
@@ -52,6 +53,17 @@
                 <td>Время остановки</td>
             </tr>
         </table>
+        <button class="btn-popup graphic-button">Обратная связь</button>
+    </div>
+    <div class="popup">
+        <div class="popup-block">
+            <div class="popup-close-wrap">
+                <div class="popup-close"></div>
+            </div>
+            <p class="popup-text">
+                Для обратной связи перейдите по ссылке <a class="popup-link" href="https://t.me/doverabot?start=feedback">https://t.me/doverabot?start=feedback</a><br> либо напишите /feedback в чате с телеграм-ботом @doverabot
+            </p>
+        </div>
     </div>
     <!-- Диалоговое окно авторизации. Применяется совместно с funcs.{js, css}-->
     <div id="dialogModal" class="d-modal">

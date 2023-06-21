@@ -55,11 +55,20 @@ a {
     border: 2px solid #000;
 }
 
-.delete-btn-table {
+.delete-btn-table,
+.popup-close {
     width: 20px;
     height: 20px;
     position: relative;
     transition: .3s ease-in-out;
+}
+
+.popup-close-wrap {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    z-index: 2;
 }
 
 .delete-btn-table-block {
@@ -71,7 +80,9 @@ a {
 }
 
 .delete-btn-table::before,
-.delete-btn-table::after {
+.delete-btn-table::after,
+.popup-close::before,
+.popup-close::after {
     content: "";
     position: absolute;
     left: 0;
@@ -80,12 +91,19 @@ a {
     background-color: red;
 }
 
-.delete-btn-table::before {
+.popup-close::before,
+.popup-close::after {
+    background-color: #000;
+}
+
+.delete-btn-table::before,
+.popup-close::before {
     top: 50%;
     transform: rotate(45deg);
 }
 
-.delete-btn-table::after {
+.delete-btn-table::after,
+.popup-close::after {
     bottom: 40%;
     transform: rotate(-45deg);
 }
@@ -251,6 +269,50 @@ td {
     text-align: center;
 }
 
+.popup {
+    position: absolute;
+    top: 0%;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, .4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup--active {
+    display: flex;
+}
+
+.popup-block {
+    margin: 0 10px;
+    display: flex;
+    border-radius: 10px;
+    align-items: center;
+    background-color: #fff;
+    position: relative;
+}
+
+.popup-link {
+    color: blue;
+}
+
+.popup-text {
+    text-align: center;
+    font-size: 20px;
+    padding: 50px;
+}
+
+.popup-close:hover {
+    transform: rotate(90deg);
+}
+
+.btn-popup {
+    border: 2px solid #2b6d49;
+    margin-bottom: 20px;
+}
+
 @media (min-width: 1024px) {
     .form__btn:hover,
     .buttons__btn:hover,
@@ -339,6 +401,9 @@ td {
     }
     .buttons {
         flex-direction: column;
+    }
+    .popup-text {
+        padding: 20px;
     }
 }
 

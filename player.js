@@ -493,13 +493,18 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: vidId, // сюда вставляется ссылка, переданная по урл
         events: {
-            'onReady': onPlayerReady
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
         },
         playerVars: {
             'start': vidTime
         }
     });
 }
+
+function onPlayerStateChange(event) {
+    timeForEdit(Math.floor(player.getCurrentTime()))
+  }
 
 function timeForEdit(time) {
     if(!(time - 2 < 0)) {
@@ -573,3 +578,14 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
         return `${playerHours}:0${playerMinutes}:${playerSeconds}`
     }
 }
+
+document.querySelector(".btn-popup").addEventListener("click", function() {
+    window.scrollTo({top: 0, behavior: 'instant'});
+    document.querySelector(".popup").classList.add("popup--active") 
+    document.body.style.overflow = "hidden"
+})
+
+document.querySelector(".popup-close").addEventListener("click", function() {
+    document.querySelector(".popup").classList.remove("popup--active")
+    document.body.style.overflow = "auto"
+})
