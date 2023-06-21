@@ -484,7 +484,7 @@ function clearURL(urlStr) {
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
             .replace('?feature=share','')  
-            .replace(/&t.*/, "")   
+            // .replace(/&t.*/, "")   
     } 
 }
 function onYouTubeIframeAPIReady() {
