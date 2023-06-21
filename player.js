@@ -473,7 +473,9 @@ function clearURL(urlStr) {
             split = "youtu.be/"
         }
 
-        vidTime = urlStr.substring(urlStr.indexOf("&t=")).replace("&t=", "").replace("s", "")//получаем секунды остановленного времени видео
+        // if(urlStr.includes("&t=")) {
+        //     vidTime = urlStr.substring(urlStr.indexOf("&t=")).replace("&t=", "").replace("s", "")//получаем секунды остановленного времени видео
+        // }
 
         console.log(vidTime)
         vidId = urlStr //заполняем ид видео
@@ -484,8 +486,7 @@ function clearURL(urlStr) {
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')  
-            // .replace(/&t.*/, "")   
+            .replace('?feature=share','')   
     } 
 }
 function onYouTubeIframeAPIReady() {
@@ -494,9 +495,9 @@ function onYouTubeIframeAPIReady() {
         events: {
             'onReady': onPlayerReady
         },
-        playerVars: {
-            'start': vidTime
-        }
+        // playerVars: {
+        //     'start': vidTime
+        // }
     });
 }
 
