@@ -16,7 +16,7 @@ var api_user_votes_url = "/api/wote/vote/my/"
 
 // массивы для таблицы и графика
 var timeGraphic = [0]
-var fullTimeGraphic = ["0:00"]
+var fullTimeGraphic = [0]
 var tdBtnTable = [0]
 var dltBtnTable = [0]
 var arrBtn1 = [0]
@@ -97,14 +97,14 @@ document.getElementById("graphic").onclick = function(event) {
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
     const response = await api_request(api_url + api_btn_url, {
-            method: 'POST',
-            json: {
-                source: wsource,
-                videoid: vidId,
-                button: btn,
-                time: timeVideoSeconds
-            },
-            auth_token: auth_data.auth_token
+        method: 'POST',
+        json: {
+            source: wsource,
+            videoid: vidId,
+            button: btn,
+            time: timeVideoSeconds
+        },
+        auth_token: auth_data.auth_token
     });
     if (response.ok) {
         let date = new Date()  //получаем дату
