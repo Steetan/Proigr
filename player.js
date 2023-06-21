@@ -16,12 +16,12 @@ var api_user_votes_url = "/api/wote/vote/my/"
 
 // массивы для таблицы и графика
 var timeGraphic = [0]
-var fullTimeGraphic = [0]
+var fullTimeGraphic = ["0:00"]
 var tdBtnTable = [0]
 var dltBtnTable = [0]
-var arrBtn1 = [0]
-var arrBtn2 = [0]
-var arrBtn3 = [0]
+var arrBtn1 = []
+var arrBtn2 = []
+var arrBtn3 = []
 
 // настройка проигрывателя
 var tag = document.createElement('script');
