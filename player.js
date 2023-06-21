@@ -3,6 +3,7 @@ let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 let wsource = 'yt' // default for yt
 var player
+var vidTime
 
 document.querySelector(".buttons__input--left").value = "0:00"
 document.querySelector(".buttons__input--right").value = "0:00"
@@ -59,20 +60,26 @@ var chart = new Chart(document.getElementById("graphic"), {
                 text: 'График нажатий кнопок по времени видео' //заголовок графика
             }
         },
-      scales: {
-        y: {
-          title: {
-            display: true,
-            text: 'Количество нажатий' //надпись по оси y
-          }
+        scales: {
+            y: {
+                title: {
+                    display: true,
+                    text: 'Количество нажатий' //надпись по оси y
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Время видео' //надпись по оси x
+                }
+            },
         },
-        x: {
-          title: {
-            display: true,
-            text: 'Время видео' //надпись по оси x
-          }
+        scale: {
+            ticks: {
+                precision: 0
+              }
         }
-      }
+
     }
 });
 
@@ -465,7 +472,10 @@ function clearURL(urlStr) {
             split = "shorts/"
         } else if (urlStr.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
             split = "youtu.be/"
-        }    
+        }
+
+        vidTime = urlStr.slice("&t=") //получаем секунды остановленного времени видео
+
         vidId = urlStr //заполняем ид видео
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
@@ -483,6 +493,9 @@ function onYouTubeIframeAPIReady() {
         videoId: vidId, // сюда вставляется ссылка, переданная по урл
         events: {
             'onReady': onPlayerReady
+        },
+        playerVars: {
+            'start': vidTime
         }
     });
 }
