@@ -474,7 +474,7 @@ function clearURL(urlStr) {
         }
 
         vidTime = urlStr.slice("&t=").replace("s", "") //получаем секунды остановленного времени видео
-
+        console.log(vidTime)
         vidId = urlStr //заполняем ид видео
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
