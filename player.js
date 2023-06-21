@@ -19,9 +19,9 @@ var timeGraphic = [0]
 var fullTimeGraphic = ["0:00"]
 var tdBtnTable = [0]
 var dltBtnTable = [0]
-var arrBtn1 = []
-var arrBtn2 = []
-var arrBtn3 = []
+var arrBtn1 = [0]
+var arrBtn2 = [0]
+var arrBtn3 = [0]
 
 // настройка проигрывателя
 var tag = document.createElement('script');
@@ -413,7 +413,10 @@ $(document).ready( async function() {
                     }
                 }
             })
-            if(!timeGraphic.includes(timeVideoSeconds)) {
+            if(!timeGraphic.includes(timeVideoSeconds) || (timeGraphic.includes(timeVideoSeconds) 
+                && arrBtn1[arrBtn1.indexOf(timeVideoSeconds) < 1]
+                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds) < 1]
+                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds) < 1])) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
