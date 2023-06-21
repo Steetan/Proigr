@@ -258,9 +258,10 @@ td {
 .buttons__btn {
     padding: 0;
     padding: 10px;
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 10px;
     background: none;
+    text-align: center;
 }
 
 .graphic-button {
@@ -286,21 +287,44 @@ td {
     }
 }
 
+@media (max-width: 1023.98px) {
+    .form__btn:active,
+    .buttons__btn:active,
+    .graphic-button:active {
+
+        color: #fff;
+        background-color: #2b6d49;
+    }
+
+    .form__btn,
+    .buttons__btn,
+    .graphic-button {
+        border: 2px solid #2b6d49;
+    }
+}
+
 @media (max-width: 500px) {
     .form {
         flex-direction: column;
         align-items: center;
         gap: 10px;
     }
+    .form__btn {
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 17px;
+    }
     .form__text {
+        border: 2px solid #727272;
         padding: 10px 0 10px 10px;
+        border-radius: 10px;
+    }
+    .buttons {
+        flex-direction: column;
     }
 }
 
 @media (max-width: 460px) {
-    .buttons {
-        flex-direction: column;
-    }
     .block-btns {
         gap: 10px;
     }
