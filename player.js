@@ -473,7 +473,7 @@ function clearURL(urlStr) {
             split = "youtu.be/"
         }
 
-        vidTime = urlStr.split("&t=").map(char => char.replace("s", ""))//получаем секунды остановленного времени видео
+        vidTime = urlStr.split("&t=").map(char => char.replace("s", "")).join("")//получаем секунды остановленного времени видео
 
         console.log(vidTime)
         vidId = urlStr //заполняем ид видео
