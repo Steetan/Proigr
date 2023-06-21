@@ -15,7 +15,7 @@ var api_user_votes_url = "/api/wote/vote/my/"
 
 // массивы для таблицы и графика
 var timeGraphic = [0]
-var fullTimeGraphic = [0]
+var fullTimeGraphic = ["0:00"]
 var tdBtnTable = [0]
 var dltBtnTable = [0]
 var arrBtn1 = [0]
@@ -78,12 +78,12 @@ var chart = new Chart(document.getElementById("graphic"), {
 
 document.getElementById("graphic").onclick = function(event) {
     let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
-    
     if (points.length > 0) {
         let firstPoint = points[0];
-        let labelAll = chart.data.labels[firstPoint.index];
-        let timeLabel = String(labelAll).split(':').map(num => parseInt(num));
-        player.seekTo(getTimeSeconds(timeLabel));
+        let labelAll = String(chart.data.labels[firstPoint.index]);
+        player.seekTo(getTimeSeconds(labelAll));
+        
+        timeForEdit(getTimeSeconds(labelAll))
     }
   }
 
@@ -129,7 +129,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td2Table = document.createElement("td") // создаем элемент td
         td3Table = document.createElement("td") // создаем элемент td
         td4Table = document.createElement("td") // создаем элемент td
-
         trTable.classList.add("trBlockTable") //добавляем классы к строкам
         td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
@@ -137,7 +136,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
         td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
-        td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+        td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -152,8 +151,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
             for (let element of timeGraphic) {      
                 if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                    fullTimeGraphic.splice(
-                        timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(element)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                    fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
                 }
             }
         }
@@ -182,7 +180,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
             event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-                player.seekTo(getTimeSeconds(event.textContent.match( /\d+/g ))); // перематываем видео на полученные секунды
+                player.seekTo(getTimeSeconds(event.textContent)); // перематываем видео на полученные секунды
             })
         })
 
@@ -199,7 +197,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
 async function onDelBtnEvent(event) {
     if(!auth_data) return;
-    let timeSeconds = getTimeSeconds(event.previousSibling.textContent.match( /\d+/g ))
+    let timeSeconds = getTimeSeconds(event.previousSibling.textContent)
     const response = await api_request(api_url + api_btn_url, {
             method: 'DELETE',
             json: {
@@ -213,14 +211,13 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
-
-        if(event.classList.contains("delete-btn--1")) { //если кнопка элемента имеет такой класс
+        if(event.previousSibling.previousSibling.textContent == "yes") { //если кнопка элемента имеет такой класс
             arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
         }
-        if(event.classList.contains("delete-btn--2")) {
+        if(event.previousSibling.previousSibling.textContent == "no") {
             arrBtn2[timeGraphic.indexOf(timeSeconds)]--
         }
-        if(event.classList.contains("delete-btn--3")) {
+        if(event.previousSibling.previousSibling.textContent == "not") {
             arrBtn3[timeGraphic.indexOf(timeSeconds)]--
         }
         if(arrBtn1[timeGraphic.indexOf(
@@ -288,6 +285,7 @@ async function getUserVotes() {
             hours = d.getHours()
             minutes = d.getMinutes()
             seconds = d.getSeconds()
+
             //Добавляем нули к числам если они меньше 10
             if(day < 10) {
                 day = "0" + day
@@ -304,18 +302,16 @@ async function getUserVotes() {
             if(seconds < 10) {
                 seconds = "0" + seconds
             }
-            // tdTable.textContent =  `${d.toLocaleDateString()}`; //засовываем в первую ячейку дату и время
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
             td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
-            td4Table.innerHTML = "<img class='delete-img' src='delete.png' alt=''>" //в 4 кнопку засовываем тег картинки
+            td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
         }
         
-        const del_btn = document.querySelectorAll(".delete-btn") //ищем все кнопки удаления
-        del_btn.forEach(function(e) {
+        document.querySelectorAll(".delete-btn").forEach(function(e) { //ищем все кнопки удаления и ставим на них прослушку
             e.onclick = function() { onDelBtnEvent(e) }
         });
     } else {
@@ -338,7 +334,6 @@ async function getSumVotes() {
     if (response.ok) {
         // put data in table 
         const data = response.data;
-        console.log(data)
         // put user votes in graph
 
         // перебор по атрибутам объекта data.buttons: yes, no, not
@@ -377,7 +372,6 @@ async function getSumVotes() {
     }
 }
 
-
 $(document).ready( async function() {
     auth_data = await check_auth();
     if (!auth_data) { return; };
@@ -396,8 +390,7 @@ $(document).ready( async function() {
         }
     }
     
-    const btn = document.querySelectorAll(".btn") //ищем все кнопки
-    btn.forEach(function(event) {  // ставим на все кнопки прослушки
+    document.querySelectorAll(".btn").forEach(function(event) {  // ищем все кнопки и ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
             // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
             // if (button exists in table) return;
@@ -408,7 +401,7 @@ $(document).ready( async function() {
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
             document.querySelectorAll(".td3Table").forEach(function(i) {
-                if(getTimeSeconds(i.textContent.match( /\d+/g )) == timeVideoSeconds) {
+                if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                     if(!event.classList.contains(i.previousSibling.textContent)) {
                         //отправка и обновление
                     }
@@ -434,6 +427,8 @@ $(document).ready( async function() {
 
 function getTimeSeconds(timeTableArr) { //функция перевода времени в секунды
     //Здесь мы переводим из часов, минут и секунд только в секунды
+    timeTableArr = String(timeTableArr).match( /\d+/g )
+
     if(timeTableArr.length <= 2) { //если нету часов
         timeTableArr[0] *= 60
         return +(timeTableArr[0]) + +(timeTableArr[1]) //возвращаем полученное
@@ -475,10 +470,12 @@ function clearURL(urlStr) {
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
             .replace('?feature=share','')
+            .replace(/&t.*/, "")
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')        
+            .replace('?feature=share','')  
+            .replace(/&t.*/, "")   
     } 
 }
 function onYouTubeIframeAPIReady() {
@@ -490,30 +487,30 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
+function timeForEdit(time) {
+    if(!(time - 2 < 0)) {
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
+    } else {
+        document.querySelector(".buttons__input--left").value = "0:00"
+    }
+    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
+}
+
 function onPlayerReady(event) {
     event.target.playVideo();
     setInterval(() => {
         if(player.getPlayerState() == 1) {
             var intervalInput = setInterval(() => {
-                if(!(player.getCurrentTime() - 2 < 0)) {
-                    document.querySelector(".buttons__input--left").value = valueSecondsInput = getFullTimeFunc(Math.floor(player.getCurrentTime() - 2))
-                } else {
-                    document.querySelector(".buttons__input--left").value = "0:00"
-                }
-                document.querySelector(".buttons__input--right").value = getFullTimeFunc(Math.floor(player.getCurrentTime() + 2))
+                timeForEdit(Math.floor(player.getCurrentTime()))
                 if(player.getPlayerState() == 2) {
-                    if(!(player.getCurrentTime() - 2 < 0)) {
-                        document.querySelector(".buttons__input--left").value = valueSecondsInput = getFullTimeFunc(Math.floor(player.getCurrentTime() - 2))
-                    } else {
-                        document.querySelector(".buttons__input--left").value = "0:00"
-                    }
-                    document.querySelector(".buttons__input--right").value = getFullTimeFunc(Math.floor(player.getCurrentTime() + 2))
+                    timeForEdit(Math.floor(player.getCurrentTime()))
                     clearInterval(intervalInput)
                 }
             }, 500);
         }
     }, 100);
 }
+
 function stopVideo() {
     player.stopVideo();
 } 
@@ -524,7 +521,9 @@ document.querySelector(".graphic-button").addEventListener("click", function() {
 
 document.querySelector(".buttons__btn--map").addEventListener("click", function() {
     document.querySelector(".buttons__btn--map").href = 
-        `https://map.blagoroda.org/?videoid=${vidId}&source=yt&f=${getTimeSeconds(document.querySelector(".buttons__input--left").value.match( /\d+/g ))}&t=${getTimeSeconds(document.querySelector(".buttons__input--right").value.match( /\d+/g ))}`
+        "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt" 
+        + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
+        + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
 })
 
 document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {

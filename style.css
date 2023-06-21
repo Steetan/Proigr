@@ -18,9 +18,11 @@ button {
     margin-top: 20px;
     max-width: 640px;
     width: 100%;
+    border-radius: 10px;
 }
 
 a {
+    display: block;
     text-decoration: none;
     color: inherit;
 }
@@ -45,9 +47,83 @@ a {
 .btn {
     padding: 5px 30px;
     background: none;
-    font-size: 25px;
+    font-size: 24px;
     cursor: pointer;
     border-radius: 10px;
+    transition: .1s linear;
+    border: none;
+    border: 2px solid #000;
+}
+
+.delete-btn-table {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    transition: .3s ease-in-out;
+}
+
+.delete-btn-table-block {
+    transition: .3s ease-in-out;
+}
+
+.delete-btn-table-block:hover {
+    transform: rotate(90deg);
+}
+
+.delete-btn-table::before,
+.delete-btn-table::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+}
+
+.delete-btn-table::before {
+    top: 50%;
+    transform: rotate(45deg);
+}
+
+.delete-btn-table::after {
+    bottom: 40%;
+    transform: rotate(-45deg);
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    color: #fff;
+    box-shadow: 7px 7px 13px 0px rgba(34, 60, 80, 0.2);
+}
+
+.btn--1 {
+    border-color: #3cba9f;
+    color: #3cba9f;
+}
+
+.btn--2 {
+    border-color: #e06666;
+    color: #e06666;
+}
+
+.btn--3 {
+    border-color: #3e95cd;
+    color: #3e95cd;
+}
+
+.btn--1:hover {
+    border-color: #3cba9f;
+    background: #3cba9f;
+}
+
+.btn--2:hover {
+    border-color: #e06666;
+    background: #e06666;
+}
+
+.btn--3:hover {
+    border-color: #3e95cd;
+    background: #3e95cd;
 }
 
 tr {
@@ -63,6 +139,9 @@ td {
 
 .table {
     border-collapse: collapse;
+    margin: 40px 0 20px;
+    border-radius: 2px;
+    overflow: hidden;
 }
 
 #graphic {
@@ -93,24 +172,73 @@ td {
 }
 
 .form-title {
-    margin-top: 30px;
+    text-transform: uppercase;
+    font-size: 30px;
+    margin: 40px 0 25px;
 }
 
 .form__text {
     width: 100%;
-    padding-left: 10px;
+    padding: 10px;
+    font-size: 17px;
+    border: none;
+    border: 2px solid #727272;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: none;
+}
+
+.form__text:focus {
+    outline: none !important;
+    box-shadow: 0 0 10px;
+    box-shadow: -4px 0px 17px 5px rgba(43, 109, 73, 0.18);
+    border-color: #2b6d49;
 }
 
 .form__text:hover {
     user-select: all;
 }
 
-.form__btn {
-    color: #fff;
-    padding: 5px 20px;
-    background-color: #2b6d49;
+.form__btn,
+.buttons__btn,
+.graphic-button {
+    padding: 5px 25px 5px 10px;
     text-decoration: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 15px;
+    transition: .1s linear;
+    font-weight: 600;
+    color: #2b6d49;
+    border: 2px solid #2b6d49;
+    background: none;
+    position: relative;
+    overflow: hidden;
 }
+
+.form__btn::before,
+.buttons__btn::before,
+.graphic-button::before {
+    content: "";
+    z-index: -1;
+    background-color: #2b6d49;
+    position: absolute;
+    top: -130px;
+    left: -130px;
+    width: 150px;
+    height: 150px;
+    transition: .3s ease-in-out;
+    transform: rotate(45deg);
+}
+
+.graphic-button::before {
+    top: -270px;
+    left: -140px;
+    width: 220px;
+    height: 220px;
+}
+
+
 
 .buttons {
     display: flex;
@@ -122,20 +250,40 @@ td {
     font-size: 25px;
     max-width: 150px;
     text-align: center;
+    border: none;
+    border: 2px solid #4a4a4a;
+    border-radius: 10px;
 }
 
 .buttons__btn {
+    padding: 0;
+    padding: 10px;
     font-size: 20px;
+    border-radius: 10px;
+    background: none;
 }
 
 .graphic-button {
     padding: 10px 20px;
     font-size: 15px;
-    background: #2b6d49;
     border: none;
     border-radius: 5px;
-    color: #fff;
     text-align: center;
+}
+
+@media (min-width: 1024px) {
+    .form__btn:hover,
+    .buttons__btn:hover,
+    .graphic-button:hover {
+        color: #fff;   
+    }
+
+    .form__btn:hover::before,
+    .buttons__btn:hover::before,
+    .graphic-button:hover::before {
+        top: -70px;
+        left: -50px;
+    }
 }
 
 @media (max-width: 500px) {
