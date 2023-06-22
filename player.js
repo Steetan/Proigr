@@ -189,7 +189,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         
         for (let element of timeGraphic) {      
-            fullTimeGraphic[element] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
 
 
