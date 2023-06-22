@@ -161,6 +161,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             //         fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
             //     }
             // }
+            fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
 
         if(btn == 'yes') {
@@ -191,7 +192,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             })
         })
 
-        fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+        
         for (let element of timeGraphic) {      
             // if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
             // }
