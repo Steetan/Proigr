@@ -155,7 +155,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-
         }
         
 
@@ -187,14 +186,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             })
         })
 
-        
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
 
-
-        console.log(timeGraphic)
-        console.log(fullTimeGraphic)
         chart.update() //обновляем график        
     } else {
         alert(response);
@@ -413,9 +408,9 @@ $(document).ready( async function() {
                 }
             })
             if(!timeGraphic.includes(timeVideoSeconds) 
-                // || (arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1
-                // && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1
-                // && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1)
+                || (arrBtn1[0] < 1
+                && arrBtn2[0] < 1
+                && arrBtn3[0] < 1)
                 ) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
