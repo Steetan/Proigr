@@ -449,7 +449,7 @@ function getTimeSeconds(timeTableArr) { //функция перевода вре
 }
 
 document.querySelector(".form__btn").addEventListener("click", function(event) {
-    if(window.location.href.inclides(document.querySelector(".form__text").value)) {
+    if(window.location.href.includes(document.querySelector(".form__text").value)) {
         alert("ttt")
         event.preventDefault()
     }
