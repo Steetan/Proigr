@@ -413,9 +413,9 @@ $(document).ready( async function() {
                     }
                 }
             })
-            if(!timeGraphic.includes(timeVideoSeconds) || (arrBtn1[arrBtn1.indexOf(timeVideoSeconds)] < 1
-                && arrBtn2[arrBtn2.indexOf(timeVideoSeconds)] < 1
-                && arrBtn3[arrBtn3.indexOf(timeVideoSeconds)] < 1)) {
+            if(!timeGraphic.includes(timeVideoSeconds) || (arrBtn1[timeGraphic.indexOf(timeVideoSeconds)] < 1
+                && arrBtn2[timeGraphic.indexOf(timeVideoSeconds)] < 1
+                && arrBtn3[timeGraphic.indexOf(timeVideoSeconds)] < 1)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
