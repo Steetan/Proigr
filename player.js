@@ -156,12 +156,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
 
-            for (let element of fullTimeGraphic) {      
-                // if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                // }
-                element[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            }
         }
+        fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
 
         if(btn == 'yes') {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
@@ -192,10 +188,12 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         })
 
         
-        for (let element of timeGraphic) {      
+        // for (let element of timeGraphic) {      
             // if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
             // }
-        }
+        // }
+
+        console.log(timeGraphic)
         console.log(fullTimeGraphic)
         chart.update() //обновляем график        
     } else {
