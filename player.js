@@ -450,23 +450,22 @@ function getTimeSeconds(timeTableArr) { //функция перевода вре
 
 document.querySelector(".form__btn").addEventListener("click", function(event) {
     if(window.location.href.includes(document.querySelector(".form__text").value)) {
-        alert("ttt")
         event.preventDefault()
     }
 })
 
-// function btnForm() { //событие на нажатие кнопки Открыть
-//     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
-//     if(window.location.hash.includes(inUrl)){
-//         window.location.reload();
-//     } else {
-//         if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
-//             window.location.hash = inUrl
-//         } else {
-//             window.location.href += "#" + inUrl
-//         }
-//     }
-// }
+function btnForm() { //событие на нажатие кнопки Открыть
+    let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
+    if(window.location.hash.includes(inUrl)){
+        window.location.reload();
+    } else {
+        if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
+            window.location.hash = inUrl
+        } else {
+            window.location.href += "#" + inUrl
+        }
+    }
+}
 
 function clearURL(urlStr) {
     if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
