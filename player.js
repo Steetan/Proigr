@@ -3,6 +3,7 @@ let vidId = "luKquWe89jo" // defaults
 let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
 let wsource = 'yt' // default for yt
 var player
+var vidTime
 
 document.querySelector(".buttons__input--left").value = "0:00"
 document.querySelector(".buttons__input--right").value = "0:00"
@@ -59,20 +60,26 @@ var chart = new Chart(document.getElementById("graphic"), {
                 text: 'График нажатий кнопок по времени видео' //заголовок графика
             }
         },
-      scales: {
-        y: {
-          title: {
-            display: true,
-            text: 'Количество нажатий' //надпись по оси y
-          }
+        scales: {
+            y: {
+                title: {
+                    display: true,
+                    text: 'Количество нажатий' //надпись по оси y
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Время видео' //надпись по оси x
+                }
+            },
         },
-        x: {
-          title: {
-            display: true,
-            text: 'Время видео' //надпись по оси x
-          }
+        scale: {
+            ticks: {
+                precision: 0
+              }
         }
-      }
+
     }
 });
 
@@ -90,14 +97,14 @@ document.getElementById("graphic").onclick = function(event) {
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
     const response = await api_request(api_url + api_btn_url, {
-            method: 'POST',
-            json: {
-                source: wsource,
-                videoid: vidId,
-                button: btn,
-                time: timeVideoSeconds
-            },
-            auth_token: auth_data.auth_token
+        method: 'POST',
+        json: {
+            source: wsource,
+            videoid: vidId,
+            button: btn,
+            time: timeVideoSeconds
+        },
+        auth_token: auth_data.auth_token
     });
     if (response.ok) {
         let date = new Date()  //получаем дату
@@ -394,7 +401,6 @@ $(document).ready( async function() {
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
             // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
             // if (button exists in table) return;
-            
             let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
                 0.0 //если нельзя, то ставим ноль
                 :   
@@ -407,7 +413,9 @@ $(document).ready( async function() {
                     }
                 }
             })
-            if(!timeGraphic.includes(timeVideoSeconds)) {
+            if(!timeGraphic.includes(timeVideoSeconds) || (arrBtn1[arrBtn1.indexOf(timeVideoSeconds)] < 1
+                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds)] < 1
+                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds)] < 1)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
@@ -465,7 +473,13 @@ function clearURL(urlStr) {
             split = "shorts/"
         } else if (urlStr.includes("https://youtu.be/")) { //если мы вставили укороченную ссылку
             split = "youtu.be/"
-        }    
+        }
+
+        if(urlStr.includes("&t=")) {
+            vidTime = urlStr.substring(urlStr.indexOf("&t=")).replace("&t=", "").replace("s", "")//получаем секунды остановленного времени видео
+        }
+
+        console.log(vidTime)
         vidId = urlStr //заполняем ид видео
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
@@ -474,18 +488,25 @@ function clearURL(urlStr) {
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')  
-            .replace(/&t.*/, "")   
+            .replace('?feature=share','')   
     } 
 }
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: vidId, // сюда вставляется ссылка, переданная по урл
         events: {
-            'onReady': onPlayerReady
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
+        },
+        playerVars: {
+            'start': vidTime
         }
     });
 }
+
+function onPlayerStateChange(event) {
+    timeForEdit(Math.floor(player.getCurrentTime()))
+  }
 
 function timeForEdit(time) {
     if(!(time - 2 < 0)) {
@@ -559,3 +580,14 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
         return `${playerHours}:0${playerMinutes}:${playerSeconds}`
     }
 }
+
+document.querySelector(".btn-popup").addEventListener("click", function() {
+    window.scrollTo({top: 0, behavior: 'instant'});
+    document.querySelector(".popup").classList.add("popup--active") 
+    document.body.style.overflow = "hidden"
+})
+
+document.querySelector(".popup-close").addEventListener("click", function() {
+    document.querySelector(".popup").classList.remove("popup--active")
+    document.body.style.overflow = "auto"
+})
