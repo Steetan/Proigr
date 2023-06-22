@@ -450,12 +450,16 @@ function getTimeSeconds(timeTableArr) { //функция перевода вре
 
 function btnForm() { //событие на нажатие кнопки Открыть
     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
+    console.log(inUrl)
     if(window.location.hash.includes(inUrl)){
+        console.log('reload')
         window.location.reload();
     } else {
         if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
+            console.log('hash')
             window.location.hash = inUrl
         } else {
+            console.log('nohash')
             window.location.href += "#" + inUrl
         }
     }
