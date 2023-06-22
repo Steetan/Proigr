@@ -414,8 +414,8 @@ $(document).ready( async function() {
                 }
             })
             if(!timeGraphic.includes(timeVideoSeconds) || (arrBtn1[arrBtn1.indexOf(timeVideoSeconds)] < 1
-                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds)] < 1
-                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds)] < 1)) {
+                && arrBtn2[arrBtn2.indexOf(timeVideoSeconds)] < 1
+                && arrBtn3[arrBtn3.indexOf(timeVideoSeconds)] < 1)) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
@@ -510,18 +510,22 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-function onPlayerStateChange(event) {
-    timeForEdit(Math.floor(player.getCurrentTime()))
-  }
-
-function timeForEdit(time) {
-    if(!(time - 2 < 0)) {
-        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
-    } else {
-        document.querySelector(".buttons__input--left").value = "0:00"
+    function onPlayerStateChange(event) {
+        
+        timeForEdit(Math.floor(player.getCurrentTime()))
     }
-    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
-}
+
+
+// function onPlayerStateChange(event) {
+//     const seeked = player.media.seeking && [1, 2,].includes(event.data);
+  
+//     if (seeked) {
+//       // Unset seeking and fire seeked event
+//     //   player.media.seeking = false;
+//       utils.dispatchEvent.call(player, player.media, 'seeked');
+//     //   timeForEdit(Math.floor(player.getCurrentTime()))
+//     }
+// }
 
 function onPlayerReady(event) {
     event.target.playVideo();
@@ -537,6 +541,16 @@ function onPlayerReady(event) {
         }
     }, 100);
 }
+
+function timeForEdit(time) {
+    if(!(time - 2 < 0)) {
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
+    } else {
+        document.querySelector(".buttons__input--left").value = "0:00"
+    }
+    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
+}
+
 
 function stopVideo() {
     player.stopVideo();
