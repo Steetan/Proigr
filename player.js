@@ -147,7 +147,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
-            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+            timeGraphic.push(timeVideoSeconds) //добавляем время в массив
             timeGraphic.sort(function(a, b) { //сортируем по возрастанию
                 return a - b;
             });
@@ -156,11 +156,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
 
-            for (let element of timeGraphic) {      
-                if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                    fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-                }
-            }
+            // for (let element of timeGraphic) {      
+            //     if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
+            //         fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            //     }
+            // }
         }
 
         if(btn == 'yes') {
@@ -191,10 +191,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             })
         })
 
+        fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         for (let element of timeGraphic) {      
-            if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            }
+            // if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
+            // }
         }
         chart.update() //обновляем график        
     } else {
