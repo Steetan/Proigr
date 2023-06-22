@@ -156,12 +156,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
 
-            // for (let element of timeGraphic) {      
-            //     if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-            //         fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            //     }
-            // }
-            fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            for (let element of fullTimeGraphic) {      
+                // if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
+                // }
+                element[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            }
         }
 
         if(btn == 'yes') {
