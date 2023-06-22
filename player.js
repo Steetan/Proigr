@@ -196,6 +196,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             // if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
             // }
         }
+        console.log(fullTimeGraphic)
         chart.update() //обновляем график        
     } else {
         alert(response);
