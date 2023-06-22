@@ -188,11 +188,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         })
 
         
-        for (let element of timeGraphic) {      
-
+        for (let element of fullTimeGraphic) {      
+            fullTimeGraphic[element] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
 
-        fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
 
         console.log(timeGraphic)
         console.log(fullTimeGraphic)
@@ -370,7 +369,8 @@ async function getSumVotes() {
                 arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
                 arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
                 // заполняем шкалу человекочитаемого времени
-                fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+                fullTimeGraphic.splice(
+                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
             } 
         }   
     } else {
