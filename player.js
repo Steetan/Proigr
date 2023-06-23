@@ -138,6 +138,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         trTable.classList.add("trBlockTable") //добавляем классы к строкам
         td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+            .innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
         if(btn == "yes") {
@@ -151,7 +152,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
         // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
-        td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -250,7 +250,8 @@ async function getUserVotes() {
 
             trTable.classList.add("trBlockTable") //добавляем классы к строкам
             td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+            td4Table.classList.add("delete-btn")
+                .innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
             day = d.getDate()
@@ -290,7 +291,6 @@ async function getUserVotes() {
                     break;
             }
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
-            td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
@@ -521,22 +521,10 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-    function onPlayerStateChange(event) {
-        
-        timeForEdit(Math.floor(player.getCurrentTime()))
-    }
-
-
-// function onPlayerStateChange(event) {
-//     const seeked = player.media.seeking && [1, 2,].includes(event.data);
-  
-//     if (seeked) {
-//       // Unset seeking and fire seeked event
-//     //   player.media.seeking = false;
-//       utils.dispatchEvent.call(player, player.media, 'seeked');
-//     //   timeForEdit(Math.floor(player.getCurrentTime()))
-//     }
-// }
+function onPlayerStateChange(event) {
+    
+    timeForEdit(Math.floor(player.getCurrentTime()))
+}
 
 function onPlayerReady(event) {
     event.target.playVideo();
