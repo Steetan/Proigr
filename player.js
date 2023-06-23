@@ -179,12 +179,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        dltBtnTable = document.querySelectorAll(".delete-btn")//ищем кнопки удаления
-        dltBtnTable.forEach(function(event) { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
-            event.addEventListener("click", function() {
-                onDelBtnEvent(event)
-            })
-        })
+        dltBtnTable = document.querySelector(".delete-btn")//ищем кнопки удаления
+        dltBtnTable.onclick =  function() { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+            onDelBtnEvent(dltBtnTable)
+        }
 
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
@@ -283,15 +281,12 @@ async function getUserVotes() {
             switch (t.button) {//засовываем во вторую ячейку наименование кнопки
                 case "yes":
                     td2Table.textContent = "Да"
-                    td2Table.classList.add("yes")
                     break;
                 case "no":
                     td2Table.textContent = "Нет"
-                    td2Table.classList.add("no")
                     break;
                 case "not":
                     td2Table.textContent = "Неясно"
-                    td2Table.classList.add("not")
                     break;
             }
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
@@ -301,9 +296,7 @@ async function getUserVotes() {
             trTable.append(tdTable, td2Table, td3Table, td4Table)
         }
         
-        document.querySelectorAll(".delete-btn").forEach(function(e) { //ищем все кнопки удаления и ставим на них прослушку
-            e.onclick = function() { onDelBtnEvent(e) }
-        });
+        document.querySelector(".delete-btn").onclick = function() { onDelBtnEvent(document.querySelector(".delete-btn")) } //ищем все кнопки удаления и ставим на них прослушку
     } else {
         alert("getuservotes" + response);
     }
