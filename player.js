@@ -458,11 +458,11 @@ function btnForm() { //событие на нажатие кнопки Откр�
 
 function remVote(elem) {
     let timeSeconds = getTimeSeconds(elem.textContent)
-    if(elem.previousSibling.textContent == "Да") { //если кнопка элемента имеет такой класс
+    if(elem.previousSibling.textContent == "yes") { //если кнопка элемента имеет такой класс
         arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-    } else if(elem.previousSibling.textContent == "Нет") {
+    } else if(elem.previousSibling.textContent == "no") {
         arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-    } else if(elem.previousSibling.textContent == "Неясно") {
+    } else if(elem.previousSibling.textContent == "not") {
         arrBtn3[timeGraphic.indexOf(timeSeconds)]--
     }
     if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
