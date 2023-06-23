@@ -381,12 +381,7 @@ $(document).ready( async function() {
                     return; // голос найден - прерываем цикл
                 }
             })
-            if(bSendApi
-                || !timeGraphic.includes(timeVideoSeconds) 
-                || (arrBtn1[0] < 1
-                && arrBtn2[0] < 1
-                && arrBtn3[0] < 1)
-                ) {
+            if(bSendApi) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
