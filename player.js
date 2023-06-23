@@ -79,7 +79,6 @@ var chart = new Chart(document.getElementById("graphic"), {
                 precision: 0
               }
         }
-
     }
 });
 
@@ -205,13 +204,13 @@ async function onDelBtnEvent(event) {
     if(!auth_data) return;
     let timeSeconds = getTimeSeconds(event.previousSibling.textContent)
     const response = await api_request(api_url + api_btn_url, {
-            method: 'DELETE',
-            json: {
-                source: wsource,
-                videoid: vidId,
-                time: timeSeconds
-            },
-            auth_token: auth_data.auth_token
+        method: 'DELETE',
+        json: {
+            source: wsource,
+            videoid: vidId,
+            time: timeSeconds
+        },
+        auth_token: auth_data.auth_token
     });
         
     if (response.ok) {
@@ -242,15 +241,11 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            trTable = document.createElement("tr") // создаем элемент tr
+            trTable = document.createElement("tr").classList.add("trBlockTable") //добавляем классы к строкам
             tdTable = document.createElement("td") // создаем элемент td
             td2Table = document.createElement("td") // создаем элемент td
-            td3Table = document.createElement("td") // создаем элемент td
-            td4Table = document.createElement("td") // создаем элемент td
-
-            trTable.classList.add("trBlockTable") //добавляем классы к строкам
-            td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+            td3Table = document.createElement("td").classList.add("td3Table") //добавляем классы к ячейкам с временем
+            td4Table = document.createElement("td").classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
             day = d.getDate()
@@ -464,16 +459,11 @@ function remVote(elem) {
     if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
     && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
     && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
-        arrBtn1.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-        arrBtn2.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        arrBtn3.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        fullTimeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
-        timeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn1.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+        arrBtn2.splice(timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn3.splice(timeGraphic.indexOf(timeSeconds), 1)
+        fullTimeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
+        timeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1)
     }
     elem.parentNode.remove()
 }
@@ -521,22 +511,9 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-    function onPlayerStateChange(event) {
-        
-        timeForEdit(Math.floor(player.getCurrentTime()))
-    }
-
-
-// function onPlayerStateChange(event) {
-//     const seeked = player.media.seeking && [1, 2,].includes(event.data);
-  
-//     if (seeked) {
-//       // Unset seeking and fire seeked event
-//     //   player.media.seeking = false;
-//       utils.dispatchEvent.call(player, player.media, 'seeked');
-//     //   timeForEdit(Math.floor(player.getCurrentTime()))
-//     }
-// }
+function onPlayerStateChange(event) {
+    timeForEdit(Math.floor(player.getCurrentTime()))
+}
 
 function onPlayerReady(event) {
     event.target.playVideo();
@@ -562,7 +539,6 @@ function timeForEdit(time) {
     document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
 }
 
-
 function stopVideo() {
     player.stopVideo();
 } 
@@ -578,12 +554,13 @@ function mapSchemeLink(btn, videoId) {
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
 }
 
-document.querySelector(".buttons__btn--map").addEventListener("click", function() {
-    mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
-})
-
-document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {
-    mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
+document.addEventListener("click", function(event) {
+    if(event.target.closest(".buttons__btn--map")) {
+        mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
+    }
+    if(event.target.closest(".buttons__btn--scheme")) {
+        mapSchemeLink(".buttons__btn--scheme", "https://map.blagoroda.org/?videoid=")
+    }
 })
 
 function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
@@ -616,13 +593,14 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
     }
 }
 
-document.querySelector(".btn-popup").addEventListener("click", function() {
-    window.scrollTo({top: 0, behavior: 'instant'});
-    document.querySelector(".popup").classList.add("popup--active") 
-    document.body.style.overflow = "hidden"
-})
-
-document.querySelector(".popup-close").addEventListener("click", function() {
-    document.querySelector(".popup").classList.remove("popup--active")
-    document.body.style.overflow = "auto"
+document.addEventListener("click", function(event) {
+    if(event.target.closest(".btn-popup")) {
+        window.scrollTo({top: 0, behavior: 'instant'});
+        document.querySelector(".popup").classList.add("popup--active") 
+        document.body.style.overflow = "hidden"
+    }
+    if(event.target.closest(".popup-close")) {
+        document.querySelector(".popup").classList.remove("popup--active")
+        document.body.style.overflow = "auto"
+    }
 })
