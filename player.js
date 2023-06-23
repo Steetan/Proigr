@@ -79,6 +79,7 @@ var chart = new Chart(document.getElementById("graphic"), {
                 precision: 0
               }
         }
+
     }
 });
 
@@ -204,13 +205,13 @@ async function onDelBtnEvent(event) {
     if(!auth_data) return;
     let timeSeconds = getTimeSeconds(event.previousSibling.textContent)
     const response = await api_request(api_url + api_btn_url, {
-        method: 'DELETE',
-        json: {
-            source: wsource,
-            videoid: vidId,
-            time: timeSeconds
-        },
-        auth_token: auth_data.auth_token
+            method: 'DELETE',
+            json: {
+                source: wsource,
+                videoid: vidId,
+                time: timeSeconds
+            },
+            auth_token: auth_data.auth_token
     });
         
     if (response.ok) {
@@ -241,11 +242,15 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            trTable = document.createElement("tr").classList.add("trBlockTable") //добавляем классы к строкам
+            trTable = document.createElement("tr") // создаем элемент tr
             tdTable = document.createElement("td") // создаем элемент td
             td2Table = document.createElement("td") // создаем элемент td
-            td3Table = document.createElement("td").classList.add("td3Table") //добавляем классы к ячейкам с временем
-            td4Table = document.createElement("td").classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+            td3Table = document.createElement("td") // создаем элемент td
+            td4Table = document.createElement("td") // создаем элемент td
+
+            trTable.classList.add("trBlockTable") //добавляем классы к строкам
+            td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
+            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
             day = d.getDate()
@@ -459,11 +464,16 @@ function remVote(elem) {
     if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
     && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
     && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
-        arrBtn1.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-        arrBtn2.splice(timeGraphic.indexOf(timeSeconds), 1)
-        arrBtn3.splice(timeGraphic.indexOf(timeSeconds), 1)
-        fullTimeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
-        timeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn1.splice(
+                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+        arrBtn2.splice(
+                timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn3.splice(
+                timeGraphic.indexOf(timeSeconds), 1)
+        fullTimeGraphic.splice(
+                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
+        timeGraphic.splice(
+                timeGraphic.indexOf(timeSeconds), 1)
     }
     elem.parentNode.remove()
 }
@@ -511,9 +521,22 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-function onPlayerStateChange(event) {
-    timeForEdit(Math.floor(player.getCurrentTime()))
-}
+    function onPlayerStateChange(event) {
+        
+        timeForEdit(Math.floor(player.getCurrentTime()))
+    }
+
+
+// function onPlayerStateChange(event) {
+//     const seeked = player.media.seeking && [1, 2,].includes(event.data);
+  
+//     if (seeked) {
+//       // Unset seeking and fire seeked event
+//     //   player.media.seeking = false;
+//       utils.dispatchEvent.call(player, player.media, 'seeked');
+//     //   timeForEdit(Math.floor(player.getCurrentTime()))
+//     }
+// }
 
 function onPlayerReady(event) {
     event.target.playVideo();
@@ -538,6 +561,7 @@ function timeForEdit(time) {
     }
     document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
 }
+
 
 function stopVideo() {
     player.stopVideo();
