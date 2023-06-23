@@ -402,8 +402,13 @@ $(document).ready( async function() {
 
             document.querySelectorAll(".td3Table").forEach(function(i) {
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
+                    // в таблице уже есть голос с таким временем
                     if(!event.classList.contains(i.previousSibling.textContent)) {
-                        //отправка и обновление
+                        // имеющийся голос не равен - удаляем имеющийся - отправляем новый
+                        event.parentNode.remove()
+                    } else {
+                        // та же кнопка - показать всплывающую подсказку "голос учтён" и выйти
+                        return;
                     }
                 }
             })
