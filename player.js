@@ -284,7 +284,16 @@ async function getUserVotes() {
             //         td2Table.textContent = "Неясно"
             //         break;
             // }
-            td2Table.textContent = t.button
+            if(t.button == "yes") {
+                td2Table.textContent = "Да"
+            }
+            if(t.button == "no") {
+                td2Table.textContent = "Нет"
+            }
+            if(t.button == "not") {
+                td2Table.textContent = "Неясно"
+            }
+            // td2Table.textContent = t.button
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
