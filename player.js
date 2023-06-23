@@ -391,6 +391,7 @@ $(document).ready( async function() {
                     return; // голос найден - прерываем цикл
                 }
             })
+            
             if(bSendApi) {
                 if(event.classList.contains("yes")) { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("Да", timeVideoSeconds)
