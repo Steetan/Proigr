@@ -89,10 +89,9 @@ document.getElementById("graphic").onclick = function(event) {
         let firstPoint = points[0];
         let labelAll = String(chart.data.labels[firstPoint.index]);
         player.seekTo(getTimeSeconds(labelAll));
-        
         timeForEdit(getTimeSeconds(labelAll))
     }
-  }
+}
 
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
@@ -192,7 +191,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         chart.update() //обновляем график        
     } else {
-        alert(response);
+        alert("sendbtn" + response);
     }   
 }
 
@@ -212,45 +211,13 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
-        if(event.previousSibling.previousSibling.textContent == "yes") { //если кнопка элемента имеет такой класс
-            arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //мы вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-        }
-        if(event.previousSibling.previousSibling.textContent == "no") {
-            arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-        }
-        if(event.previousSibling.previousSibling.textContent == "not") {
-            arrBtn3[timeGraphic.indexOf(timeSeconds)]--
-        }
-        if(arrBtn1[timeGraphic.indexOf(
-                timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
-        && arrBtn2[timeGraphic.indexOf(
-                timeSeconds)] == 0 
-        && arrBtn3[timeGraphic.indexOf(
-                timeSeconds)] == 0) {
-            arrBtn1.splice(
-                    timeGraphic.indexOf(
-                        timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-            arrBtn2.splice(
-                    timeGraphic.indexOf(
-                        timeSeconds), 1)
-            arrBtn3.splice(
-                    timeGraphic.indexOf(
-                        timeSeconds), 1)
-            fullTimeGraphic.splice(
-                    timeGraphic.indexOf(
-                        timeSeconds), 1) //удаляем точку времени
-            timeGraphic.splice(
-                    timeGraphic.indexOf(
-                        timeSeconds), 1)
-        }
-        event.parentNode.remove()
+        remVote(event.previousSibling)
         chart.update()
     } else {
-        alert(response);
+        alert("delbtn" + response);
     }
 }
 
-// let countTime = 0
 async function getUserVotes() {
     if(!auth_data) return;
     var headers = auth_data ? { 'Authorization': 'Token ' + auth_data.auth_token } : {};
@@ -316,7 +283,7 @@ async function getUserVotes() {
             e.onclick = function() { onDelBtnEvent(e) }
         });
     } else {
-        alert(response);
+        alert("getuservotes" + response);
     }
 }
 
@@ -369,7 +336,7 @@ async function getSumVotes() {
             } 
         }   
     } else {
-        alert(response);
+        alert("getsumvotes" + response);
     }
 }
 
@@ -400,14 +367,22 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
+            let bSendApi = true
             document.querySelectorAll(".td3Table").forEach(function(i) {
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
+                    // в таблице уже есть голос с таким временем
                     if(!event.classList.contains(i.previousSibling.textContent)) {
-                        //отправка и обновление
+                        // изменение голоса - удаляем имеющийся - новый отправится далее
+                        remVote(i)
+                    } else {
+                        // та же кнопка
+                        bSendApi = false // отменяем отправку в апи
                     }
+                    return; // голос найден - прерываем цикл
                 }
             })
-            if(!timeGraphic.includes(timeVideoSeconds) 
+            if(bSendApi
+                || !timeGraphic.includes(timeVideoSeconds) 
                 || (arrBtn1[0] < 1
                 && arrBtn2[0] < 1
                 && arrBtn3[0] < 1)
@@ -452,17 +427,56 @@ document.querySelector(".form__btn").addEventListener("click", function(event) {
 
 function btnForm() { //событие на нажатие кнопки Открыть
     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
+    console.log(inUrl)
     if(window.location.hash.includes(inUrl)){
+        console.log('reload')
         window.location.reload();
     } else {
         if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
+            console.log('hash')
             window.location.hash = inUrl
         } else {
+            console.log('nohash')
             window.location.href += "#" + inUrl
         }
     }
 }
 
+function remVote(elem) {
+    let timeSeconds = getTimeSeconds(elem.textContent)
+    if(elem.previousSibling.textContent == "yes") { //если кнопка элемента имеет такой класс
+        arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
+    } else if(elem.previousSibling.textContent == "no") {
+        arrBtn2[timeGraphic.indexOf(timeSeconds)]--
+    } else if(elem.previousSibling.textContent == "not") {
+        arrBtn3[timeGraphic.indexOf(timeSeconds)]--
+    }
+    if(arrBtn1[timeGraphic.indexOf(
+            timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+    && arrBtn2[timeGraphic.indexOf(
+            timeSeconds)] == 0 
+    && arrBtn3[timeGraphic.indexOf(
+            timeSeconds)] == 0) {
+        arrBtn1.splice(
+                timeGraphic.indexOf(
+                    timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+        arrBtn2.splice(
+                timeGraphic.indexOf(
+                    timeSeconds), 1)
+        arrBtn3.splice(
+                timeGraphic.indexOf(
+                    timeSeconds), 1)
+        fullTimeGraphic.splice(
+                timeGraphic.indexOf(
+                    timeSeconds), 1) //удаляем точку времени
+        timeGraphic.splice(
+                timeGraphic.indexOf(
+                    timeSeconds), 1)
+    }
+    elem.parentNode.remove()
+}
+
+        
 function clearURL(urlStr) {
     if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
         let split
