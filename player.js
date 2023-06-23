@@ -270,30 +270,18 @@ async function getUserVotes() {
                 seconds = "0" + seconds
             }
 
-
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
-            // switch (t.button) {//засовываем во вторую ячейку наименование кнопки
-            //     case "yes":
-            //         td2Table.textContent = "Да"
-            //         break;
-            //     case "no":
-            //         td2Table.textContent = "Нет"
-            //         break;
-            //     case "not":
-            //         td2Table.textContent = "Неясно"
-            //         break;
-            // }
-            console.log(t.button)
-            // if(t.button == "yes") {
-            //     td2Table.textContent = "Да"
-            // }
-            // if(t.button == "no") {
-            //     td2Table.textContent = "Нет"
-            // }
-            // if(t.button == "not") {
-            //     td2Table.textContent = "Неясно"
-            // }
-            // td2Table.textContent = t.button
+            switch (t.button) {//засовываем во вторую ячейку наименование кнопки
+                case "yes":
+                    td2Table.textContent = "Да"
+                    break;
+                case "no":
+                    td2Table.textContent = "Нет"
+                    break;
+                case "not":
+                    td2Table.textContent = "Неясно"
+                    break;
+            }
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
@@ -404,13 +392,13 @@ $(document).ready( async function() {
                 }
             })
             if(bSendApi) {
-                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                if(event.textContent == "yes") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("Да", timeVideoSeconds)
                 }
-                if(event.textContent == "Нет") {
+                if(event.textContent == "no") {
                     sendBtnEvent("Нет", timeVideoSeconds)
                 }
-                if(event.textContent == "Неясно") {
+                if(event.textContent == "not") {
                     sendBtnEvent("Неясно", timeVideoSeconds)
                 }
             }
