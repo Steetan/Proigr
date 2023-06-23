@@ -134,12 +134,14 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         trTable = document.createElement("tr")
             .classList.add("trBlockTable") // создаем элемент tr и добавляем к ним классы
         tdTable = document.createElement("td")
-            .textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+            
         td2Table = document.createElement("td") // создаем элемент td
-        td3Table = document.createElement("td")
-            .classList.add("td3Table").textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+        td3Table = document.createElement("td")      
         td4Table = document.createElement("td")
-            .classList.add("delete-btn").innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //добавляем классы к кнопкам удаления с названием нажатых кнопок
+           
+        tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+        td3Table.classList.add("td3Table").textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+        td4Table .classList.add("delete-btn").innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //добавляем классы к кнопкам удаления с названием нажатых кнопок
 
         if(btn == "yes") {
             td2Table.textContent = "Да"    
@@ -239,13 +241,14 @@ async function getUserVotes() {
         for (let t of data.votes) {
             trTable = document.createElement("tr")
                 .classList.add("trBlockTable") // создаем элемент tr
-            tdTable = document.createElement("td")
-                .textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
+            tdTable = document.createElement("td") 
             td2Table = document.createElement("td") // создаем элемент td
             td3Table = document.createElement("td")
-                .classList.add("td3Table").textContent = getFullTimeFunc(t.time) // создаем элемент td и добавляем классы к ячейкам с временем
             td4Table = document.createElement("td")
-                .classList.add("delete-btn").innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки // создаем элемент td и добавляем классы к кнопкам удаления с названием нажатых кнопок 
+               
+            tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
+            td3Table.classList.add("td3Table").textContent = getFullTimeFunc(t.time) // создаем элемент td и добавляем классы к ячейкам с временем
+            td4Table.classList.add("delete-btn").innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки // создаем элемент td и добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
             let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
             day = d.getDate()
