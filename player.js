@@ -400,19 +400,22 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
+            let bSendApi = true
             document.querySelectorAll(".td3Table").forEach(function(i) {
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                     // в таблице уже есть голос с таким временем
                     if(!event.classList.contains(i.previousSibling.textContent)) {
-                        // имеющийся голос не равен - удаляем имеющийся - отправляем новый
+                        // изменение голоса - удаляем имеющийся - новый отправится далее
                         event.parentNode.remove()
                     } else {
-                        // та же кнопка - показать всплывающую подсказку "голос учтён" и выйти
-                        return;
+                        // та же кнопка
+                        bSendApi = false // отменяем отправку в апи
                     }
+                    return; // голос найден - прерываем цикл
                 }
             })
-            if(!timeGraphic.includes(timeVideoSeconds) 
+            if(bSendApi
+                || !timeGraphic.includes(timeVideoSeconds) 
                 || (arrBtn1[0] < 1
                 && arrBtn2[0] < 1
                 && arrBtn3[0] < 1)
