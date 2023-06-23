@@ -147,7 +147,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
-            timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+            timeGraphic.push(timeVideoSeconds) //добавляем время в массив
             timeGraphic.sort(function(a, b) { //сортируем по возрастанию
                 return a - b;
             });
@@ -155,13 +155,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-
-            for (let element of timeGraphic) {      
-                if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                    fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-                }
-            }
         }
+        
 
         if(btn == 'yes') {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
@@ -192,10 +187,9 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         })
 
         for (let element of timeGraphic) {      
-            if(!fullTimeGraphic.includes(getFullTimeFunc(element))) {
-                fullTimeGraphic[timeGraphic.indexOf(Math.floor(timeVideoSeconds))] = getFullTimeFunc(timeVideoSeconds) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            }
+            fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
+
         chart.update() //обновляем график        
     } else {
         alert(response);
@@ -413,9 +407,11 @@ $(document).ready( async function() {
                     }
                 }
             })
-            if(!timeGraphic.includes(timeVideoSeconds) || (arrBtn1[arrBtn1.indexOf(timeVideoSeconds)] < 1
-                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds)] < 1
-                && arrBtn2[arrBtn1.indexOf(timeVideoSeconds)] < 1)) {
+            if(!timeGraphic.includes(timeVideoSeconds) 
+                || (arrBtn1[0] < 1
+                && arrBtn2[0] < 1
+                && arrBtn3[0] < 1)
+                ) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
@@ -447,6 +443,12 @@ function getTimeSeconds(timeTableArr) { //функция перевода вре
         return +(timeTableArr[0]) + +(timeTableArr[1]) + +(timeTableArr[2])
     }
 }
+
+document.querySelector(".form__btn").addEventListener("click", function(event) {
+    if(window.location.href.includes(document.querySelector(".form__text").value)) {
+        event.preventDefault()
+    }
+})
 
 function btnForm() { //событие на нажатие кнопки Открыть
     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
@@ -508,18 +510,22 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-function onPlayerStateChange(event) {
-    timeForEdit(Math.floor(player.getCurrentTime()))
-  }
-
-function timeForEdit(time) {
-    if(!(time - 2 < 0)) {
-        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
-    } else {
-        document.querySelector(".buttons__input--left").value = "0:00"
+    function onPlayerStateChange(event) {
+        
+        timeForEdit(Math.floor(player.getCurrentTime()))
     }
-    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
-}
+
+
+// function onPlayerStateChange(event) {
+//     const seeked = player.media.seeking && [1, 2,].includes(event.data);
+  
+//     if (seeked) {
+//       // Unset seeking and fire seeked event
+//     //   player.media.seeking = false;
+//       utils.dispatchEvent.call(player, player.media, 'seeked');
+//     //   timeForEdit(Math.floor(player.getCurrentTime()))
+//     }
+// }
 
 function onPlayerReady(event) {
     event.target.playVideo();
@@ -535,6 +541,16 @@ function onPlayerReady(event) {
         }
     }, 100);
 }
+
+function timeForEdit(time) {
+    if(!(time - 2 < 0)) {
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
+    } else {
+        document.querySelector(".buttons__input--left").value = "0:00"
+    }
+    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
+}
+
 
 function stopVideo() {
     player.stopVideo();
