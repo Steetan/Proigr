@@ -392,13 +392,13 @@ $(document).ready( async function() {
                 }
             })
             if(bSendApi) {
-                if(event.textContent == "yes") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                if(event.classList.contains("yes")) { //если содержимое нажатой кнопки равна 1, 2 или 3
                     sendBtnEvent("Да", timeVideoSeconds)
                 }
-                if(event.textContent == "no") {
+                if(event.classList.contains("no")) {
                     sendBtnEvent("Нет", timeVideoSeconds)
                 }
-                if(event.textContent == "not") {
+                if(event.classList.contains("not")) {
                     sendBtnEvent("Неясно", timeVideoSeconds)
                 }
             }
