@@ -179,7 +179,9 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        document.querySelector(".delete-btn").onclick = () => onDelBtnEvent(dltBtnTable) //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+        document.querySelector(".delete-btn").onclick =  function() { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+            onDelBtnEvent(dltBtnTable)
+        }
 
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
@@ -291,7 +293,7 @@ async function getUserVotes() {
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
-            document.querySelector(".delete-btn").onclick = () => onDelBtnEvent(document.querySelector(".delete-btn")) //ищем все кнопки удаления и ставим на них прослушку
+            document.querySelector(".delete-btn").onclick = function() { onDelBtnEvent(document.querySelector(".delete-btn")) } //ищем все кнопки удаления и ставим на них прослушку
         }
         
     } else {
