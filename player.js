@@ -135,12 +135,9 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td2Table = document.createElement("td") // создаем элемент td
         td3Table = document.createElement("td") // создаем элемент td
         td4Table = document.createElement("td") // создаем элемент td
-        
         trTable.classList.add("trBlockTable") //добавляем классы к строкам
-        td3Table.classList.add("td3Table")
-            .textContent = getFullTimeFunc(timeVideoSeconds) //добавляем классы к ячейкам с временем //засовываем в 3 ячейку время на видео
-        td4Table.classList.add("delete-btn")
-            .innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //добавляем классы к кнопкам удаления с названием нажатых кнопок //в 4 кнопку засовываем тег картинки
+        td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
+        td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
         if(btn == "yes") {
@@ -152,6 +149,9 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         if(btn == "not") {
             td2Table.textContent = "Неясно"    
         }
+        // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
+        td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+        td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -179,7 +179,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        document.querySelector(".delete-btn").onclick =  function() { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+        dltBtnTable = document.querySelector(".delete-btn")//ищем кнопки удаления
+        dltBtnTable.onclick =  function() { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
             onDelBtnEvent(dltBtnTable)
         }
 
