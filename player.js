@@ -157,13 +157,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
         
 
-        if(btn == 'Да') {
+        if(btn == "Да") {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
         }
-        if (btn == 'Нет') {
+        if (btn == "Нет") {
             arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
         }
-        if (btn == 'Неясно') {
+        if (btn == "Неясно") {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
 
