@@ -273,17 +273,18 @@ async function getUserVotes() {
 
 
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
-            switch (t.button) {//засовываем во вторую ячейку наименование кнопки
-                case "yes":
-                    td2Table.textContent = "Да"
-                    break;
-                case "no":
-                    td2Table.textContent = "Нет"
-                    break;
-                case "not":
-                    td2Table.textContent = "Неясно"
-                    break;
-            }
+            // switch (t.button) {//засовываем во вторую ячейку наименование кнопки
+            //     case "yes":
+            //         td2Table.textContent = "Да"
+            //         break;
+            //     case "no":
+            //         td2Table.textContent = "Нет"
+            //         break;
+            //     case "not":
+            //         td2Table.textContent = "Неясно"
+            //         break;
+            // }
+            td2Table.textContent = t.button
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
