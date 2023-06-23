@@ -157,13 +157,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
         
 
-        if(btn == 'yes') {
+        if(btn == 'Да') {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
         }
-        if (btn == 'no') {
+        if (btn == 'Нет') {
             arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
         }
-        if (btn == 'not') {
+        if (btn == 'Неясно') {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
 
@@ -270,8 +270,20 @@ async function getUserVotes() {
             if(seconds < 10) {
                 seconds = "0" + seconds
             }
+
+
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
-            td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
+            switch (t.button) {//засовываем во вторую ячейку наименование кнопки
+                case "yes":
+                    td2Table.textContent = "Да"
+                    break;
+                case "no":
+                    td2Table.textContent = "Нет"
+                    break;
+                case "not":
+                    td2Table.textContent = "Неясно"
+                    break;
+            }
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
@@ -383,13 +395,13 @@ $(document).ready( async function() {
             })
             if(bSendApi) {
                 if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
-                    sendBtnEvent("yes", timeVideoSeconds)
+                    sendBtnEvent("Да", timeVideoSeconds)
                 }
                 if(event.textContent == "Нет") {
-                    sendBtnEvent("no", timeVideoSeconds)
+                    sendBtnEvent("Нет", timeVideoSeconds)
                 }
                 if(event.textContent == "Неясно") {
-                    sendBtnEvent("not", timeVideoSeconds)
+                    sendBtnEvent("Неясно", timeVideoSeconds)
                 }
             }
         })
@@ -439,11 +451,11 @@ function btnForm() { //событие на нажатие кнопки Откр�
 
 function remVote(elem) {
     let timeSeconds = getTimeSeconds(elem.textContent)
-    if(elem.previousSibling.textContent == "yes") { //если кнопка элемента имеет такой класс
+    if(elem.previousSibling.textContent == "Да") { //если кнопка элемента имеет такой класс
         arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-    } else if(elem.previousSibling.textContent == "no") {
+    } else if(elem.previousSibling.textContent == "Нет") {
         arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-    } else if(elem.previousSibling.textContent == "not") {
+    } else if(elem.previousSibling.textContent == "Неясно") {
         arrBtn3[timeGraphic.indexOf(timeSeconds)]--
     }
     if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
