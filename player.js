@@ -446,27 +446,19 @@ function remVote(elem) {
     } else if(elem.previousSibling.textContent == "not") {
         arrBtn3[timeGraphic.indexOf(timeSeconds)]--
     }
-    if(arrBtn1[timeGraphic.indexOf(
-            timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
-    && arrBtn2[timeGraphic.indexOf(
-            timeSeconds)] == 0 
-    && arrBtn3[timeGraphic.indexOf(
-            timeSeconds)] == 0) {
+    if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+    && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
+    && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
         arrBtn1.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
         arrBtn2.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1)
+                timeGraphic.indexOf(timeSeconds), 1)
         arrBtn3.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1)
+                timeGraphic.indexOf(timeSeconds), 1)
         fullTimeGraphic.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1) //удаляем точку времени
+                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
         timeGraphic.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1)
+                timeGraphic.indexOf(timeSeconds), 1)
     }
     elem.parentNode.remove()
 }
@@ -565,15 +557,19 @@ document.querySelector(".graphic-button").addEventListener("click", function() {
     getSumVotes()
 })
 
+function mapSchemeLink(btn, videoId) {
+    document.querySelector(btn).href = 
+    videoId + vidId + "&source=yt" 
+    + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
+    + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+}
+
 document.querySelector(".buttons__btn--map").addEventListener("click", function() {
-    document.querySelector(".buttons__btn--map").href = 
-        "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt" 
-        + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
-        + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+    mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
 })
 
 document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {
-    document.querySelector(".buttons__btn--scheme").href = `https://graph.blagoroda.org/?videoid=${vidId}&source=yt`
+    mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
 })
 
 function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
