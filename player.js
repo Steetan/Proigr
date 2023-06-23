@@ -154,8 +154,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-        }
-        
+        }  
 
         if(btn == "Да") {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
@@ -192,7 +191,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         chart.update() //обновляем график        
     } else {
         alert("sendbtn" + response);
-        alert("Ошибка: " + error.message);
     }   
 }
 
@@ -285,15 +283,16 @@ async function getUserVotes() {
             //         td2Table.textContent = "Неясно"
             //         break;
             // }
-            if(t.button == "yes") {
-                td2Table.textContent = "Да"
-            }
-            if(t.button == "no") {
-                td2Table.textContent = "Нет"
-            }
-            if(t.button == "not") {
-                td2Table.textContent = "Неясно"
-            }
+            console.log(t.button)
+            // if(t.button == "yes") {
+            //     td2Table.textContent = "Да"
+            // }
+            // if(t.button == "no") {
+            //     td2Table.textContent = "Нет"
+            // }
+            // if(t.button == "not") {
+            //     td2Table.textContent = "Неясно"
+            // }
             // td2Table.textContent = t.button
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
