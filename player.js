@@ -445,7 +445,7 @@ $(document).ready( async function() {
                     // в таблице уже есть голос с таким временем
                     if(!event.classList.contains(i.previousSibling.textContent)) {
                         // изменение голоса - удаляем имеющийся - новый отправится далее
-                        i.parentNode.remove()
+                        remVote(i)
                     } else {
                         // та же кнопка
                         bSendApi = false // отменяем отправку в апи
