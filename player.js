@@ -140,6 +140,15 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+        if(btn == "yes") {
+            td2Table.textContent == "Да"    
+        }
+        if(btn == "no") {
+            td2Table.textContent == "Нет"    
+        }
+        if(btn == "not") {
+            td2Table.textContent == "Неясно"    
+        }
         td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
@@ -156,13 +165,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
         }  
 
-        if(btn == "Да") {
+        if(btn == "yes") {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
         }
-        if (btn == "Нет") {
+        if (btn == "no") {
             arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
         }
-        if (btn == "Неясно") {
+        if (btn == "not") {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
 
@@ -391,16 +400,15 @@ $(document).ready( async function() {
                     return; // голос найден - прерываем цикл
                 }
             })
-            
             if(bSendApi) {
-                if(event.classList.contains("yes")) { //если содержимое нажатой кнопки равна 1, 2 или 3
-                    sendBtnEvent("Да", timeVideoSeconds)
+                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                    sendBtnEvent("yes", timeVideoSeconds)
                 }
-                if(event.classList.contains("no")) {
-                    sendBtnEvent("Нет", timeVideoSeconds)
+                if(event.textContent == "Нет") {
+                    sendBtnEvent("no", timeVideoSeconds)
                 }
-                if(event.classList.contains("not")) {
-                    sendBtnEvent("Неясно", timeVideoSeconds)
+                if(event.textContent == "Неясно") {
+                    sendBtnEvent("not", timeVideoSeconds)
                 }
             }
         })
