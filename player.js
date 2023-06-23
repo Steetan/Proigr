@@ -296,9 +296,7 @@ async function getUserVotes() {
             trTable.append(tdTable, td2Table, td3Table, td4Table)
         }
         
-        document.querySelectorAll(".delete-btn").forEach(function(e) { 
-            e.onclick = function() { onDelBtnEvent(e) } //ищем все кнопки удаления и ставим на них прослушку
-        });
+        document.querySelector(".delete-btn").onclick = function() { onDelBtnEvent(document.querySelector(".delete-btn")) } //ищем все кнопки удаления и ставим на них прослушку
     } else {
         alert("getuservotes" + response);
     }
