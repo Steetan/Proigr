@@ -92,7 +92,7 @@ document.getElementById("graphic").onclick = function(event) {
         
         timeForEdit(getTimeSeconds(labelAll))
     }
-  }
+}
 
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data) return;
@@ -192,7 +192,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         chart.update() //обновляем график        
     } else {
-        alert(response);
+        alert("sendbtn" + response);
     }   
 }
 
@@ -246,7 +246,7 @@ async function onDelBtnEvent(event) {
         event.parentNode.remove()
         chart.update()
     } else {
-        alert(response);
+        alert("delbtn" + response);
     }
 }
 
@@ -316,7 +316,7 @@ async function getUserVotes() {
             e.onclick = function() { onDelBtnEvent(e) }
         });
     } else {
-        alert(response);
+        alert("getuservotes" + response);
     }
 }
 
@@ -369,7 +369,7 @@ async function getSumVotes() {
             } 
         }   
     } else {
-        alert(response);
+        alert("getsumvotes" + response);
     }
 }
 
