@@ -219,7 +219,7 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
-        remVote(event.previousSibling)
+        remVote(event.previousSibling.textContent)
         chart.update()
     } else {
         alert("delbtn" + response);
