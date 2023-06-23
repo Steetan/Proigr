@@ -179,10 +179,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        dltBtnTable = document.querySelector(".delete-btn")//ищем кнопки удаления
-        dltBtnTable.onclick =  function() { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
-            onDelBtnEvent(dltBtnTable)
-        }
+        document.querySelector(".delete-btn").onclick =  function() { onDelBtnEvent(dltBtnTable) } //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
 
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
@@ -464,16 +461,11 @@ function remVote(elem) {
     if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
     && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
     && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
-        arrBtn1.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-        arrBtn2.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        arrBtn3.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        fullTimeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
-        timeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn1.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+        arrBtn2.splice(timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn3.splice(timeGraphic.indexOf(timeSeconds), 1)
+        fullTimeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
+        timeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1)
     }
     elem.parentNode.remove()
 }
