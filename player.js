@@ -149,7 +149,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         if(btn == "not") {
             td2Table.textContent == "Неясно"    
         }
-        td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
+        // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
