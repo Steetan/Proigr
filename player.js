@@ -219,7 +219,7 @@ async function onDelBtnEvent(event) {
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
-        remVote(event.previousSibling.textContent)
+        remVote(event.previousSibling)
         chart.update()
     } else {
         alert("delbtn" + response);
@@ -283,12 +283,15 @@ async function getUserVotes() {
             switch (t.button) {//засовываем во вторую ячейку наименование кнопки
                 case "yes":
                     td2Table.textContent = "Да"
+                    td2Table.classList.add("yes")
                     break;
                 case "no":
                     td2Table.textContent = "Нет"
+                    td2Table.classList.add("no")
                     break;
                 case "not":
                     td2Table.textContent = "Неясно"
+                    td2Table.classList.add("not")
                     break;
             }
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
@@ -501,7 +504,6 @@ function clearURL(urlStr) {
             vidTime = urlStr.substring(urlStr.indexOf("&t=")).replace("&t=", "").replace("s", "")//получаем секунды остановленного времени видео
         }
 
-        console.log(vidTime)
         vidId = urlStr //заполняем ид видео
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
