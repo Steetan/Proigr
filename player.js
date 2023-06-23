@@ -141,13 +141,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
         if(btn == "yes") {
-            td2Table.textContent == "Да"    
+            td2Table.textContent = "Да"    
         }
         if(btn == "no") {
-            td2Table.textContent == "Нет"    
+            td2Table.textContent = "Нет"    
         }
         if(btn == "not") {
-            td2Table.textContent == "Неясно"    
+            td2Table.textContent = "Неясно"    
         }
         // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
