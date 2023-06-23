@@ -140,7 +140,16 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
-        td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
+        if(btn == "yes") {
+            td2Table.textContent = "Да"    
+        }
+        if(btn == "no") {
+            td2Table.textContent = "Нет"    
+        }
+        if(btn == "not") {
+            td2Table.textContent = "Неясно"    
+        }
+        // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
         td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
         td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
@@ -154,16 +163,15 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
             arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-        }
-        
+        }  
 
-        if(btn == 'yes') {
+        if(btn == "yes") {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
         }
-        if (btn == 'no') {
+        if (btn == "no") {
             arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
         }
-        if (btn == 'not') {
+        if (btn == "not") {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
 
@@ -270,8 +278,22 @@ async function getUserVotes() {
             if(seconds < 10) {
                 seconds = "0" + seconds
             }
+
             tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
-            td2Table.textContent = t.button //засовываем во вторую ячейку наименование кнопки
+            switch (t.button) {//засовываем во вторую ячейку наименование кнопки
+                case "yes":
+                    td2Table.textContent = "Да"
+                    td2Table.classList.add("yes")
+                    break;
+                case "no":
+                    td2Table.textContent = "Нет"
+                    td2Table.classList.add("no")
+                    break;
+                case "not":
+                    td2Table.textContent = "Неясно"
+                    td2Table.classList.add("not")
+                    break;
+            }
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
@@ -439,34 +461,26 @@ function btnForm() { //событие на нажатие кнопки Откр�
 
 function remVote(elem) {
     let timeSeconds = getTimeSeconds(elem.textContent)
-    if(elem.previousSibling.textContent == "yes") { //если кнопка элемента имеет такой класс
+    if(elem.previousSibling.textContent == "Да") { //если кнопка элемента имеет такой класс
         arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-    } else if(elem.previousSibling.textContent == "no") {
+    } else if(elem.previousSibling.textContent == "Нет") {
         arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-    } else if(elem.previousSibling.textContent == "not") {
+    } else if(elem.previousSibling.textContent == "Неясно") {
         arrBtn3[timeGraphic.indexOf(timeSeconds)]--
     }
-    if(arrBtn1[timeGraphic.indexOf(
-            timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
-    && arrBtn2[timeGraphic.indexOf(
-            timeSeconds)] == 0 
-    && arrBtn3[timeGraphic.indexOf(
-            timeSeconds)] == 0) {
+    if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
+    && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
+    && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
         arrBtn1.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
         arrBtn2.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1)
+                timeGraphic.indexOf(timeSeconds), 1)
         arrBtn3.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1)
+                timeGraphic.indexOf(timeSeconds), 1)
         fullTimeGraphic.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1) //удаляем точку времени
+                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
         timeGraphic.splice(
-                timeGraphic.indexOf(
-                    timeSeconds), 1)
+                timeGraphic.indexOf(timeSeconds), 1)
     }
     elem.parentNode.remove()
 }
@@ -490,7 +504,6 @@ function clearURL(urlStr) {
             vidTime = urlStr.substring(urlStr.indexOf("&t=")).replace("&t=", "").replace("s", "")//получаем секунды остановленного времени видео
         }
 
-        console.log(vidTime)
         vidId = urlStr //заполняем ид видео
             .split(split) //обрезаем урл
             .pop() //удаляем ненужный последний элемент
@@ -565,15 +578,19 @@ document.querySelector(".graphic-button").addEventListener("click", function() {
     getSumVotes()
 })
 
+function mapSchemeLink(btn, videoId) {
+    document.querySelector(btn).href = 
+    videoId + vidId + "&source=yt" 
+    + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
+    + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+}
+
 document.querySelector(".buttons__btn--map").addEventListener("click", function() {
-    document.querySelector(".buttons__btn--map").href = 
-        "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt" 
-        + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
-        + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+    mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
 })
 
 document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {
-    document.querySelector(".buttons__btn--scheme").href = `https://graph.blagoroda.org/?videoid=${vidId}&source=yt`
+    mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
 })
 
 function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
