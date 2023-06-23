@@ -192,6 +192,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         chart.update() //обновляем график        
     } else {
         alert("sendbtn" + response);
+        alert("Ошибка: " + error.message);
     }   
 }
 
