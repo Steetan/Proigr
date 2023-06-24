@@ -375,8 +375,6 @@ $(document).ready( async function() {
     
     document.querySelectorAll(".btn").forEach(function(event) {  // ищем все кнопки и ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
-            // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
-            // if (button exists in table) return;
             let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
                 0.0 //если нельзя, то ставим ноль
                 :   
@@ -397,7 +395,7 @@ $(document).ready( async function() {
                 }
             })
             if(bSendApi) {
-                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                if(event.textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
                 if(event.textContent == "Нет") {
