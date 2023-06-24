@@ -294,6 +294,7 @@ async function getUserVotes() {
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
+            // todo обработчик нажатия на время в видео
         }
         
     } else {
