@@ -108,6 +108,17 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {
         // todo manage doubleclick
+
+        // удаляем строку с имеющимся голосом в это же время
+        document.querySelectorAll(".td3Table").forEach(function(i) {
+            if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
+                // в таблице уже есть голос с таким временем
+                // изменение голоса - удаляем имеющийся - новый отправится далее
+                remVote(i)
+                return; // голос найден - прерываем цикл
+            }
+        })
+
         let date = new Date()  //получаем дату
         let day = date.getDate() //получаем день
         let month = date.getMonth() //получаем месяц
@@ -377,14 +388,6 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            document.querySelectorAll(".td3Table").forEach(function(i) {
-                if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
-                    // в таблице уже есть голос с таким временем
-                    // изменение голоса - удаляем имеющийся - новый отправится далее
-                    remVote(i)
-                    return; // голос найден - прерываем цикл
-                }
-            })
             if(event.textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
                 sendBtnEvent("yes", timeVideoSeconds)
             }
