@@ -567,7 +567,7 @@ document.addEventListener("click", function(event) {
         mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
-        mapSchemeLink(".buttons__btn--scheme", "https://map.blagoroda.org/?videoid=")
+        mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
     }
 })
 
