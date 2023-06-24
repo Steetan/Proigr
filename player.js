@@ -119,7 +119,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 // изменение голоса - удаляем имеющийся - новый отправится далее
                 remVote(i)
                 // todo remove chart update
-                chart.update() //обновляем график        
+//                chart.update() //обновляем график        
 
                 return; // голос найден - прерываем цикл
             }
