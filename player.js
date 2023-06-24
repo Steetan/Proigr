@@ -182,13 +182,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td3Table.onclick = function() { player.seekTo(getTimeSeconds(this.textContent)) } //ставим обработчик на время в видео        
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
-/*        //todo убрать цикл
-        tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
-        tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
-            event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-            })
-        })
-*/
         //todo убрать цикл
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
@@ -293,8 +286,8 @@ async function getUserVotes() {
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
+            td3Table.onclick = function() { player.seekTo(getTimeSeconds(this.textContent)) } //ставим обработчик на время в видео        
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
-            // todo обработчик нажатия на время в видео
         }
         
     } else {
