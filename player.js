@@ -172,13 +172,17 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             timeGraphic.sort(function(a, b) { //сортируем по возрастанию
                 return a - b;
             });
+            fullTimeGraphic.splice(
+                timeGraphic.indexOf(timeVideoSeconds), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+
+/*        
+            fullTimeGraphic.push(timeGraphic.indexOf(timeVideoSeconds))
             fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) // помещаем нормальное время в индекс под которым находится тоже самое время в секундах
-    /*        
             //todo убрать цикл
             for (let element of timeGraphic) {      
                 fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
             }
-    */
+*/
 
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
