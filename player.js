@@ -106,6 +106,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {
+        // todo manage doubleclick
         let date = new Date()  //получаем дату
         let day = date.getDate() //получаем день
         let month = date.getMonth() //получаем месяц
@@ -434,6 +435,7 @@ function btnForm() { //событие на нажатие кнопки Откр�
         window.location.reload();
     } else {
         if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
+            // todo remove console.log and alerts
             console.log('hash')
             window.location.hash = inUrl
         } else {
