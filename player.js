@@ -536,6 +536,7 @@ function onPlayerStateChange(event) {
 
 // todo avoid setinterval
 function onPlayerReady(event) {
+    /*
     event.target.playVideo();
     setInterval(() => {
         if(player.getPlayerState() == 1) {
@@ -548,6 +549,7 @@ function onPlayerReady(event) {
             }, 500);
         }
     }, 100);
+    */
 }
 
 function timeForEdit(time) {
