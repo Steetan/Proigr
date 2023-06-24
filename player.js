@@ -179,16 +179,16 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
+        td3Table.onclick = function() { player.seekTo(getTimeSeconds(this.textContent)) } //ставим обработчик на время в видео        
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
-        //todo убрать цикл
+/*        //todo убрать цикл
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
             event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
-                player.seekTo(getTimeSeconds(event.textContent)); // перематываем видео на полученные секунды
             })
         })
-
+*/
         //todo убрать цикл
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
