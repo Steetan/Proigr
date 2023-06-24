@@ -539,11 +539,11 @@ function onPlayerReady(event) {
 
 function timeForEdit(time) {
     if(!(time - 2 < 0)) {
-        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 1)
     } else {
         document.querySelector(".buttons__input--left").value = "0:00"
     }
-    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
+    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 1)
 }
 
 
@@ -567,7 +567,7 @@ document.addEventListener("click", function(event) {
         mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
-        mapSchemeLink(".buttons__btn--scheme", "https://map.blagoroda.org/?videoid=")
+        mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
     }
 })
 
