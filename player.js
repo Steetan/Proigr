@@ -179,8 +179,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления        
-//        document.querySelector(".delete-btn").onclick =  function() { onDelBtnEvent(dltBtnTable) }//Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+        td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
         //todo убрать цикл
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
