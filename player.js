@@ -179,10 +179,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        dltBtnTable = document.querySelector(".delete-btn")//ищем кнопки удаления
-        dltBtnTable.onclick =  function() { //Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
-            onDelBtnEvent(dltBtnTable)
-        }
+        document.querySelector(".delete-btn").onclick =  function() { onDelBtnEvent(dltBtnTable) }//Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
 
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
@@ -521,22 +518,9 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-    function onPlayerStateChange(event) {
-        
-        timeForEdit(Math.floor(player.getCurrentTime()))
-    }
-
-
-// function onPlayerStateChange(event) {
-//     const seeked = player.media.seeking && [1, 2,].includes(event.data);
-  
-//     if (seeked) {
-//       // Unset seeking and fire seeked event
-//     //   player.media.seeking = false;
-//       utils.dispatchEvent.call(player, player.media, 'seeked');
-//     //   timeForEdit(Math.floor(player.getCurrentTime()))
-//     }
-// }
+function onPlayerStateChange(event) {
+    timeForEdit(Math.floor(player.getCurrentTime()))
+}
 
 function onPlayerReady(event) {
     event.target.playVideo();
@@ -578,12 +562,13 @@ function mapSchemeLink(btn, videoId) {
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
 }
 
-document.querySelector(".buttons__btn--map").addEventListener("click", function() {
-    mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
-})
-
-document.querySelector(".buttons__btn--scheme").addEventListener("click", function() {
-    mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
+document.addEventListener("click", function(event) {
+    if(event.target.closest(".buttons__btn--map")) {
+        mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
+    }
+    if(event.target.closest(".buttons__btn--scheme")) {
+        mapSchemeLink(".buttons__btn--scheme", "https://map.blagoroda.org/?videoid=")
+    }
 })
 
 function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
@@ -616,13 +601,14 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
     }
 }
 
-document.querySelector(".btn-popup").addEventListener("click", function() {
-    window.scrollTo({top: 0, behavior: 'instant'});
-    document.querySelector(".popup").classList.add("popup--active") 
-    document.body.style.overflow = "hidden"
-})
-
-document.querySelector(".popup-close").addEventListener("click", function() {
-    document.querySelector(".popup").classList.remove("popup--active")
-    document.body.style.overflow = "auto"
+document.addEventListener("click", function(event) {
+    if(event.target.closest(".btn-popup")) {
+        window.scrollTo({top: 0, behavior: 'instant'});
+        document.querySelector(".popup").classList.add("popup--active") 
+        document.body.style.overflow = "hidden"
+    }
+    if(event.target.closest(".popup-close")) {
+        document.querySelector(".popup").classList.remove("popup--active")
+        document.body.style.overflow = "auto"
+    }
 })
