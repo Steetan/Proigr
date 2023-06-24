@@ -542,7 +542,7 @@ function onPlayerReady(event) {
 }
 
 function timeForEdit(time) {
-    if(!(time - 2 < 0)) {
+    if(!(time - 1 < 0)) {
         document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 1)
     } else {
         document.querySelector(".buttons__input--left").value = "0:00"
