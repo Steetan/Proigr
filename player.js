@@ -83,6 +83,7 @@ var chart = new Chart(document.getElementById("graphic"), {
     }
 });
 
+// todo check graphic clicks
 document.getElementById("graphic").onclick = function(event) {
     let points = chart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
     if (points.length > 0) {
@@ -160,6 +161,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             timeGraphic.sort(function(a, b) { //сортируем по возрастанию
                 return a - b;
             });
+            fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) // помещаем нормальное время в индекс под которым находится тоже самое время в секундах
+    /*        
+            //todo убрать цикл
+            for (let element of timeGraphic) {      
+                fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+            }
+    */
 
             arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
             arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
@@ -182,11 +190,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         td3Table.onclick = function() { player.seekTo(getTimeSeconds(this.textContent)) } //ставим обработчик на время в видео        
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
-
-        //todo убрать цикл
-        for (let element of timeGraphic) {      
-            fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-        }
 
         chart.update() //обновляем график        
     } else {
@@ -374,30 +377,22 @@ $(document).ready( async function() {
                 :   
                 Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-            let bSendApi = true
             document.querySelectorAll(".td3Table").forEach(function(i) {
                 if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                     // в таблице уже есть голос с таким временем
-                    if(!event.classList.contains(i.previousSibling.textContent)) {
-                        // изменение голоса - удаляем имеющийся - новый отправится далее
-                        remVote(i)
-                    } else {
-                        // та же кнопка
-                        bSendApi = false // отменяем отправку в апи
-                    }
+                    // изменение голоса - удаляем имеющийся - новый отправится далее
+                    remVote(i)
                     return; // голос найден - прерываем цикл
                 }
             })
-            if(bSendApi) {
-                if(event.textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
-                    sendBtnEvent("yes", timeVideoSeconds)
-                }
-                if(event.textContent == "Нет") {
-                    sendBtnEvent("no", timeVideoSeconds)
-                }
-                if(event.textContent == "Неясно") {
-                    sendBtnEvent("not", timeVideoSeconds)
-                }
+            if(event.textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
+                sendBtnEvent("yes", timeVideoSeconds)
+            }
+            if(event.textContent == "Нет") {
+                sendBtnEvent("no", timeVideoSeconds)
+            }
+            if(event.textContent == "Неясно") {
+                sendBtnEvent("not", timeVideoSeconds)
             }
         })
     })
