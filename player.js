@@ -94,8 +94,12 @@ document.getElementById("graphic").onclick = function(event) {
     }
 }
 
+let dblClick = false
 async function sendBtnEvent(btn, timeVideoSeconds) {
-    if(!auth_data) return;
+    if(!auth_data || dblClick) return;
+    dblClick = true
+    // todo manage doubleclick before async call
+
     const response = await api_request(api_url + api_btn_url, {
         method: 'POST',
         json: {
@@ -107,14 +111,16 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {
-        // todo manage doubleclick
-
-        // удаляем строку с имеющимся голосом в это же время
+        dblClick = false
+        // ищем и удаляем строку с имеющимся голосом в это же время
         document.querySelectorAll(".td3Table").forEach(function(i) {
             if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                 // в таблице уже есть голос с таким временем
                 // изменение голоса - удаляем имеющийся - новый отправится далее
                 remVote(i)
+                // todo remove chart update
+                chart.update() //обновляем график        
+
                 return; // голос найден - прерываем цикл
             }
         })
