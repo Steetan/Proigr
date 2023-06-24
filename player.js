@@ -179,8 +179,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        document.querySelector(".delete-btn").onclick =  function() { onDelBtnEvent(dltBtnTable) }//Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+        td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления        
+//        document.querySelector(".delete-btn").onclick =  function() { onDelBtnEvent(dltBtnTable) }//Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
 
+        //todo убрать цикл
         tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
         tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
             event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
@@ -188,6 +190,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             })
         })
 
+        //todo убрать цикл
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
@@ -291,8 +294,7 @@ async function getUserVotes() {
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
-            td4Table.onclick = function() { onDelBtnEvent(this) } //ищем все кнопки удаления и ставим на них прослушку
-//            document.querySelector(".delete-btn").onclick = function() { onDelBtnEvent(document.querySelector(".delete-btn")) } //ищем все кнопки удаления и ставим на них прослушку
+            td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
         }
         
     } else {
