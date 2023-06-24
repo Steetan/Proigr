@@ -534,6 +534,7 @@ function onPlayerStateChange(event) {
     timeForEdit(Math.floor(player.getCurrentTime()))
 }
 
+// todo avoid setinterval
 function onPlayerReady(event) {
     event.target.playVideo();
     setInterval(() => {
