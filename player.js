@@ -391,73 +391,41 @@ $(document).ready( async function() {
         }
     }
     
-    // document.querySelectorAll(".btn").forEach(function(event) {  // ищем все кнопки и ставим на все кнопки прослушки
-    //     event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
-    //         let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
-    //             0.0 //если нельзя, то ставим ноль
-    //             :   
-    //             Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
+    document.querySelectorAll(".btn").forEach(function(event) {  // ищем все кнопки и ставим на все кнопки прослушки
+        event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
+            let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
+                0.0 //если нельзя, то ставим ноль
+                :   
+                Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
-    //         let bSendApi = true
-    //         document.querySelectorAll(".td3Table").forEach(function(i) {
-    //             if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
-    //                 // в таблице уже есть голос с таким временем
-    //                 if(!event.classList.contains(i.previousSibling.textContent)) {
-    //                     // изменение голоса - удаляем имеющийся - новый отправится далее
-    //                     remVote(i)
-    //                 } else {
-    //                     // та же кнопка
-    //                     bSendApi = false // отменяем отправку в апи
-    //                 }
-    //                 return; // голос найден - прерываем цикл
-    //             }
-    //         })
-    //         if(bSendApi) {
-    //             if(event.textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
-    //                 sendBtnEvent("yes", timeVideoSeconds)
-    //             }
-    //             if(event.textContent == "Нет") {
-    //                 sendBtnEvent("no", timeVideoSeconds)
-    //             }
-    //             if(event.textContent == "Неясно") {
-    //                 sendBtnEvent("not", timeVideoSeconds)
-    //             }
-    //         }
-    //     })
-    // })
-
-    document.querySelector(".btn").onclick = function() { // если мы нажали на эту кнопку то..
-        let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
-            0.0 //если нельзя, то ставим ноль
-            :   
-            Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
-
-        let bSendApi = true
-        document.querySelectorAll(".td3Table").forEach(function(i) {
-            if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
-                // в таблице уже есть голос с таким временем
-                if(!document.querySelector(".btn").classList.contains(i.previousSibling.textContent)) {
-                    // изменение голоса - удаляем имеющийся - новый отправится далее
-                    remVote(i)
-                } else {
-                    // та же кнопка
-                    bSendApi = false // отменяем отправку в апи
+            let bSendApi = true
+            document.querySelectorAll(".td3Table").forEach(function(i) {
+                if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
+                    // в таблице уже есть голос с таким временем
+                    if(!event.classList.contains(i.previousSibling.textContent)) {
+                        // изменение голоса - удаляем имеющийся - новый отправится далее
+                        remVote(i)
+                    } else {
+                        // та же кнопка
+                        bSendApi = false // отменяем отправку в апи
+                    }
+                    return; // голос найден - прерываем цикл
                 }
-                return; // голос найден - прерываем цикл
+            })
+            if(bSendApi) {
+                if(event.textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
+                    sendBtnEvent("yes", timeVideoSeconds)
+                }
+                if(event.textContent == "Нет") {
+                    sendBtnEvent("no", timeVideoSeconds)
+                }
+                if(event.textContent == "Неясно") {
+                    sendBtnEvent("not", timeVideoSeconds)
+                }
             }
         })
-        if(bSendApi) {
-            if(document.querySelector(".btn").textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
-                sendBtnEvent("yes", timeVideoSeconds)
-            }
-            if(document.querySelector(".btn").textContent == "Нет") {
-                sendBtnEvent("no", timeVideoSeconds)
-            }
-            if(document.querySelector(".btn").textContent == "Неясно") {
-                sendBtnEvent("not", timeVideoSeconds)
-            }
-        }
-    }
+    })
+
     // получаем данные о суммах голосов
     await getSumVotes();
     await getUserVotes();
