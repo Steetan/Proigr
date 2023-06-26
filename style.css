@@ -193,7 +193,7 @@ td {
     border-right: none;
 }
 
-.rowHigh--active > td:not(.delete-btn-table) {
+.rowHigh--active > td:not(.delete-btn) {
     color: #fff;
     background-color: rgba(255, 255, 0, .8);
 }
