@@ -203,13 +203,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
 
         document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
-            if(getTimeSeconds(document.querySelector(".td3Table").textContent) <= Math.floor(player.getCurrentTime())) {
-                document.querySelector(".td3Table").classList.toggle("td3Table--right")
+            if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
+                this.classList.toggle("td3Table--right")
             }
-            if(getTimeSeconds(document.querySelector(".td3Table").textContent) > Math.floor(player.getCurrentTime())) {
-                document.querySelector(".td3Table").classList.toggle("td3Table--left")
+            if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
+                this.classList.toggle("td3Table--left")
             }
-            document.querySelector(".td3Table").classList.toggle("hover")
+            this.classList.toggle("hover")
         }
 
         //todo убрать цикл
@@ -326,13 +326,13 @@ async function getUserVotes() {
             }
 
             document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
-                if(getTimeSeconds(document.querySelector(".td3Table").textContent) <= Math.floor(player.getCurrentTime())) {
-                    document.querySelector(".td3Table").classList.toggle("td3Table--right")
+                if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
+                    this.classList.toggle("td3Table--right")
                 }
-                if(getTimeSeconds(document.querySelector(".td3Table").textContent) > Math.floor(player.getCurrentTime())) {
-                    document.querySelector(".td3Table").classList.toggle("td3Table--left")
+                if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
+                    this.classList.toggle("td3Table--left")
                 }
-                document.querySelector(".td3Table").classList.toggle("hover")
+                this.classList.toggle("hover")
             }
         }
     } else {
