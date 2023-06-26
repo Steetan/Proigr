@@ -230,7 +230,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 }
             }
             if(window.screen.width < 1024) {
-                document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
+                document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
                     if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                         this.classList.add("td3Table--right")
                     }
@@ -243,7 +243,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                     this.classList.add("hover")
                 }
     
-                document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
+                document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
                     if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                         this.classList.remove("td3Table--right")
                     }
@@ -398,7 +398,7 @@ async function getUserVotes() {
                 }
             } 
             if(window.screen.width < 1024) {
-                document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
+                document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
                     if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                         this.classList.add("td3Table--right")
                     }
@@ -410,7 +410,7 @@ async function getUserVotes() {
                     }
                     this.classList.add("hover")
                 }
-                document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
+                document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
                     if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                         this.classList.remove("td3Table--right")
                     }
