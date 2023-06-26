@@ -204,12 +204,12 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
             if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
-                this.classList.toggle("td3Table--right")
+                this.classList.add("td3Table--right")
             }
             if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                this.classList.toggle("td3Table--left")
+                this.classList.add("td3Table--left")
             }
-            this.classList.toggle("hover")
+            this.classList.add("hover")
         }
 
         //todo убрать цикл
@@ -327,12 +327,12 @@ async function getUserVotes() {
 
             document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
                 if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
-                    this.classList.toggle("td3Table--right")
+                    this.classList.add("td3Table--right")
                 }
                 if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                    this.classList.toggle("td3Table--left")
+                    this.classList.add("td3Table--left")
                 }
-                this.classList.toggle("hover")
+                this.classList.add("hover")
             }
         }
     } else {
