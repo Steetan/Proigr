@@ -143,10 +143,15 @@ td {
 
 .td3Table {
     position: relative;
+}
+
+.td3Table::before,
+.td3Table::after {
     transition: .1s linear;
 }
 
-.td3Table:hover::before {
+.td3Table::before {
+    opacity: 0;
     content: "";
     position: absolute;
     top: calc(50% - 10px);
@@ -158,7 +163,11 @@ td {
     background-size: cover;
 }
 
-.td3Table:hover::after {
+.td3Table:hover::before {
+    opacity: 1;
+}
+
+.td3Table::after {
     content: "";
     position: absolute;
     top: 0;
@@ -166,6 +175,10 @@ td {
     width: 100%;
     height: 100%;
     z-index: 1;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.td3Table:hover::after {
     background-color: rgba(255, 255, 255, .8);
 }
 
