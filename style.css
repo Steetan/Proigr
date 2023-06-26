@@ -363,7 +363,7 @@ td {
 
     .td3Table {
         cursor: pointer;
-        position: relative;
+        position: relative; 
     }
     
     .td3Table--left::before,
@@ -373,7 +373,8 @@ td {
     }
     
     .td3Table--left::before,
-    .td3Table--right::before {
+    .td3Table--right::before,
+    .td3Table--middle::before {
         opacity: 0;
         content: "";
         position: absolute;
@@ -384,6 +385,10 @@ td {
         z-index: 2;
         background: url("rew-icon.svg") center no-repeat;
         background-size: cover;
+    }
+
+    .td3Table--middle::before {
+        background: url("play-mini-fill.svg");
     }
 
     .td3Table--left::before {
