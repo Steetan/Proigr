@@ -326,6 +326,44 @@ td {
     margin-bottom: 20px;
 }
 
+.td3Table--left::before,
+.td3Table--right::before,
+.td3Table::after {
+    transition: .2s linear;
+}
+
+.td3Table--left::before,
+.td3Table--right::before,
+.td3Table--middle::before {
+    opacity: 0;
+    content: "";
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 15px);
+    width: 30px;
+    height: 20px;
+    z-index: 2;
+    background: url("rew-icon.svg") center no-repeat;
+    background-size: contain;
+}
+
+.td3Table--left::before,
+.td3Table--right::before {
+    top: calc(50% - 15px);
+    left: calc(50% - 20px);
+    width: 40px;
+    height: 30px;
+}
+
+.td3Table--middle::before {
+    background: url("play_0kai64uw14di.svg") center no-repeat;
+    background-size: contain;
+}
+
+.td3Table--left::before {
+    transform: scaleX(-1);
+}
+
 @media (min-width: 1024px) {
     .form__btn:hover,
     .buttons__btn:hover,
@@ -364,44 +402,6 @@ td {
     .td3Table {
         cursor: pointer;
         position: relative; 
-    }
-    
-    .td3Table--left::before,
-    .td3Table--right::before,
-    .td3Table::after {
-        transition: .2s linear;
-    }
-    
-    .td3Table--left::before,
-    .td3Table--right::before,
-    .td3Table--middle::before {
-        opacity: 0;
-        content: "";
-        position: absolute;
-        top: calc(50% - 10px);
-        left: calc(50% - 15px);
-        width: 30px;
-        height: 20px;
-        z-index: 2;
-        background: url("rew-icon.svg") center no-repeat;
-        background-size: contain;
-    }
-
-    .td3Table--left::before,
-    .td3Table--right::before {
-        top: calc(50% - 15px);
-        left: calc(50% - 20px);
-        width: 40px;
-        height: 30px;
-    }
-
-    .td3Table--middle::before {
-        background: url("play_0kai64uw14di.svg") center no-repeat;
-        background-size: contain;
-    }
-
-    .td3Table--left::before {
-        transform: scaleX(-1);
     }
     
     .td3Table--left.hover::before,
@@ -462,45 +462,7 @@ td {
     .td3Table {
         position: relative;
     }
-    
-    .td3Table--left::before,
-    .td3Table--right::before,
-    .td3Table::after {
-        transition: .2s linear;
-    }
-    
-    .td3Table--left::before,
-    .td3Table--right::before,
-    .td3Table--middle::before {
-        opacity: 0;
-        content: "";
-        position: absolute;
-        top: calc(50% - 10px);
-        left: calc(50% - 15px);
-        width: 30px;
-        height: 20px;
-        z-index: 2;
-        background: url("rew-icon.svg") center no-repeat;
-        background-size: contain;
-    }
 
-    .td3Table--left::before,
-    .td3Table--right::before {
-        top: calc(50% - 15px);
-        left: calc(50% - 20px);
-        width: 40px;
-        height: 30px;
-    }
-
-    .td3Table--middle::before {
-        background: url("play_0kai64uw14di.svg") center no-repeat;
-        background-size: contain;
-    }
-
-    .td3Table--left::before {
-        transform: scaleX(-1);
-    }
-    
     .td3Table--left:active::before,
     .td3Table--middle:active::before,
     .td3Table--right:active::before {
