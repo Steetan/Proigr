@@ -132,11 +132,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             seconds = "0" + seconds
         }
         
-        document.querySelectorAll("trBlockTable").forEach(function(event) {
-            if(event.classList.contains("rowHigh--active")) {
-                event.classList.remove("rowHigh--active")
-            }
-        })
+        if(trTable.classList.contains("rowHigh--active")) {
+            trTable.classList.remove("rowHigh--active")
+            clearTimeout(timeTrTable)
+        }
 
         trTable = document.createElement("tr") // создаем элемент tr
         tdTable = document.createElement("td") // создаем элемент td
@@ -183,7 +182,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
 
-        setTimeout(() => {
+        let timeTrTable = setTimeout(function() {
             trTable.classList.remove("rowHigh--active")
         }, 5000);
 
