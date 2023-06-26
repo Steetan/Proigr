@@ -463,12 +463,15 @@ td {
         position: relative;
     }
     
-    .td3Table::before,
+    .td3Table--left::before,
+    .td3Table--right::before,
     .td3Table::after {
-        transition: .1s linear;
+        transition: .2s linear;
     }
     
-    .td3Table::before {
+    .td3Table--left::before,
+    .td3Table--right::before,
+    .td3Table--middle::before {
         opacity: 0;
         content: "";
         position: absolute;
@@ -478,7 +481,30 @@ td {
         height: 20px;
         z-index: 2;
         background: url("rew-icon.svg") center no-repeat;
-        background-size: cover;
+        background-size: contain;
+    }
+
+    .td3Table--left::before,
+    .td3Table--right::before {
+        top: calc(50% - 15px);
+        left: calc(50% - 20px);
+        width: 40px;
+        height: 30px;
+    }
+
+    .td3Table--middle::before {
+        background: url("play_0kai64uw14di.svg") center no-repeat;
+        background-size: contain;
+    }
+
+    .td3Table--left::before {
+        transform: scaleX(-1);
+    }
+    
+    .td3Table--left:active::before,
+    .td3Table--middle:active::before,
+    .td3Table--right:active::before {
+        opacity: 1;
     }
     
     .td3Table:active::before {
