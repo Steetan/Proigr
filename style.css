@@ -18,6 +18,7 @@ button {
     margin-top: 20px;
     max-width: 640px;
     width: 100%;
+    width: 100%;
     border-radius: 10px;
 }
 
@@ -39,15 +40,26 @@ a {
     padding: 0 15px;
 }
 
+.player-block {
+    margin-right: -170px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
 .block-btns {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 20px;
 }
 
 .btn {
-    padding: 5px 30px;
+    padding: 10px 30px;
     background: none;
-    font-size: 24px;
+    font-size: 26px;
     cursor: pointer;
     border-radius: 10px;
     transition: .1s linear;
@@ -212,6 +224,7 @@ td {
 .form-title {
     text-transform: uppercase;
     font-size: 30px;
+    text-align: center;
     margin: 40px 0 25px;
 }
 
@@ -424,6 +437,24 @@ td {
     }
 }
 
+@media (max-width: 860px) {
+    .player-block {
+        flex-direction: column;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .block-btns {
+        flex-direction: row;
+    }
+
+    .btn {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 24px;
+    }
+}
+
 @media (max-width: 500px) {
     .form {
         flex-direction: column;
@@ -441,8 +472,21 @@ td {
         border-radius: 10px;
     }
     .buttons {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
+
+    .buttons__input--right {
+        grid-column-start: 2;
+        grid-column-end: 3;
+    }
+
+    .buttons__btn--scheme {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-end: 3;
+    }
+
     .popup-text {
         padding: 20px;
     }
@@ -453,7 +497,7 @@ td {
         gap: 10px;
     }
     .btn {
-        font-size: 18px;
+        font-size: 20px;
         padding: 5px 20px;
     }
 }

@@ -29,23 +29,24 @@
             <input onfocus="this.select()" class="form__text" type="text" placeholder="Введите ссылку на ютуб видео...">
             <button class="form__btn" onclick="btnForm()">Открыть</button>
         </form>
-        <div id="player"></div> <!-- Проигрыватель -->
-        <div id="slider"></div> <!-- Проигрыватель -->
-        <div class="block-btns">
-            <button class="btn btn--2 no">Нет</button>
-            <button class="btn btn--3 not">Неясно</button>
-            <button class="btn btn--1 yes">Да</button>
+        <div class="player-block">
+            <div id="player"></div> <!-- Проигрыватель -->
+            <div class="block-btns">
+                <button class="btn btn--2 no">Нет</button>
+                <button class="btn btn--3 not">Неясно</button>
+                <button class="btn btn--1 yes">Да</button>
+            </div>
         </div>
-        <div class="graphic-container">
-            <canvas id="graphic"></canvas>
-        </div>
-        <button class="graphic-button">Обновить график</button>
         <div class="buttons">
             <a href="#" class="buttons__btn buttons__btn--map" target="_blank">Карта</a>
             <input type="text" class="buttons__input buttons__input--left">
             <input type="text" class="buttons__input buttons__input--right">
             <a href="#" class="buttons__btn buttons__btn--scheme" target="_blank">Схема</a>
         </div>
+        <div class="graphic-container">
+            <canvas id="graphic"></canvas>
+        </div>
+        <button class="graphic-button">Обновить график</button>
         <table class="table">
             <tr>
                 <td>Дата и время</td>
