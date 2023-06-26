@@ -142,6 +142,10 @@ td {
     text-align: center;
 }
 
+tr {
+    position: relative;
+}
+
 tr::before {
     content: "";
     position: absolute;
