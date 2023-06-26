@@ -30,7 +30,7 @@ a {
 
 .container {
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 900px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -150,11 +150,13 @@ td {
 }
 
 #graphic {
-    height: 350px;
-    width: 100%;
+    /* width: 100%; */
+    width: 900px;
 }
 
 .graphic-container {
+    padding-bottom: 10px;
+    overflow-x: auto;
     width: 100%;
     height: 100%;
     margin-bottom: 20px;
@@ -490,7 +492,7 @@ td {
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
     .form {
         flex-direction: column;
         align-items: center;
