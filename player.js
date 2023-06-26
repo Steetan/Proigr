@@ -202,6 +202,16 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             });
         }
 
+        document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
+            if(getTimeSeconds(document.querySelector(".td3Table").textContent) <= Math.floor(player.getCurrentTime())) {
+                document.querySelector(".td3Table").classList.toggle("td3Table--right")
+            }
+            if(getTimeSeconds(document.querySelector(".td3Table").textContent) > Math.floor(player.getCurrentTime())) {
+                document.querySelector(".td3Table").classList.toggle("td3Table--left")
+            }
+            document.querySelector(".td3Table").classList.toggle("hover")
+        }
+
         //todo убрать цикл
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
