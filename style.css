@@ -371,7 +371,8 @@ td {
         transition: .1s linear;
     }
     
-    .td3Table::before {
+    .td3Table--left::before,
+    .td3Table--right::before {
         opacity: 0;
         content: "";
         position: absolute;
@@ -383,8 +384,13 @@ td {
         background: url("rew-icon.svg") center no-repeat;
         background-size: cover;
     }
+
+    .td3Table--left::before {
+        transform: scaleX(-1);
+    }
     
-    .td3Table:hover::before {
+    .td3Table--left.hover::before,
+    .td3Table--right.hover::before {
         opacity: 1;
     }
     
