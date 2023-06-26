@@ -202,7 +202,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             });
         }
 
-        window.addEventListener('resize', function(event) {
             if(window.screen.width >= 1024) {
                 document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
                     if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
@@ -257,8 +256,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                     this.classList.remove("hover")
                 }
             } 
-        }, true);
-
 
         //todo убрать цикл
         for (let element of timeGraphic) {      
@@ -373,62 +370,59 @@ async function getUserVotes() {
                 });
             }
 
-            window.addEventListener('resize', function(event) {
-                if(window.screen.width >= 1024) {
-                    console.log(window.screen.width)
-                    document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
-                        if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
-                            this.classList.add("td3Table--right")
-                        }
-                        if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
-                            this.classList.add("td3Table--middle")
-                        }
-                        if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                            this.classList.add("td3Table--left")
-                        }
-                        this.classList.add("hover")
+            if(window.screen.width >= 1024) {
+                console.log(window.screen.width)
+                document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
+                    if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
+                        this.classList.add("td3Table--right")
                     }
-                    document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
-                        if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
-                            this.classList.remove("td3Table--right")
-                        }
-                        if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
-                            this.classList.remove("td3Table--middle")
-                        }
-                        if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                            this.classList.remove("td3Table--left")
-                        }
-                        this.classList.remove("hover")
+                    if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
+                        this.classList.add("td3Table--middle")
                     }
-                } 
-
-                if(window.screen.width < 1024) {
-                    document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
-                        if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
-                            this.classList.add("td3Table--right")
-                        }
-                        if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
-                            this.classList.add("td3Table--middle")
-                        }
-                        if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                            this.classList.add("td3Table--left")
-                        }
-                        this.classList.add("hover")
+                    if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
+                        this.classList.add("td3Table--left")
                     }
-                    document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
-                        if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
-                            this.classList.remove("td3Table--right")
-                        }
-                        if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
-                            this.classList.remove("td3Table--middle")
-                        }
-                        if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                            this.classList.remove("td3Table--left")
-                        }
-                        this.classList.remove("hover")
+                    this.classList.add("hover")
+                }
+                document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
+                    if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
+                        this.classList.remove("td3Table--right")
                     }
-                } 
-            }, true);
+                    if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
+                        this.classList.remove("td3Table--middle")
+                    }
+                    if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
+                        this.classList.remove("td3Table--left")
+                    }
+                    this.classList.remove("hover")
+                }
+            } 
+            if(window.screen.width < 1024) {
+                document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
+                    if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
+                        this.classList.add("td3Table--right")
+                    }
+                    if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
+                        this.classList.add("td3Table--middle")
+                    }
+                    if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
+                        this.classList.add("td3Table--left")
+                    }
+                    this.classList.add("hover")
+                }
+                document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
+                    if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
+                        this.classList.remove("td3Table--right")
+                    }
+                    if(getTimeSeconds(this.textContent) == Math.floor(player.getCurrentTime())) {
+                        this.classList.remove("td3Table--middle")
+                    }
+                    if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
+                        this.classList.remove("td3Table--left")
+                    }
+                    this.classList.remove("hover")
+                }
+            } 
         }
     } else {
         alert("getuservotes" + response);
