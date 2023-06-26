@@ -374,7 +374,7 @@ td {
         width: 30px;
         height: 20px;
         z-index: 2;
-        background: url("rew-icon.png") center no-repeat;
+        background: url("rew-icon.svg") center no-repeat;
         background-size: cover;
     }
     
@@ -449,7 +449,7 @@ td {
         width: 30px;
         height: 20px;
         z-index: 2;
-        background: url("rew-icon.png") center no-repeat;
+        background: url("rew-icon.svg") center no-repeat;
         background-size: cover;
     }
     

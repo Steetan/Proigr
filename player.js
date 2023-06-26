@@ -482,7 +482,6 @@ function remVote(elem) {
     }
     elem.parentNode.remove()
 }
-
         
 function clearURL(urlStr) {
     if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
