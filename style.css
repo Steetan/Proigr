@@ -387,6 +387,14 @@ td {
         background-size: contain;
     }
 
+    .td3Table--left::before,
+    .td3Table--right::before {
+        top: calc(50% - 15px);
+        left: calc(50% - 20px);
+        width: 40px;
+        height: 30px;
+    }
+
     .td3Table--middle::before {
         background: url("play_0kai64uw14di.svg") center no-repeat;
         background-size: contain;
