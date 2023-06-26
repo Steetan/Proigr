@@ -142,20 +142,6 @@ td {
     text-align: center;
 }
 
-tr {
-    position: relative;
-}
-
-tr::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: .2s linear;
-}
-
 .table {
     border-collapse: collapse;
     margin: 20px 0;
@@ -207,7 +193,8 @@ tr::before {
     border-right: none;
 }
 
-.rowHigh--active::before {
+.rowHigh--active > td:not(.delete-btn-table) {
+    color: #fff;
     background-color: rgba(255, 255, 0, .8);
 }
 
