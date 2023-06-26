@@ -136,7 +136,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td2Table = document.createElement("td") // создаем элемент td
         td3Table = document.createElement("td") // создаем элемент td
         td4Table = document.createElement("td") // создаем элемент td
-        trTable.classList.add("trBlockTable") //добавляем классы к строкам
+        trTable.classList.add("trBlockTable rowHigh--active") //добавляем классы к строкам
         td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
 
@@ -175,6 +175,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         if (btn == "not") {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
+
+        setTimeout(() => {
+            trTable.classList.add("rowHigh--active")
+        }, 5000);
 
         const tableBody = document.querySelector("tbody") //ищем таблицу
         tableBody.prepend(trTable) //засовываем в html созданную строку
