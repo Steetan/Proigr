@@ -182,7 +182,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
         //todo убрать цикл
-        document.querySelectorAll(".td3Table").onclick = function() { // накладываем прослушку на строку
+        document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
             player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
         }
 
@@ -291,7 +291,7 @@ async function getUserVotes() {
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
-            document.querySelectorAll(".td3Table").onclick = function() { // накладываем прослушку на строку
+            document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
                 player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
             }
         }
