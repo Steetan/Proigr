@@ -54,6 +54,7 @@ var chart = new Chart(document.getElementById("graphic"), {
     },
     options: {
         maintainAspectRatio : false,
+        responsive: false,
         plugins: {
             title: {
                 display: true,
