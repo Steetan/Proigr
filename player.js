@@ -182,9 +182,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
         //todo убрать цикл
-        tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
-        tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
-            event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
+        document.querySelectorAll(".td3Table").forEach(function(event) { //находим все 3 ячейки строк
+            event.addEventListener("click", function() { // накладываем прослушку на строку
                 player.seekTo(getTimeSeconds(event.textContent)); // перематываем видео на полученные секунды
             })
         })
