@@ -184,6 +184,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         //todo убрать цикл
         document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
             player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
+            window.scrollTo({top: 0, behavior: 'instant'})
         }
 
         //todo убрать цикл
@@ -292,10 +293,10 @@ async function getUserVotes() {
             trTable.append(tdTable, td2Table, td3Table, td4Table)
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
             document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
-                player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
+                player.seekTo(getTimeSeconds(this.textContent)) // перематываем видео на полученные секунды
+                window.scrollTo({top: 0, behavior: 'instant'})
             }
         }
-        
     } else {
         alert("getuservotes" + response);
     }
@@ -546,7 +547,6 @@ function timeForEdit(time) {
     document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 1)
 }
 
-
 function stopVideo() {
     player.stopVideo();
 } 
@@ -603,7 +603,7 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
 
 document.addEventListener("click", function(event) {
     if(event.target.closest(".btn-popup")) {
-        window.scrollTo({top: 0, behavior: 'instant'});
+        window.scrollTo({top: 0, behavior: 'instant'})
         document.querySelector(".popup").classList.add("popup--active") 
         document.body.style.overflow = "hidden"
     }
