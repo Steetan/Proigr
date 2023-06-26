@@ -132,10 +132,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         if(seconds < 10) {
             seconds = "0" + seconds
         }
+        clearTimeout(timeTrTable)
         
         if(trTable.classList.contains("rowHigh--active")) {
             trTable.classList.remove("rowHigh--active")
-            clearTimeout(timeTrTable)
         }
 
         trTable = document.createElement("tr") // создаем элемент tr
