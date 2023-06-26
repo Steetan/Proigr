@@ -184,7 +184,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         //todo убрать цикл
         document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
             player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
-            window.scrollTo({top: 0, behavior: 'instant'})
+            window.scrollTo({top: 0, behavior: 'smooth'})
         }
 
         //todo убрать цикл
@@ -294,7 +294,7 @@ async function getUserVotes() {
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
             document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
                 player.seekTo(getTimeSeconds(this.textContent)) // перематываем видео на полученные секунды
-                window.scrollTo({top: 0, behavior: 'instant'})
+                window.scrollTo({top: 0, behavior: 'smooth'})
             }
         }
     } else {
