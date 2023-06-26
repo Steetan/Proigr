@@ -131,14 +131,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         if(seconds < 10) {
             seconds = "0" + seconds
         }
-
-        for (const i of trTable) {
-            if(i.classList.contains("rowHigh--active")) {
-                i.classList.remove("rowHigh--active")
-            }
-        }
-
         
+        document.querySelectorAll("trBlockTable").forEach(function(event) {
+            if(event.classList.contains("rowHigh--active")) {
+                event.classList.remove("rowHigh--active")
+            }
+        })
+
         trTable = document.createElement("tr") // создаем элемент tr
         tdTable = document.createElement("td") // создаем элемент td
         td2Table = document.createElement("td") // создаем элемент td
