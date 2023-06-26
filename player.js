@@ -179,14 +179,17 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
 
-        document.querySelector(".delete-btn").onclick =  function() { onDelBtnEvent(this) }//Здесь мы удаляем запись из таблицы, если мы нажали на кнопку удаления
+        td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
-        document.querySelectorAll(".td3Table").forEach(function(event) { //находим все 3 ячейки строк
-            event.addEventListener("click", function() { // накладываем прослушку на строку
+        //todo убрать цикл
+        tdBtnTable = document.querySelectorAll(".td3Table") //ищем ячейки
+        tdBtnTable.forEach(function(event) { //находим все 3 ячейки строк
+            event.parentElement.addEventListener("click", function() { // накладываем прослушку на строку
                 player.seekTo(getTimeSeconds(event.textContent)); // перематываем видео на полученные секунды
             })
         })
 
+        //todo убрать цикл
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
@@ -290,7 +293,7 @@ async function getUserVotes() {
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
-            document.querySelector(".delete-btn").onclick = function() { onDelBtnEvent(this) } //ищем все кнопки удаления и ставим на них прослушку
+            td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
         }
         
     } else {
@@ -371,8 +374,6 @@ $(document).ready( async function() {
     
     document.querySelectorAll(".btn").forEach(function(event) {  // ищем все кнопки и ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
-            // todo исключить вызов апи если нажата та же кнопка в тоже время у текущего юзера (если есть в таблице)
-            // if (button exists in table) return;
             let timeVideoSeconds = !player.getCurrentTime ? //проверяем, можно ли брать с видео время
                 0.0 //если нельзя, то ставим ноль
                 :   
@@ -393,7 +394,7 @@ $(document).ready( async function() {
                 }
             })
             if(bSendApi) {
-                if(event.textContent == "Да") { //если содержимое нажатой кнопки равна 1, 2 или 3
+                if(event.textContent == "Да") { //если содержимое нажатой кнопки равно да/нет/неясно
                     sendBtnEvent("yes", timeVideoSeconds)
                 }
                 if(event.textContent == "Нет") {
@@ -538,11 +539,11 @@ function onPlayerReady(event) {
 
 function timeForEdit(time) {
     if(!(time - 2 < 0)) {
-        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 2)
+        document.querySelector(".buttons__input--left").value = getFullTimeFunc(time - 1)
     } else {
         document.querySelector(".buttons__input--left").value = "0:00"
     }
-    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 2)
+    document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 1)
 }
 
 
