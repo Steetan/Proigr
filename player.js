@@ -131,6 +131,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         if(seconds < 10) {
             seconds = "0" + seconds
         }
+        
+        if(trTable.classList.contains("rowHigh--active")) {
+            trTable.classList.remove("rowHigh--active")
+        }
+        
         trTable = document.createElement("tr") // создаем элемент tr
         tdTable = document.createElement("td") // создаем элемент td
         td2Table = document.createElement("td") // создаем элемент td
@@ -139,7 +144,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         trTable.classList.add("trBlockTable", "rowHigh--active") //добавляем классы к строкам
         td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
         td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
-
+        
         tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
         if(btn == "yes") {
             td2Table.textContent = "Да"    
