@@ -396,6 +396,7 @@ td {
     }
     
     .td3Table--left.hover::before,
+    .td3Table--middle.hover::before,
     .td3Table--right.hover::before {
         opacity: 1;
     }
