@@ -185,7 +185,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
 
         timeTrTable = setTimeout(function() {
             trTable.classList.remove("rowHigh--active")
-        }, 5000);
+        }, 2000);
 
         const tableBody = document.querySelector("tbody") //ищем таблицу
         tableBody.prepend(trTable) //засовываем в html созданную строку
