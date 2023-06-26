@@ -141,6 +141,21 @@ td {
     overflow: hidden;
 }
 
+.td3Table {
+    position: relative;
+}
+
+.td3Table:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, .4);
+}
+
 #graphic {
     height: 100%;
     width: 100%;
