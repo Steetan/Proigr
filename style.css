@@ -388,7 +388,8 @@ td {
     }
 
     .td3Table--middle::before {
-        background: url("play_0kai64uw14di.svg");
+        background: url("play_0kai64uw14di.svg") center no-repeat;
+        background-size: cover;
     }
 
     .td3Table--left::before {
