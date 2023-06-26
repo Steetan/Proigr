@@ -155,9 +155,11 @@ td {
     position: absolute;
     top: calc(50% - 10px);
     left: calc(50% - 10px);
-    width: 20px;
+    width: 30px;
     height: 20px;
     z-index: 2;
+    background: url("rew-icon.png") center no-repeat;
+    background-size: cover;
 }
 
 .td3Table:hover::after {
