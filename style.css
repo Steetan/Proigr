@@ -529,7 +529,7 @@ td {
     }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 440px) {
     .block-btns {
         gap: 10px;
     }
@@ -537,4 +537,9 @@ td {
         font-size: 20px;
         padding: 5px 20px;
     }
+    td {
+        font-size: 16px;
+        padding: 5px;
+    }
+
 }
