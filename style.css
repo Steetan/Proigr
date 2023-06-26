@@ -140,6 +140,7 @@ td {
     padding: 7px;
     font-size: 18px;
     text-align: center;
+    transition: .2s linear;
 }
 
 .table {
@@ -195,7 +196,7 @@ td {
 
 .rowHigh--active > td:not(.delete-btn) {
     color: #fff;
-    background-color: rgba(255, 255, 0, .8);
+    background-color: rgba(206, 206, 0, 0.8);
 }
 
 .form__text:focus {
