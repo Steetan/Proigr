@@ -114,6 +114,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         let hours = date.getHours() //получаем часы
         let minutes = date.getMinutes() //получаем минуты
         let seconds = date.getSeconds() //получаем секунды
+        let timeTrTable
 
         //Добавляем нули к числам если они меньше 10
         if(day < 10) {
@@ -182,7 +183,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
 
-        let timeTrTable = setTimeout(function() {
+        timeTrTable = setTimeout(function() {
             trTable.classList.remove("rowHigh--active")
         }, 5000);
 
