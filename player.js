@@ -177,7 +177,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         } 
 
         setTimeout(() => {
-            trTable.classList.add("rowHigh--active")
+            trTable.classList.remove("rowHigh--active")
         }, 5000);
 
         const tableBody = document.querySelector("tbody") //ищем таблицу
