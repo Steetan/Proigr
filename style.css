@@ -384,12 +384,12 @@ td {
         height: 20px;
         z-index: 2;
         background: url("rew-icon.svg") center no-repeat;
-        background-size: cover;
+        background-size: contain;
     }
 
     .td3Table--middle::before {
         background: url("play_0kai64uw14di.svg") center no-repeat;
-        background-size: cover;
+        background-size: contain;
     }
 
     .td3Table--left::before {
