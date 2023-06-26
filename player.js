@@ -203,7 +203,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
 
         window.addEventListener('resize', function(event) {
-            if(this.window.innerWidth() >= 1024) {
+            if(window.screen.width >= 1024) {
                 document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
                     if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                         this.classList.add("td3Table--right")
@@ -230,7 +230,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                     this.classList.remove("hover")
                 }
             }
-            if(this.window.innerWidth() < 1024) {
+            if(window.screen.width < 1024) {
                 document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
                     if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                         this.classList.add("td3Table--right")
@@ -374,7 +374,7 @@ async function getUserVotes() {
             }
 
             window.addEventListener('resize', function(event) {
-                if(this.window.innerWidth() >= 1024) {
+                if(window.screen.width >= 1024) {
                     document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
                         if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                             this.classList.add("td3Table--right")
@@ -401,7 +401,7 @@ async function getUserVotes() {
                         this.classList.remove("hover")
                     }
                 } 
-                if(this.window.innerWidth() < 1024) {
+                if(window.screen.width < 1024) {
                     document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
                         if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                             this.classList.add("td3Table--right")
