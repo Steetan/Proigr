@@ -433,7 +433,7 @@ $(document).ready( async function() {
             Math.floor(player.getCurrentTime()) //если можно, то получаем время остановы в секундах
 
         let bSendApi = true
-        document.querySelector(".td3Table").forEach(function(i) {
+        document.querySelectorAll(".td3Table").forEach(function(i) {
             if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                 // в таблице уже есть голос с таким временем
                 if(!document.querySelector(".btn").classList.contains(i.previousSibling.textContent)) {
