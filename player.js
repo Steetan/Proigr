@@ -202,14 +202,14 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             });
         }
 
-        document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
+        document.querySelector(".td3Table").onmousemove = function() { // накладываем прослушку на строку {}
             if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
-                this.classList.add("td3Table--right")
+                this.classList.toggle("td3Table--right")
             }
             if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                this.classList.add("td3Table--left")
+                this.classList.toggle("td3Table--left")
             }
-            this.classList.add("hover")
+            this.classList.toggle("hover")
         }
 
         //todo убрать цикл
@@ -325,14 +325,14 @@ async function getUserVotes() {
                 });
             }
 
-            document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
+            document.querySelector(".td3Table").onmousemove = function() { // накладываем прослушку на строку {}
                 if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
-                    this.classList.add("td3Table--right")
+                    this.classList.toggle("td3Table--right")
                 }
                 if(getTimeSeconds(this.textContent) > Math.floor(player.getCurrentTime())) {
-                    this.classList.add("td3Table--left")
+                    this.classList.toggle("td3Table--left")
                 }
-                this.classList.add("hover")
+                this.classList.toggle("hover")
             }
         }
     } else {
