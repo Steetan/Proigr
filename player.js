@@ -58,14 +58,6 @@ var chart = new Chart(document.getElementById("graphic"), {
             title: {
                 display: true,
                 text: 'График нажатий кнопок по времени видео' //заголовок графика
-            },
-            zoom: {
-                pan: {
-                   enabled: true
-                },
-                zoom: {
-                   enabled: true
-                }
             }
         },
         scales: {
