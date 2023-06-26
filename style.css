@@ -370,7 +370,7 @@ td {
         content: "";
         position: absolute;
         top: calc(50% - 10px);
-        left: calc(50% - 10px);
+        left: calc(50% - 15px);
         width: 30px;
         height: 20px;
         z-index: 2;
@@ -445,7 +445,7 @@ td {
         content: "";
         position: absolute;
         top: calc(50% - 10px);
-        left: calc(50% - 10px);
+        left: calc(50% - 15px);
         width: 30px;
         height: 20px;
         z-index: 2;
