@@ -211,6 +211,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             }
             this.classList.add("hover")
         }
+        
         document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
             if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
                 this.classList.remove("td3Table--right")
@@ -343,7 +344,7 @@ async function getUserVotes() {
                 }
                 this.classList.add("hover")
             }
-            
+
             document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
                 if(getTimeSeconds(this.textContent) <= Math.floor(player.getCurrentTime())) {
                     this.classList.remove("td3Table--right")

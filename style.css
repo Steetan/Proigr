@@ -366,9 +366,10 @@ td {
         position: relative;
     }
     
-    .td3Table::before,
+    .td3Table--left::before,
+    .td3Table--right::before,
     .td3Table::after {
-        transition: .1s linear;
+        transition: .2s linear;
     }
     
     .td3Table--left::before,
