@@ -375,6 +375,7 @@ async function getUserVotes() {
 
             window.addEventListener('resize', function(event) {
                 if(window.screen.width >= 1024) {
+                    console.log(window.screen.width)
                     document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
                         if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                             this.classList.add("td3Table--right")
@@ -387,7 +388,6 @@ async function getUserVotes() {
                         }
                         this.classList.add("hover")
                     }
-        
                     document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
                         if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                             this.classList.remove("td3Table--right")
@@ -401,6 +401,7 @@ async function getUserVotes() {
                         this.classList.remove("hover")
                     }
                 } 
+
                 if(window.screen.width < 1024) {
                     document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
                         if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
@@ -414,7 +415,6 @@ async function getUserVotes() {
                         }
                         this.classList.add("hover")
                     }
-        
                     document.querySelector(".td3Table").click = function() { // накладываем прослушку на строку {}
                         if(getTimeSeconds(this.textContent) < Math.floor(player.getCurrentTime())) {
                             this.classList.remove("td3Table--right")
