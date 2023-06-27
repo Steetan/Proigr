@@ -23,12 +23,6 @@ var arrBtn1 = [0]
 var arrBtn2 = [0]
 var arrBtn3 = [0]
 
-// настройка проигрывателя
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
 // Настройка графика
 var chart = new Chart(document.getElementById("graphic"), { 
     type: 'line',
@@ -398,6 +392,12 @@ $(document).ready( async function() {
             window.location.href += "#" + vidUrl
         }
     }
+
+    // настройка проигрывателя
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     
     document.querySelectorAll(".btn").forEach(function(event) {  // ищем все кнопки и ставим на все кнопки прослушки
         event.addEventListener("click", function() { // если мы нажали на эту кнопку то..
