@@ -108,7 +108,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {
         let timeTrTable
-        createStrokTable("", btn, "rowHigh--active")
+        createStrokTable("", btn, "rowHigh--active", timeVideoSeconds)
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
             timeGraphic.push(timeVideoSeconds) //добавляем время в массив
@@ -227,7 +227,7 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            createStrokTable(t.update_timestamp * 1000, t.button, "")
+            createStrokTable(t.update_timestamp * 1000, t.button, "", t.time)
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
@@ -267,12 +267,12 @@ async function getUserVotes() {
     }
 }
 
-function createStrokTable(dateTime, btnName, classRowHigh) {
+function createStrokTable(dateTime, btnName, classRowHigh, timeForTd) {
     let date
     if(dateTime != "") {
         date = new Date(dateTime)  //получаем дату
     }
-    else if(dateTime == "") {
+    if(dateTime == "") {
         date = new Date()  //получаем дату
     }
     let day = date.getDate() //получаем день
@@ -324,7 +324,7 @@ function createStrokTable(dateTime, btnName, classRowHigh) {
             break;
     }
     // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
-    td3Table.textContent = getFullTimeFunc(dateTime) //засовываем в 3 ячейку время на видео
+    td3Table.textContent = getFullTimeFunc(timeForTd) //засовываем в 3 ячейку время на видео
     td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 }
 
