@@ -650,19 +650,32 @@ function onPlayerStateChange(event) {
     timeForEdit(Math.floor(player.getCurrentTime()))
 }
 
+// function onPlayerReady(event) {
+//     event.target.playVideo();
+//     setInterval(() => {
+//         if(player.getPlayerState() == 1) {
+//             timeForEdit(Math.floor(player.getCurrentTime()))
+//             if(player.getPlayerState() == 2) {
+//                 timeForEdit(Math.floor(player.getCurrentTime()))
+//                 clearInterval(intervalInput)
+//             }
+//             var intervalInput = setInterval(() => {
+//             }, 500);
+//         }
+//     }, 100);
+// }
+
 function onPlayerReady(event) {
     event.target.playVideo();
-    setInterval(() => {
-        if(player.getPlayerState() == 1) {
+    if(player.getPlayerState() == 1) {
+        timeForEdit(Math.floor(player.getCurrentTime()))
+        if(player.getPlayerState() == 2) {
             timeForEdit(Math.floor(player.getCurrentTime()))
-            if(player.getPlayerState() == 2) {
-                timeForEdit(Math.floor(player.getCurrentTime()))
-                clearInterval(intervalInput)
-            }
-            var intervalInput = setInterval(() => {
-            }, 500);
+            clearInterval(intervalInput)
         }
-    }, 100);
+        var intervalInput = setInterval(() => {
+        }, 500);
+    }
 }
 
 function timeForEdit(time) {
