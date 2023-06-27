@@ -519,8 +519,13 @@ function clearURL(urlStr) {
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')  
-             
+            .replace('?feature=share','')    
+
+        fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${vidId}&key=AIzaSyDFH5sy-cCqcSEp0BIl8DlW3fIfvMepYNU`)
+        .then(response => response.json())
+        .then(data => {
+            document.title = `КР-${data.items[0].snippet.title}`
+        });
     } 
 }
 
@@ -536,12 +541,6 @@ function onYouTubeIframeAPIReady() {
         }
     });
 }
-
-fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${vidId}&key=AIzaSyDFH5sy-cCqcSEp0BIl8DlW3fIfvMepYNU`)
-  .then(response => response.json())
-  .then(data => {
-    document.title = `КР-${data.items[0].snippet.title}`
-});
 
 function onPlayerStateChange() {
     timeForEdit(Math.floor(player.getCurrentTime()))
