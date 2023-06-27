@@ -520,10 +520,7 @@ function clearURL(urlStr) {
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
             .replace('?feature=share','')  
-            
-        $.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + vidId + "&key=" + "AIzaSyDFH5sy-cCqcSEp0BIl8DlW3fIfvMepYNU", function(data) {
-        console.log(data.items[0].snippet.title);
-});
+             
     } 
 }
 
@@ -539,6 +536,12 @@ function onYouTubeIframeAPIReady() {
         }
     });
 }
+
+fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${vidId}&key=AIzaSyDFH5sy-cCqcSEp0BIl8DlW3fIfvMepYNU`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data.items[0].snippet.title);
+});
 
 function onPlayerStateChange() {
     timeForEdit(Math.floor(player.getCurrentTime()))
