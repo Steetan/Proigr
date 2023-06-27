@@ -667,15 +667,14 @@ function onPlayerStateChange(event) {
 
 function onPlayerReady(event) {
     event.target.playVideo();
-    if(player.getPlayerState() == 1) {
-        timeForEdit(Math.floor(player.getCurrentTime()))
-        var intervalInput = setInterval(() => {
+    setInterval(() => {
+        if(player.getPlayerState() == 1) {
+            timeForEdit(Math.floor(player.getCurrentTime()))
             if(player.getPlayerState() == 2) {
                 timeForEdit(Math.floor(player.getCurrentTime()))
-                clearInterval(intervalInput)
             }
-        }, 500);
-    }
+        }
+    }, 100);
 }
 
 function timeForEdit(time) {
