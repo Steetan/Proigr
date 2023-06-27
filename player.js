@@ -108,7 +108,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {
         let timeTrTable
-        createStrokTable("", btn)
+        createStrokTable("", btn, "rowHigh--active")
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
             timeGraphic.push(timeVideoSeconds) //добавляем время в массив
@@ -227,7 +227,7 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            createStrokTable(t.update_timestamp * 1000, t.button)
+            createStrokTable(t.update_timestamp * 1000, t.button, "")
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
@@ -267,8 +267,13 @@ async function getUserVotes() {
     }
 }
 
-function createStrokTable(dateTime, btnName) {
-    let date = new Date(dateTime)  //получаем дату
+function createStrokTable(dateTime, btnName, classRowHigh) {
+    if(dateTime != "") {
+        let date = new Date(dateTime)  //получаем дату
+    }
+    else if(dateTime == "") {
+        let date = new Date()  //получаем дату
+    }
     let day = date.getDate() //получаем день
     let month = date.getMonth() //получаем месяц
     let year = date.getFullYear() //получаем год
@@ -298,7 +303,7 @@ function createStrokTable(dateTime, btnName) {
     td2Table = document.createElement("td") // создаем элемент td
     td3Table = document.createElement("td") // создаем элемент td
     td4Table = document.createElement("td") // создаем элемент td
-    trTable.classList.add("trBlockTable", "rowHigh--active") //добавляем классы к строкам
+    trTable.classList.add("trBlockTable", classRowHigh) //добавляем классы к строкам
     td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
     td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
     
