@@ -203,10 +203,13 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
 
         if(window.screen.width < 1024) {
-            document.querySelector(".td3Table").onmousedown = function() { // накладываем прослушку на строку {}
+            document.querySelector(".td3Table").ontouchstart = function() { // накладываем прослушку на строку {}
                 addClassTd(this)
             }
-        } 
+            document.querySelector(".td3Table").ontouchend = function() { // накладываем прослушку на строку {}
+                removeClassTd(this)
+            }
+        }
 
         if(window.screen.width >= 1024) {
             document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
@@ -325,15 +328,18 @@ async function getUserVotes() {
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
             document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
                 player.seekTo(getTimeSeconds(this.textContent)) // перематываем видео на полученные секунды
-                document.querySelector("#player").scrollIntoView({
+                document.querySelector("#player").scrollIntoView({ //скроллим до плеера
                     behavior: 'smooth',
                     block: 'center'
                 });
             }
 
             if(window.screen.width < 1024) {
-                document.querySelector(".td3Table").onmousedown = function() { // накладываем прослушку на строку {}
+                document.querySelector(".td3Table").ontouchstart = function() { // накладываем прослушку на строку {}
                     addClassTd(this)
+                }
+                document.querySelector(".td3Table").ontouchend = function() { // накладываем прослушку на строку {}
+                    removeClassTd(this)
                 }
             }
 
