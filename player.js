@@ -108,7 +108,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {
         let timeTrTable
-        createStrokTable("")
+        createStrokTable("", btn)
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
             timeGraphic.push(timeVideoSeconds) //добавляем время в массив
@@ -227,7 +227,7 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            createStrokTable(t.update_timestamp * 1000)
+            createStrokTable(t.update_timestamp * 1000, t.button)
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
@@ -267,8 +267,8 @@ async function getUserVotes() {
     }
 }
 
-function createStrokTable(elem) {
-    let date = new Date(elem)  //получаем дату
+function createStrokTable(dateTime, btnName) {
+    let date = new Date(dateTime)  //получаем дату
     let day = date.getDate() //получаем день
     let month = date.getMonth() //получаем месяц
     let year = date.getFullYear() //получаем год
@@ -303,7 +303,7 @@ function createStrokTable(elem) {
     td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
     
     tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
-    switch (t.button) {//засовываем во вторую ячейку наименование кнопки
+    switch (btnName) {//засовываем во вторую ячейку наименование кнопки
         case "yes":
             td2Table.textContent = "Да"
             break;
@@ -315,7 +315,7 @@ function createStrokTable(elem) {
             break;
     }
     // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
-    td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+    td3Table.textContent = getFullTimeFunc(dateTime) //засовываем в 3 ячейку время на видео
     td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 }
 
