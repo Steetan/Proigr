@@ -522,7 +522,7 @@ function clearURL(urlStr) {
             .replace('?feature=share','')  
             
         $.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + vidId + "&key=" + "AIzaSyDFH5sy-cCqcSEp0BIl8DlW3fIfvMepYNU", function(data) {
-        alert(data.items[0].snippet.title);
+        console.log(data.items[0].snippet.title);
 });
     } 
 }
