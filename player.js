@@ -107,60 +107,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {
-        let date = new Date()  //получаем дату
-        let day = date.getDate() //получаем день
-        let month = date.getMonth() //получаем месяц
-        let year = date.getFullYear() //получаем год
-        let hours = date.getHours() //получаем часы
-        let minutes = date.getMinutes() //получаем минуты
-        let seconds = date.getSeconds() //получаем секунды
         let timeTrTable
-
-        //Добавляем нули к числам если они меньше 10
-        if(day < 10) {
-            day = "0" + day
-        }
-        if(month < 10) {
-            month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
-        }
-        if(hours < 10) {
-            hours = "0" + hours
-        }
-        if(minutes < 10) {
-            minutes = "0" + minutes
-        }
-        if(seconds < 10) {
-            seconds = "0" + seconds
-        }
-        clearTimeout(timeTrTable)
-        
-        if(trTable.classList.contains("rowHigh--active")) {
-            trTable.classList.remove("rowHigh--active")
-        }
-
-        trTable = document.createElement("tr") // создаем элемент tr
-        tdTable = document.createElement("td") // создаем элемент td
-        td2Table = document.createElement("td") // создаем элемент td
-        td3Table = document.createElement("td") // создаем элемент td
-        td4Table = document.createElement("td") // создаем элемент td
-        trTable.classList.add("trBlockTable", "rowHigh--active") //добавляем классы к строкам
-        td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-        td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
-        
-        tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
-        if(btn == "yes") {
-            td2Table.textContent = "Да"    
-        }
-        if(btn == "no") {
-            td2Table.textContent = "Нет"    
-        }
-        if(btn == "not") {
-            td2Table.textContent = "Неясно"    
-        }
-        // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
-        td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
-        td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
-
+        createStrokTable("")
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
             timeGraphic.push(timeVideoSeconds) //добавляем время в массив
@@ -183,10 +131,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
         } 
 
-        timeTrTable = setTimeout(function() {
-            trTable.classList.remove("rowHigh--active")
-        }, 1000);
-
         const tableBody = document.querySelector("tbody") //ищем таблицу
         tableBody.prepend(trTable) //засовываем в html созданную строку
         trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
@@ -196,22 +140,22 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         //todo убрать цикл
         document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
             player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
-            document.querySelector("#player").scrollIntoView({
+            document.querySelector("#player").scrollIntoView({//скроллим до плеера
                 behavior: 'smooth',
                 block: 'center'
             });
         }
 
-        if(window.screen.width < 1024) {
+        if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
             document.querySelector(".td3Table").ontouchstart = function() { // накладываем прослушку на строку {}
-                addClassTd(this)
+                addClassTd(this) //создаем нужный класс
             }
             document.querySelector(".td3Table").ontouchend = function() { // накладываем прослушку на строку {}
                 removeClassTd(this)
             }
         }
 
-        if(window.screen.width >= 1024) {
+        if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
             document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
                 addClassTd(this)
             }
@@ -225,6 +169,16 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
+
+        clearTimeout(timeTrTable)
+        
+        if(trTable.classList.contains("rowHigh--active")) {
+            trTable.classList.remove("rowHigh--active")
+        }
+
+        timeTrTable = setTimeout(function() {
+            trTable.classList.remove("rowHigh--active")
+        }, 1000);
 
         chart.update() //обновляем график        
     } else {
@@ -273,59 +227,15 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            trTable = document.createElement("tr") // создаем элемент tr
-            tdTable = document.createElement("td") // создаем элемент td
-            td2Table = document.createElement("td") // создаем элемент td
-            td3Table = document.createElement("td") // создаем элемент td
-            td4Table = document.createElement("td") // создаем элемент td
-
-            trTable.classList.add("trBlockTable") //добавляем классы к строкам
-            td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
-
-            let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
-            day = d.getDate()
-            month = d.getMonth()
-            year = d.getFullYear()
-            hours = d.getHours()
-            minutes = d.getMinutes()
-            seconds = d.getSeconds()
-
-            //Добавляем нули к числам если они меньше 10
-            if(day < 10) {
-                day = "0" + day
-            }
-            if(month < 10) {
-                month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
-            }
-            if(hours < 10) {
-                hours = "0" + hours
-            }
-            if(minutes < 10) {
-                minutes = "0" + minutes
-            }
-            if(seconds < 10) {
-                seconds = "0" + seconds
-            }
-
-            tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
-            switch (t.button) {//засовываем во вторую ячейку наименование кнопки
-                case "yes":
-                    td2Table.textContent = "Да"
-                    break;
-                case "no":
-                    td2Table.textContent = "Нет"
-                    break;
-                case "not":
-                    td2Table.textContent = "Неясно"
-                    break;
-            }
+            createStrokTable(t.update_timestamp * 1000)
             td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
             td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
             document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
             trTable.append(tdTable, td2Table, td3Table, td4Table)
+
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
+            
             document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
                 player.seekTo(getTimeSeconds(this.textContent)) // перематываем видео на полученные секунды
                 document.querySelector("#player").scrollIntoView({ //скроллим до плеера
@@ -334,7 +244,7 @@ async function getUserVotes() {
                 });
             }
 
-            if(window.screen.width < 1024) {
+            if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
                 document.querySelector(".td3Table").ontouchstart = function() { // накладываем прослушку на строку {}
                     addClassTd(this)
                 }
@@ -343,7 +253,7 @@ async function getUserVotes() {
                 }
             }
 
-            if(window.screen.width >= 1024) {
+            if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
                 document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
                     addClassTd(this)
                 }
@@ -355,6 +265,58 @@ async function getUserVotes() {
     } else {
         alert("getuservotes" + response);
     }
+}
+
+function createStrokTable(elem) {
+    let date = new Date(elem)  //получаем дату
+    let day = date.getDate() //получаем день
+    let month = date.getMonth() //получаем месяц
+    let year = date.getFullYear() //получаем год
+    let hours = date.getHours() //получаем часы
+    let minutes = date.getMinutes() //получаем минуты
+    let seconds = date.getSeconds() //получаем секунды
+
+    //Добавляем нули к числам если они меньше 10
+    if(day < 10) {
+        day = "0" + day
+    }
+    if(month < 10) {
+        month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
+    }
+    if(hours < 10) {
+        hours = "0" + hours
+    }
+    if(minutes < 10) {
+        minutes = "0" + minutes
+    }
+    if(seconds < 10) {
+        seconds = "0" + seconds
+    }
+
+    trTable = document.createElement("tr") // создаем элемент tr
+    tdTable = document.createElement("td") // создаем элемент td
+    td2Table = document.createElement("td") // создаем элемент td
+    td3Table = document.createElement("td") // создаем элемент td
+    td4Table = document.createElement("td") // создаем элемент td
+    trTable.classList.add("trBlockTable", "rowHigh--active") //добавляем классы к строкам
+    td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
+    td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+    
+    tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+    switch (t.button) {//засовываем во вторую ячейку наименование кнопки
+        case "yes":
+            td2Table.textContent = "Да"
+            break;
+        case "no":
+            td2Table.textContent = "Нет"
+            break;
+        case "not":
+            td2Table.textContent = "Неясно"
+            break;
+    }
+    // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
+    td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
+    td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 }
 
 async function getSumVotes() {
