@@ -669,11 +669,11 @@ function onPlayerReady(event) {
     event.target.playVideo();
     if(player.getPlayerState() == 1) {
         timeForEdit(Math.floor(player.getCurrentTime()))
-        if(player.getPlayerState() == 2) {
-            timeForEdit(Math.floor(player.getCurrentTime()))
-            clearInterval(intervalInput)
-        }
         var intervalInput = setInterval(() => {
+            if(player.getPlayerState() == 2) {
+                timeForEdit(Math.floor(player.getCurrentTime()))
+                clearInterval(intervalInput)
+            }
         }, 500);
     }
 }
