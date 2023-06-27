@@ -143,7 +143,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
         //todo убрать цикл
-        document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
+        td3Table.onclick = function() { // накладываем прослушку на строку
             player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
             document.querySelector("#player").scrollIntoView({//скроллим до плеера
                 behavior: 'smooth',
@@ -152,20 +152,20 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
 
         if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
-            document.querySelector(".td3Table").ontouchstart = function() { // накладываем прослушку на строку {}
+            td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
                 addClassTd(this) //создаем нужный класс
             }
-            document.querySelector(".td3Table").ontouchend = function() { // накладываем прослушку на строку {}
+            td3Table.ontouchend = function() { // накладываем прослушку на строку {}
                 removeClassTd(this)
             }
         }
 
         if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
-            document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
+            td3Table.onmouseover = function() { // накладываем прослушку на строку {}
                 addClassTd(this)
             }
     
-            document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
+            td3Table.onmouseout = function() { // накладываем прослушку на строку {}
                 removeClassTd(this)
             }
         }
@@ -235,7 +235,7 @@ async function getUserVotes() {
 
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
             
-            document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку
+            td3Table.onclick = function() { // накладываем прослушку на строку
                 player.seekTo(getTimeSeconds(this.textContent)) // перематываем видео на полученные секунды
                 document.querySelector("#player").scrollIntoView({ //скроллим до плеера
                     behavior: 'smooth',
@@ -244,19 +244,19 @@ async function getUserVotes() {
             }
 
             if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
-                document.querySelector(".td3Table").ontouchstart = function() { // накладываем прослушку на строку {}
+                td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
                     addClassTd(this)
                 }
-                document.querySelector(".td3Table").ontouchend = function() { // накладываем прослушку на строку {}
+                td3Table.ontouchend = function() { // накладываем прослушку на строку {}
                     removeClassTd(this)
                 }
             }
 
             if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
-                document.querySelector(".td3Table").onmouseover = function() { // накладываем прослушку на строку {}
+                td3Table.onmouseover = function() { // накладываем прослушку на строку {}
                     addClassTd(this)
                 }
-                document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
+                td3Table.onmouseout = function() { // накладываем прослушку на строку {}
                     removeClassTd(this)
                 }
             } 
