@@ -212,9 +212,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             }
         }
         if(window.screen.width < 1024) {
-            document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
-                addClassTd(this)
-            }
+            addClassTd(this)
         } 
 
         //todo убрать цикл
@@ -339,9 +337,7 @@ async function getUserVotes() {
                 }
             } 
             if(window.screen.width < 1024) {
-                document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
-                    addClassTd(this)
-                }
+                addClassTd(this)
             } 
         }
     } else {
