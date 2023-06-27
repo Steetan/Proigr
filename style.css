@@ -16,9 +16,10 @@ button {
 
 #player {
     margin-top: 20px;
-    max-width: 640px;
-    width: 100%;
-    width: 100%;
+    min-width: 400px;
+    min-height: 300px;
+    width: 800px;
+    height: 450px;
     border-radius: 10px;
 }
 
@@ -41,9 +42,9 @@ a {
 }
 
 .player-block {
-    margin-right: -50px;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
@@ -51,8 +52,6 @@ a {
 
 .block-btns {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     gap: 20px;
 }
 
@@ -424,6 +423,11 @@ td {
     .td3Table:hover::after {
         background-color: rgba(255, 255, 255, .8);
     }
+
+    #player {
+        resize: both;
+        overflow: auto;
+    }
 }
 
 @media (max-width: 1023.98px) {
@@ -487,12 +491,18 @@ td {
     .td3Table:active::after {
         background-color: rgba(255, 255, 255, .8);
     }
+
+    #player {
+        resize: none;
+        max-width: 1020px;
+        width: 100%;
+        min-height: 0;
+        min-width: 0;
+    }
 }
 
 @media (max-width: 860px) {
     .player-block {
-        flex-direction: column;
-        margin: 0;
         margin-bottom: 20px;
     }
 
@@ -504,6 +514,12 @@ td {
         padding-top: 5px;
         padding-bottom: 5px;
         font-size: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    #player {
+        height: 350px;
     }
 }
 

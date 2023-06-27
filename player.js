@@ -110,12 +110,14 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         let timeTrTable
         clearTimeout(timeTrTable)
         
-        if(document.querySelector(".td3Table") != null) {
+        if(document.querySelector(".td3Table") != null) { //если 3 строка не равна null таблице имеет класс для подсветки, то удаляем этот класс
             if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) {
                 document.querySelector(".td3Table").classList.remove("rowHigh--active")
             }
         }
-        createStrokTable("", btn, "rowHigh--active", timeVideoSeconds)
+
+        createStrokTable("", btn, "rowHigh--active", timeVideoSeconds) //создаем строку
+
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
             timeGraphic.push(timeVideoSeconds) //добавляем время в массив
@@ -145,13 +147,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
         //todo убрать цикл
-        td3Table.onclick = function() { // накладываем прослушку на строку
-            player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
-            document.querySelector("#player").scrollIntoView({//скроллим до плеера
-                behavior: 'smooth',
-                block: 'center'
-            });
-        }
+        rewindScroll(this)
 
         if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
             td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
@@ -161,7 +157,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 removeClassTd(this)
             }
         }
-
         if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
             td3Table.onmouseover = function() { // накладываем прослушку на строку {}
                 addClassTd(this)
@@ -191,13 +186,13 @@ async function onDelBtnEvent(event) {
     if(!auth_data) return;
     let timeSeconds = getTimeSeconds(event.previousSibling.textContent)
     const response = await api_request(api_url + api_btn_url, {
-            method: 'DELETE',
-            json: {
-                source: wsource,
-                videoid: vidId,
-                time: timeSeconds
-            },
-            auth_token: auth_data.auth_token
+        method: 'DELETE',
+        json: {
+            source: wsource,
+            videoid: vidId,
+            time: timeSeconds
+        },
+        auth_token: auth_data.auth_token
     });
         
     if (response.ok) {
@@ -237,13 +232,7 @@ async function getUserVotes() {
 
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
             
-            td3Table.onclick = function() { // накладываем прослушку на строку
-                player.seekTo(getTimeSeconds(this.textContent)) // перематываем видео на полученные секунды
-                document.querySelector("#player").scrollIntoView({ //скроллим до плеера
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
+            rewindScroll(this)
 
             if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
                 td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
@@ -253,7 +242,6 @@ async function getUserVotes() {
                     removeClassTd(this)
                 }
             }
-
             if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
                 td3Table.onmouseover = function() { // накладываем прослушку на строку {}
                     addClassTd(this)
@@ -519,7 +507,9 @@ function clearURL(urlStr) {
         }
 
         if(urlStr.includes("&t=")) {
-            vidTime = urlStr.substring(urlStr.indexOf("&t=")).replace("&t=", "").replace("s", "")//получаем секунды остановленного времени видео
+            vidTime = urlStr.substring(urlStr.indexOf("&t="))
+                .replace("&t=", "")
+                .replace("s", "")//получаем секунды остановленного времени видео
         }
 
         vidId = urlStr //заполняем ид видео
@@ -533,6 +523,7 @@ function clearURL(urlStr) {
             .replace('?feature=share','')   
     } 
 }
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: vidId, // сюда вставляется ссылка, переданная по урл
@@ -546,7 +537,7 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-function onPlayerStateChange(event) {
+function onPlayerStateChange() {
     timeForEdit(Math.floor(player.getCurrentTime()))
 }
 
@@ -560,6 +551,16 @@ function onPlayerReady(event) {
             }
         }
     }, 100);
+}
+
+function rewindScroll(elem) {
+    td3Table.onclick = function() { // накладываем прослушку на строку
+        player.seekTo(getTimeSeconds(elem.textContent)); // перематываем видео на полученные секунды
+        document.querySelector("#player").scrollIntoView({//скроллим до плеера
+            behavior: 'smooth',
+            block: 'center'
+        });
+    }
 }
 
 function addClassTd(elem) {
@@ -601,10 +602,6 @@ function stopVideo() {
     player.stopVideo();
 } 
 
-document.querySelector(".graphic-button").addEventListener("click", function() {
-    getSumVotes()
-})
-
 function mapSchemeLink(btn, videoId) {
     document.querySelector(btn).href = 
     videoId + vidId + "&source=yt" 
@@ -618,6 +615,9 @@ document.addEventListener("click", function(event) {
     }
     if(event.target.closest(".buttons__btn--scheme")) {
         mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
+    }
+    if(event.target.closest(".graphic-button")) {
+        getSumVotes()
     }
 })
 
@@ -652,12 +652,12 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
 }
 
 document.addEventListener("click", function(event) {
-    if(event.target.closest(".btn-popup")) {
-        document.querySelector(".popup").classList.add("popup--active") 
-        document.body.style.overflow = "hidden"
+    if(event.target.closest(".btn-popup")) {//накладываем прослушки на кнопку открытия модал. окна и кнопку закрытия модал. окна
+        document.querySelector(".popup").classList.add("popup--active") //создаем нужный класс
+        document.body.style.overflow = "hidden" //скрываем скролл
     }
     if(event.target.closest(".popup-close")) {
         document.querySelector(".popup").classList.remove("popup--active")
-        document.body.style.overflow = "auto"
+        document.body.style.overflow = "auto" //даем возможность скроллить
     }
 })
