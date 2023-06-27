@@ -200,9 +200,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 behavior: 'smooth',
                 block: 'center'
             });
-            if(window.screen.width < 1024) {
-                addClassTd(this)
-            } 
         }
 
         if(window.screen.width >= 1024) {
@@ -214,6 +211,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 removeClassTd(this)
             }
         }
+        if(window.screen.width < 1024) {
+            document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
+                addClassTd(this)
+            }
+        } 
 
         //todo убрать цикл
         for (let element of timeGraphic) {      
@@ -326,9 +328,6 @@ async function getUserVotes() {
                     behavior: 'smooth',
                     block: 'center'
                 });
-                if(window.screen.width < 1024) {
-                    addClassTd(this)
-                } 
             }
 
             if(window.screen.width >= 1024) {
@@ -337,6 +336,11 @@ async function getUserVotes() {
                 }
                 document.querySelector(".td3Table").onmouseout = function() { // накладываем прослушку на строку {}
                     removeClassTd(this)
+                }
+            } 
+            if(window.screen.width < 1024) {
+                document.querySelector(".td3Table").onclick = function() { // накладываем прослушку на строку {}
+                    addClassTd(this)
                 }
             } 
         }
