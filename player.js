@@ -540,7 +540,7 @@ function onYouTubeIframeAPIReady() {
 fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${vidId}&key=AIzaSyDFH5sy-cCqcSEp0BIl8DlW3fIfvMepYNU`)
   .then(response => response.json())
   .then(data => {
-    console.log(data.items[0].snippet.title);
+    document.title = `КР-${data.items[0].snippet.title}`
 });
 
 function onPlayerStateChange() {
