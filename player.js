@@ -147,7 +147,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
 
         //todo убрать цикл
-        rewindScroll(this)
+        rewindScroll(td3Table)
 
         if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
             td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
@@ -232,7 +232,7 @@ async function getUserVotes() {
 
             td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
             
-            rewindScroll(this)
+            rewindScroll(td3Table)
 
             if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
                 td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
@@ -559,8 +559,8 @@ function onPlayerReady(event) { //функция для заполнения т�
 }
 
 function rewindScroll(elem) {
-    td3Table.onclick = function() { // накладываем прослушку на строку
-        player.seekTo(getTimeSeconds(elem.textContent)); // перематываем видео на полученные секунды
+    elem.onclick = function() { // накладываем прослушку на строку
+        player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
         document.querySelector("#player").scrollIntoView({//скроллим до плеера
             behavior: 'smooth',
             block: 'center'
