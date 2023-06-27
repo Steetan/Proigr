@@ -108,6 +108,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {
         let timeTrTable
+        clearTimeout(timeTrTable)
+        
+        if(trTable.classList.contains("rowHigh--active")) {
+            trTable.classList.remove("rowHigh--active")
+        }
         createStrokTable("", btn, "rowHigh--active", timeVideoSeconds)
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -168,12 +173,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         //todo убрать цикл
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-        }
-
-        clearTimeout(timeTrTable)
-        
-        if(trTable.classList.contains("rowHigh--active")) {
-            trTable.classList.remove("rowHigh--active")
         }
 
         timeTrTable = setTimeout(function() {
