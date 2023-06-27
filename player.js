@@ -268,11 +268,12 @@ async function getUserVotes() {
 }
 
 function createStrokTable(dateTime, btnName, classRowHigh) {
+    let date
     if(dateTime != "") {
-        let date = new Date(dateTime)  //получаем дату
+        date = new Date(dateTime)  //получаем дату
     }
     else if(dateTime == "") {
-        let date = new Date()  //получаем дату
+        date = new Date()  //получаем дату
     }
     let day = date.getDate() //получаем день
     let month = date.getMonth() //получаем месяц
