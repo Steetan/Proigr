@@ -653,7 +653,6 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
 
 document.addEventListener("click", function(event) {
     if(event.target.closest(".btn-popup")) {
-        window.scrollTo({top: 0, behavior: 'instant'})
         document.querySelector(".popup").classList.add("popup--active") 
         document.body.style.overflow = "hidden"
     }
