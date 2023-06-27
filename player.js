@@ -110,8 +110,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         let timeTrTable
         clearTimeout(timeTrTable)
         
-        if(trTable.classList.contains("rowHigh--active")) {
-            trTable.classList.remove("rowHigh--active")
+        if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) {
+            document.querySelector(".td3Table").classList.remove("rowHigh--active")
         }
         createStrokTable("", btn, "rowHigh--active", timeVideoSeconds)
         // если времени из ютуба нету в массиве то
