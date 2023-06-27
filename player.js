@@ -312,7 +312,6 @@ function createStrokTable(dateTime, btnName, classRowHigh, timeForTd) {
             td2Table.textContent = "Неясно"
             break;
     }
-    // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
     td3Table.textContent = getFullTimeFunc(timeForTd) //засовываем в 3 ячейку время на видео
     td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 }
@@ -520,7 +519,11 @@ function clearURL(urlStr) {
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')   
+            .replace('?feature=share','')  
+            
+        $.get("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + vidId + "&key=" + "AIzaSyDFH5sy-cCqcSEp0BIl8DlW3fIfvMepYNU", function(data) {
+        alert(data.items[0].snippet.title);
+});
     } 
 }
 
@@ -541,7 +544,7 @@ function onPlayerStateChange() {
     timeForEdit(Math.floor(player.getCurrentTime()))
 }
 
-function onPlayerReady(event) {
+function onPlayerReady(event) { //функция для заполнения текущим временем из видео инпут полей
     event.target.playVideo();
     setInterval(() => {
         if(player.getPlayerState() == 1) {
