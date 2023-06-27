@@ -228,32 +228,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     }   
 }
 
-function addClassTd(elem) {
-    if(getTimeSeconds(elem.textContent) < Math.floor(player.getCurrentTime())) {
-        elem.classList.add("td3Table--right")
-    }
-    if(getTimeSeconds(elem.textContent) == Math.floor(player.getCurrentTime())) {
-        elem.classList.add("td3Table--middle")
-    }
-    if(getTimeSeconds(elem.textContent) > Math.floor(player.getCurrentTime())) {
-        elem.classList.add("td3Table--left")
-    }
-    elem.classList.add("hover")
-}
-
-function removeClassTd(elem) {
-    if(getTimeSeconds(elem.textContent) < Math.floor(player.getCurrentTime())) {
-        elem.classList.remove("td3Table--right")
-    }
-    if(getTimeSeconds(elem.textContent) == Math.floor(player.getCurrentTime())) {
-        elem.classList.remove("td3Table--middle")
-    }
-    if(getTimeSeconds(elem.textContent) > Math.floor(player.getCurrentTime())) {
-        elem.classList.remove("td3Table--left")
-    }
-    elem.classList.remove("hover")
-}
-
 async function onDelBtnEvent(event) {
     if(!auth_data) return;
     let timeSeconds = getTimeSeconds(event.previousSibling.textContent)
@@ -606,6 +580,32 @@ function onPlayerReady(event) {
             }
         }
     }, 100);
+}
+
+function addClassTd(elem) {
+    if(getTimeSeconds(elem.textContent) < Math.floor(player.getCurrentTime())) {
+        elem.classList.add("td3Table--right")
+    }
+    if(getTimeSeconds(elem.textContent) == Math.floor(player.getCurrentTime())) {
+        elem.classList.add("td3Table--middle")
+    }
+    if(getTimeSeconds(elem.textContent) > Math.floor(player.getCurrentTime())) {
+        elem.classList.add("td3Table--left")
+    }
+    elem.classList.add("hover")
+}
+
+function removeClassTd(elem) {
+    if(getTimeSeconds(elem.textContent) < Math.floor(player.getCurrentTime())) {
+        elem.classList.remove("td3Table--right")
+    }
+    if(getTimeSeconds(elem.textContent) == Math.floor(player.getCurrentTime())) {
+        elem.classList.remove("td3Table--middle")
+    }
+    if(getTimeSeconds(elem.textContent) > Math.floor(player.getCurrentTime())) {
+        elem.classList.remove("td3Table--left")
+    }
+    elem.classList.remove("hover")
 }
 
 function timeForEdit(time) {
