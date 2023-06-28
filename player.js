@@ -253,6 +253,9 @@ function createStrokTable(dateTime, btnName, classRowHigh, timeForTd) {
     td3Table.textContent = getFullTimeFunc(timeForTd) //засовываем в 3 ячейку время на видео
     td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
 
+    document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
+    trTable.append(tdTable, td2Table, td3Table, td4Table)
+
     td3Table.onmouseover = function() { // накладываем прослушку на строку {}
         addClassTd(this)
     }
@@ -263,9 +266,6 @@ function createStrokTable(dateTime, btnName, classRowHigh, timeForTd) {
     td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
 
     rewindScroll(td3Table) // ставим прослушку на 3 столбец
-
-    document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
-    trTable.append(tdTable, td2Table, td3Table, td4Table)
 }
 
 async function getSumVotes() {
