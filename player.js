@@ -107,9 +107,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {  
-        // if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
-        //     document.querySelector(".td3Table").classList.remove("rowHigh--active")
-        // }
+        if(document.querySelector(".td3Table") != null) { 
+            if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
+                document.querySelector(".td3Table").classList.remove("rowHigh--active")
+            }
+        }
 
         createStrokTable(new Date(), btn, "rowHigh--active", timeVideoSeconds) //создаем строку
 
@@ -427,16 +429,11 @@ function remVote(elem) {
     if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
     && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
     && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
-        arrBtn1.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-        arrBtn2.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        arrBtn3.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        fullTimeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
-        timeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn1.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+        arrBtn2.splice(timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn3.splice(timeGraphic.indexOf(timeSeconds), 1)
+        fullTimeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
+        timeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1)
     }
     elem.parentNode.remove()
 }
