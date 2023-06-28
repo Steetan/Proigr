@@ -106,17 +106,14 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         },
         auth_token: auth_data.auth_token
     });
-    if (response.ok) {
-        let timeTrTable
-        clearTimeout(timeTrTable)
-        
-        if(document.querySelector(".td3Table") != null) { //если 3 строка не равна null таблице имеет класс для подсветки, то удаляем этот класс
+    if (response.ok) {  
+        if(document.querySelector(".td3Table") != null) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
             if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) {
                 document.querySelector(".td3Table").classList.remove("rowHigh--active")
             }
         }
 
-        createStrokTable("", btn, "rowHigh--active", timeVideoSeconds) //создаем строку
+        createStrokTable(new Date(), btn, "rowHigh--active", timeVideoSeconds) //создаем строку
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -138,41 +135,14 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }
         if (btn == "not") {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-        } 
-
-        const tableBody = document.querySelector("tbody") //ищем таблицу
-        tableBody.prepend(trTable) //засовываем в html созданную строку
-        trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
-
-        td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
-
-        //todo убрать цикл
-        rewindScroll(td3Table)
-
-        if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
-            td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
-                addClassTd(this) //создаем нужный класс
-            }
-            td3Table.ontouchend = function() { // накладываем прослушку на строку {}
-                removeClassTd(this)
-            }
-        }
-        if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
-            td3Table.onmouseover = function() { // накладываем прослушку на строку {}
-                addClassTd(this)
-            }
-    
-            td3Table.onmouseout = function() { // накладываем прослушку на строку {}
-                removeClassTd(this)
-            }
-        }
+        }   
 
         //todo убрать цикл
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
 
-        timeTrTable = setTimeout(function() {
+        setTimeout(function() {
             trTable.classList.remove("rowHigh--active")
         }, 1000);
 
@@ -223,33 +193,7 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            createStrokTable(t.update_timestamp * 1000, t.button, "", t.time)
-            td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
-            td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
-
-            document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
-            trTable.append(tdTable, td2Table, td3Table, td4Table)
-
-            td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
-            
-            rewindScroll(td3Table)
-
-            if(window.screen.width < 1024) { //если разрешение экрана меньше 1024
-                td3Table.ontouchstart = function() { // накладываем прослушку на строку {}
-                    addClassTd(this)
-                }
-                td3Table.ontouchend = function() { // накладываем прослушку на строку {}
-                    removeClassTd(this)
-                }
-            }
-            if(window.screen.width >= 1024) { //если разрешение экрана больше или равно 1024
-                td3Table.onmouseover = function() { // накладываем прослушку на строку {}
-                    addClassTd(this)
-                }
-                td3Table.onmouseout = function() { // накладываем прослушку на строку {}
-                    removeClassTd(this)
-                }
-            } 
+            createStrokTable(new Date(t.update_timestamp * 1000), t.button, "", t.time)
         }
     } else {
         alert("getuservotes" + response);
@@ -257,13 +201,7 @@ async function getUserVotes() {
 }
 
 function createStrokTable(dateTime, btnName, classRowHigh, timeForTd) {
-    let date
-    if(dateTime != "") {
-        date = new Date(dateTime)  //получаем дату
-    }
-    if(dateTime == "") {
-        date = new Date()  //получаем дату
-    }
+    let date = dateTime
     let day = date.getDate() //получаем день
     let month = date.getMonth() //получаем месяц
     let year = date.getFullYear() //получаем год
@@ -314,6 +252,20 @@ function createStrokTable(dateTime, btnName, classRowHigh, timeForTd) {
     }
     td3Table.textContent = getFullTimeFunc(timeForTd) //засовываем в 3 ячейку время на видео
     td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
+
+    td3Table.onmouseover = function() { // накладываем прослушку на строку {}
+        addClassTd(this)
+    }
+    td3Table.onmouseout = function() { // накладываем прослушку на строку {}
+        removeClassTd(this)
+    }
+
+    td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
+
+    rewindScroll(td3Table) // ставим прослушку на 3 столбец
+
+    document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
+    trTable.append(tdTable, td2Table, td3Table, td4Table)
 }
 
 async function getSumVotes() {
