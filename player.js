@@ -108,10 +108,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {  
         let timeRowHigh
+        clearTimeout(timeRowHigh)
         if(document.querySelector(".td3Table") != null) { 
             if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
                 document.querySelector(".td3Table").classList.remove("rowHigh--active")
-                clearTimeout(timeRowHigh)
             }
         }
 
