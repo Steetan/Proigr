@@ -108,10 +108,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {  
         let timeRowHigh
-        if(document.querySelector(".trBlockTable") != null) { 
-            if(document.querySelector(".trBlockTable").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
-                document.querySelector(".trBlockTable").classList.remove("rowHigh--active")
-            }
+        if(document.querySelector(".trBlockTable").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
+            document.querySelector(".trBlockTable").classList.remove("rowHigh--active")
         }
 
         createStrokTable(new Date(), btn, "rowHigh--active", timeVideoSeconds) //создаем строку
