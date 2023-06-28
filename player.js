@@ -107,10 +107,10 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {  
-        let timeRowHigh = null
-        if(document.querySelector(".trTable") != null) { 
-            if(document.querySelector(".trTable").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
-                document.querySelector(".trTable").classList.remove("rowHigh--active")
+        let timeRowHigh
+        if(document.querySelector(".trBlockTable") != null) { 
+            if(document.querySelector(".trBlockTable").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
+                document.querySelector(".trBlockTable").classList.remove("rowHigh--active")
             }
         }
 
