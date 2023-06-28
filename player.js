@@ -107,11 +107,9 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {  
-        if(document.querySelector(".td3Table") != null) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
-            if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) {
-                document.querySelector(".td3Table").classList.remove("rowHigh--active")
-            }
-        }
+        // if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
+        //     document.querySelector(".td3Table").classList.remove("rowHigh--active")
+        // }
 
         createStrokTable(new Date(), btn, "rowHigh--active", timeVideoSeconds) //создаем строку
 
