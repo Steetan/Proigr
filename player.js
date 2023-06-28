@@ -108,12 +108,12 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {  
         let timeRowHigh
-        clearTimeout(timeRowHigh)
         if(document.querySelector(".td3Table") != null) { 
             if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
                 document.querySelector(".td3Table").classList.remove("rowHigh--active")
             }
         }
+        clearTimeout(timeRowHigh)
 
         createStrokTable(new Date(), btn, "rowHigh--active", timeVideoSeconds) //создаем строку
 
@@ -510,7 +510,7 @@ function onPlayerReady(event) { //функция для заполнения т�
 function rewindScroll(elem) {
     elem.onclick = function() { // накладываем прослушку на строку
         player.seekTo(getTimeSeconds(this.textContent)); // перематываем видео на полученные секунды
-        document.querySelector("#player").scrollIntoView({//скроллим до плеера
+        document.querySelector("#player").scrollIntoView({ //скроллим до плеера
             behavior: 'smooth',
             block: 'center'
         });
