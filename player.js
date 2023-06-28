@@ -107,9 +107,11 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {  
+        let timeRowHigh
         if(document.querySelector(".td3Table") != null) { 
             if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
                 document.querySelector(".td3Table").classList.remove("rowHigh--active")
+                clearTimeout(timeRowHigh)
             }
         }
 
@@ -142,7 +144,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
 
-        setTimeout(function() {
+        timeRowHigh = setTimeout(function() {
             trTable.classList.remove("rowHigh--active")
         }, 1000);
 
