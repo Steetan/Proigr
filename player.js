@@ -108,13 +108,17 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
     });
     if (response.ok) {  
         let timeRowHigh = null
-        if(document.querySelector(".td3Table") != null) { 
-            if(document.querySelector(".td3Table").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
-                document.querySelector(".td3Table").classList.remove("rowHigh--active")
+        if(document.querySelector(".trTable") != null) { 
+            if(document.querySelector(".trTable").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
+                document.querySelector(".trTable").classList.remove("rowHigh--active")
             }
         }
 
         createStrokTable(new Date(), btn, "rowHigh--active", timeVideoSeconds) //создаем строку
+
+        timeRowHigh = setTimeout(function() {
+            trTable.classList.remove("rowHigh--active")
+        }, 1000);
 
         // если времени из ютуба нету в массиве то
         if(!timeGraphic.includes(timeVideoSeconds)) {
@@ -142,10 +146,6 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         for (let element of timeGraphic) {      
             fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
         }
-
-        timeRowHigh = setTimeout(function() {
-            trTable.classList.remove("rowHigh--active")
-        }, 1000);
 
         chart.update() //обновляем график        
     } else {
