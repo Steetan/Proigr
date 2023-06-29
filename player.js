@@ -48,6 +48,7 @@ var chart = new Chart(document.getElementById("graphic"), {
     },
     options: {
         maintainAspectRatio : false,
+        responsive: false,
         plugins: {
             title: {
                 display: true,
@@ -92,8 +93,6 @@ let dblClick = false
 async function sendBtnEvent(btn, timeVideoSeconds) {
     if(!auth_data || dblClick) return;
     dblClick = true
-    // todo manage doubleclick before async call
-
     const response = await api_request(api_url + api_btn_url, {
         method: 'POST',
         json: {
@@ -104,112 +103,28 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         },
         auth_token: auth_data.auth_token
     });
-    if (response.ok) {
+    if (response.ok) {  
         dblClick = false
         // ищем и удаляем строку с имеющимся голосом в это же время
         document.querySelectorAll(".td3Table").forEach(function(i) {
             if(getTimeSeconds(i.textContent) == timeVideoSeconds) {
                 // в таблице уже есть голос с таким временем
-                // изменение голоса - удаляем имеющийся - новый отправится далее
+                // замена голоса - удаляем имеющийся - новый отправится далее
                 remVote(i)
-                // todo remove chart update
-//                chart.update() //обновляем график        
-
                 return; // голос найден - прерываем цикл
             }
         })
-
-        let date = new Date()  //получаем дату
-        let day = date.getDate() //получаем день
-        let month = date.getMonth() //получаем месяц
-        let year = date.getFullYear() //получаем год
-        let hours = date.getHours() //получаем часы
-        let minutes = date.getMinutes() //получаем минуты
-        let seconds = date.getSeconds() //получаем секунды
-
-        //Добавляем нули к числам если они меньше 10
-        if(day < 10) {
-            day = "0" + day
-        }
-        if(month < 10) {
-            month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
-        }
-        if(hours < 10) {
-            hours = "0" + hours
-        }
-        if(minutes < 10) {
-            minutes = "0" + minutes
-        }
-        if(seconds < 10) {
-            seconds = "0" + seconds
-        }
-        trTable = document.createElement("tr") // создаем элемент tr
-        tdTable = document.createElement("td") // создаем элемент td
-        td2Table = document.createElement("td") // создаем элемент td
-        td3Table = document.createElement("td") // создаем элемент td
-        td4Table = document.createElement("td") // создаем элемент td
-        trTable.classList.add("trBlockTable") //добавляем классы к строкам
-        td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-        td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
-
-        tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+        createStrokTable(new Date(), btn, true, timeVideoSeconds) //создаем строку c подсветкой
+        updateTimeAxis(timeVideoSeconds) // добавляем время на шкалу и в массивы графика
         if(btn == "yes") {
-            td2Table.textContent = "Да"    
-        }
-        if(btn == "no") {
-            td2Table.textContent = "Нет"    
-        }
-        if(btn == "not") {
-            td2Table.textContent = "Неясно"    
-        }
-        // td2Table.textContent = btn //засовываем во вторую ячейку наименование кнопки
-        td3Table.textContent = getFullTimeFunc(timeVideoSeconds) //засовываем в 3 ячейку время на видео
-        td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
-
-        // если времени из ютуба нету в массиве то
-        if(!timeGraphic.includes(timeVideoSeconds)) {
-            timeGraphic.push(timeVideoSeconds) //добавляем время в массив
-            timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                return a - b;
-            });
-            fullTimeGraphic.splice(
-                timeGraphic.indexOf(timeVideoSeconds), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-
-/*        
-            fullTimeGraphic.push(timeGraphic.indexOf(timeVideoSeconds))
-            fullTimeGraphic[timeGraphic.indexOf(timeVideoSeconds)] = getFullTimeFunc(timeVideoSeconds) // помещаем нормальное время в индекс под которым находится тоже самое время в секундах
-            //todo убрать цикл
-            for (let element of timeGraphic) {      
-                fullTimeGraphic[timeGraphic.indexOf(element)] = getFullTimeFunc(element) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            }
-*/
-
-            arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) //добавляем к массивам кнопок нули для нового времени
-            arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-            arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-        }  
-
-        if(btn == "yes") {
-            arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //мы к элементу массива времени добавляем единицу   
+            arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //к элементу массива времени добавляем единицу   
         }
         if (btn == "no") {
             arrBtn2[timeGraphic.indexOf(timeVideoSeconds)]++
         }
         if (btn == "not") {
             arrBtn3[timeGraphic.indexOf(timeVideoSeconds)]++
-        } 
-
-        const tableBody = document.querySelector("tbody") //ищем таблицу
-        tableBody.prepend(trTable) //засовываем в html созданную строку
-        trTable.append(tdTable, td2Table, td3Table, td4Table) //засовываем в html созданные ячейки
-
-        td3Table.onclick = function() { 
-            let timeSeconds = getTimeSeconds(this.textContent)
-            player.seekTo(timeSeconds)
-            timeForEdit(timeSeconds)
-        } //ставим обработчик на время в видео        
-        td4Table.onclick = function() { onDelBtnEvent(this) } //ставим обработчик на кнопку удаления        
-
+        }   
         chart.update() //обновляем график        
     } else {
         alert("sendbtn" + response);
@@ -220,13 +135,13 @@ async function onDelBtnEvent(event) {
     if(!auth_data) return;
     let timeSeconds = getTimeSeconds(event.previousSibling.textContent)
     const response = await api_request(api_url + api_btn_url, {
-            method: 'DELETE',
-            json: {
-                source: wsource,
-                videoid: vidId,
-                time: timeSeconds
-            },
-            auth_token: auth_data.auth_token
+        method: 'DELETE',
+        json: {
+            source: wsource,
+            videoid: vidId,
+            time: timeSeconds
+        },
+        auth_token: auth_data.auth_token
     });
         
     if (response.ok) {
@@ -257,69 +172,71 @@ async function getUserVotes() {
     
         // put user votes in table
         for (let t of data.votes) {
-            trTable = document.createElement("tr") // создаем элемент tr
-            tdTable = document.createElement("td") // создаем элемент td
-            td2Table = document.createElement("td") // создаем элемент td
-            td3Table = document.createElement("td") // создаем элемент td
-            td4Table = document.createElement("td") // создаем элемент td
-
-            trTable.classList.add("trBlockTable") //добавляем классы к строкам
-            td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
-            td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
-
-            let d = new Date(t.update_timestamp * 1000); // *1000 to convert miliseconds to seconds
-            day = d.getDate()
-            month = d.getMonth()
-            year = d.getFullYear()
-            hours = d.getHours()
-            minutes = d.getMinutes()
-            seconds = d.getSeconds()
-
-            //Добавляем нули к числам если они меньше 10
-            if(day < 10) {
-                day = "0" + day
-            }
-            if(month < 10) {
-                month = "0" + (month + 1) //добавляем единицу потому что в js месяца начинаются с нуля
-            }
-            if(hours < 10) {
-                hours = "0" + hours
-            }
-            if(minutes < 10) {
-                minutes = "0" + minutes
-            }
-            if(seconds < 10) {
-                seconds = "0" + seconds
-            }
-
-            tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`; //засовываем в первую ячейку дату и время
-            switch (t.button) {//засовываем во вторую ячейку наименование кнопки
-                case "yes":
-                    td2Table.textContent = "Да"
-                    break;
-                case "no":
-                    td2Table.textContent = "Нет"
-                    break;
-                case "not":
-                    td2Table.textContent = "Неясно"
-                    break;
-            }
-            td3Table.textContent = getFullTimeFunc(t.time); //засовываем в 3 ячейку время на видео
-            td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
-
-            document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
-            trTable.append(tdTable, td2Table, td3Table, td4Table)
-            td3Table.onclick = function() { 
-                let timeSeconds = getTimeSeconds(this.textContent)
-                player.seekTo(timeSeconds)
-                timeForEdit(timeSeconds)
-            } //ставим обработчик на время в видео        
-            td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
+            createStrokTable(new Date(t.update_timestamp * 1000), t.button, "", t.time)
         }
-        
     } else {
         alert("getuservotes" + response);
     }
+}
+
+function createStrokTable(dateTime, btnName, bHighLight, timeForTd) {
+    let day = dateTime.getDate() //получаем день
+    let month = dateTime.getMonth() //получаем месяц
+    let year = dateTime.getFullYear() //получаем год
+    let hours = dateTime.getHours() //получаем часы
+    let minutes = dateTime.getMinutes() //получаем минуты
+    let seconds = dateTime.getSeconds() //получаем секунды
+    //Добавляем нули к числам если они меньше 10
+    if(day < 10) { day = "0" + day }
+    if(month < 10) { month = "0" + (month + 1) } //добавляем единицу потому что в js месяца начинаются с нуля
+    if(hours < 10) { hours = "0" + hours }
+    if(minutes < 10) { minutes = "0" + minutes }
+    if(seconds < 10) { seconds = "0" + seconds }
+
+    trTable = document.createElement("tr") // создаем элемент tr
+    tdTable = document.createElement("td") // создаем элемент td
+    td2Table = document.createElement("td") // создаем элемент td
+    td3Table = document.createElement("td") // создаем элемент td
+    td4Table = document.createElement("td") // создаем элемент td
+    trTable.append(tdTable, td2Table, td3Table, td4Table)
+    trTable.classList.add("trBlockTable") //добавляем классы к строкам
+
+    if(bHighLight) {
+        trTable.classList.add("rowHigh--active") // накладываем временную подсветку
+        setTimeout(function() { // убираем временную подсветку по таймауту
+            trTable.classList.remove("rowHigh--active")
+        }, 1000);
+    }
+    tdTable.textContent = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}` //засовываем в первую ячейку дату и время
+    switch (btnName) {//во вторую ячейку пишем наименование кнопки
+        case "yes":
+            td2Table.textContent = "Да"
+            break;
+        case "no":
+            td2Table.textContent = "Нет"
+            break;
+        case "not":
+            td2Table.textContent = "Неясно"
+            break;
+    }
+    let timeSeconds = getTimeSeconds(timeForTd)
+    td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
+    td3Table.onmouseover = function() { addClassTd(this) }
+    td3Table.onmouseout = function() { removeClassTd(this) }
+    td3Table.textContent = timeSeconds //помещаем в 3 ячейку время на видео
+    td3Table.onclick = function() { 
+      player.seekTo(timeSeconds)
+      timeForEdit(timeSeconds)
+      document.querySelector("#player").scrollIntoView({ //скроллим до плеера
+          behavior: 'smooth',
+          block: 'center'
+      });
+    }          
+    td4Table.innerHTML = "<div class='delete-btn-table-block'><div class='delete-btn-table'></div></div>" //в 4 кнопку засовываем тег картинки
+    td4Table.classList.add("delete-btn") //добавляем классы к кнопкам удаления с названием нажатых кнопок 
+    td4Table.onclick = function() { onDelBtnEvent(this) } //ставим на них прослушку на кнопку удаления
+
+    document.querySelector("tbody").prepend(trTable) //засовываем в html созданную строку
 }
 
 async function getSumVotes() {
@@ -353,23 +270,6 @@ async function getSumVotes() {
             arrBtn3[timeGraphic.indexOf(t.time)] = t.count
         }            
         chart.update() //обновляем график
-
-        function updateTimeAxis(timeVideoSeconds) {
-            // если времени нет в массиве
-            if(!timeGraphic.includes(timeVideoSeconds)) {
-                timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
-                timeGraphic.sort(function(a, b) { //сортируем по возрастанию
-                    return a - b;
-                });
-                //добавляем к массивам кнопок нули для нового времени
-                arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) 
-                arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-                arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
-                // заполняем шкалу человекочитаемого времени
-                fullTimeGraphic.splice(
-                    timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
-            } 
-        }   
     } else {
         alert("getsumvotes" + response);
     }
@@ -417,6 +317,7 @@ $(document).ready( async function() {
             }
         })
     })
+
     // получаем данные о суммах голосов
     await getSumVotes();
     await getUserVotes();
@@ -463,30 +364,28 @@ function btnForm() { //событие на нажатие кнопки Откр�
 
 function remVote(elem) {
     let timeSeconds = getTimeSeconds(elem.textContent)
-    if(elem.previousSibling.textContent == "Да") { //если кнопка элемента имеет такой класс
-        arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
-    } else if(elem.previousSibling.textContent == "Нет") {
-        arrBtn2[timeGraphic.indexOf(timeSeconds)]--
-    } else if(elem.previousSibling.textContent == "Неясно") {
-        arrBtn3[timeGraphic.indexOf(timeSeconds)]--
+    switch (elem.previousSibling.textContent) {
+        case "Да":
+            arrBtn1[timeGraphic.indexOf(timeSeconds)]-- //вычитаем единицу из элемента, индекс которого равен соседней ячейки с временем
+            break;
+        case "Нет":
+            arrBtn2[timeGraphic.indexOf(timeSeconds)]--
+            break;
+        case "Неясно":
+            arrBtn3[timeGraphic.indexOf(timeSeconds)]--
+            break;    
     }
     if(arrBtn1[timeGraphic.indexOf(timeSeconds)] == 0 //если в точке времени у троих линий по нулям, то удаляем точку времени и точки у кнопок
     && arrBtn2[timeGraphic.indexOf(timeSeconds)] == 0 
     && arrBtn3[timeGraphic.indexOf(timeSeconds)] == 0) {
-        arrBtn1.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
-        arrBtn2.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        arrBtn3.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
-        fullTimeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
-        timeGraphic.splice(
-                timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn1.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени и и точки у кнопок
+        arrBtn2.splice(timeGraphic.indexOf(timeSeconds), 1)
+        arrBtn3.splice(timeGraphic.indexOf(timeSeconds), 1)
+        fullTimeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1) //удаляем точку времени
+        timeGraphic.splice(timeGraphic.indexOf(timeSeconds), 1)
     }
     elem.parentNode.remove()
 }
-
         
 function clearURL(urlStr) {
     if(urlStr.includes("#https://")) { //если в строке урл не будет никакой ссылки
@@ -503,7 +402,9 @@ function clearURL(urlStr) {
         }
 
         if(urlStr.includes("&t=")) {
-            vidTime = urlStr.substring(urlStr.indexOf("&t=")).replace("&t=", "").replace("s", "")//получаем секунды остановленного времени видео
+            vidTime = urlStr.substring(urlStr.indexOf("&t="))
+                .replace("&t=", "")
+                .replace("s", "")//получаем секунды остановленного времени видео
         }
 
         vidId = urlStr //заполняем ид видео
@@ -514,12 +415,19 @@ function clearURL(urlStr) {
         vidUrl = urlStr // заполняем урл видео
             .split("#") //обрезаем урл
             .pop() //обрезаем ссылку для урл
-            .replace('?feature=share','')   
+            .replace('?feature=share','')    
+
+        fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${vidId}&key=${YT_API_KEY}`)
+        .then(response => response.json())
+        .then(data => {
+            document.title = `КР-${data.items[0].snippet.title}`
+        });
     } 
 }
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        videoId: vidId, // сюда вставляется ссылка, переданная по урл
+        videoId: vidId, //ид видео из урл
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange,
@@ -530,26 +438,46 @@ function onYouTubeIframeAPIReady() {
     });
 }
 
-function onPlayerStateChange(event) {
+function onPlayerStateChange() {
     timeForEdit(Math.floor(player.getCurrentTime()))
 }
 
-// todo avoid setinterval
-function onPlayerReady(event) {
-    /*
+function onPlayerReady(event) { //заполнение инпут полей текущим временем из видео при проигрывании 
     event.target.playVideo();
     setInterval(() => {
         if(player.getPlayerState() == 1) {
-            var intervalInput = setInterval(() => {
+            timeForEdit(Math.floor(player.getCurrentTime()))
+            if(player.getPlayerState() == 2) {
                 timeForEdit(Math.floor(player.getCurrentTime()))
-                if(player.getPlayerState() == 2) {
-                    timeForEdit(Math.floor(player.getCurrentTime()))
-                    clearInterval(intervalInput)
-                }
-            }, 500);
+            }
         }
     }, 100);
-    */
+}
+
+function addClassTd(elem) {
+    if(getTimeSeconds(elem.textContent) < Math.floor(player.getCurrentTime())) {
+        elem.classList.add("td3Table--right")
+    }
+    if(getTimeSeconds(elem.textContent) == Math.floor(player.getCurrentTime())) {
+        elem.classList.add("td3Table--middle")
+    }
+    if(getTimeSeconds(elem.textContent) > Math.floor(player.getCurrentTime())) {
+        elem.classList.add("td3Table--left")
+    }
+    elem.classList.add("hover")
+}
+
+function removeClassTd(elem) {
+    if(getTimeSeconds(elem.textContent) < Math.floor(player.getCurrentTime())) {
+        elem.classList.remove("td3Table--right")
+    }
+    if(getTimeSeconds(elem.textContent) == Math.floor(player.getCurrentTime())) {
+        elem.classList.remove("td3Table--middle")
+    }
+    if(getTimeSeconds(elem.textContent) > Math.floor(player.getCurrentTime())) {
+        elem.classList.remove("td3Table--left")
+    }
+    elem.classList.remove("hover")
 }
 
 function timeForEdit(time) {
@@ -561,14 +489,9 @@ function timeForEdit(time) {
     document.querySelector(".buttons__input--right").value = getFullTimeFunc(time + 1)
 }
 
-
 function stopVideo() {
     player.stopVideo();
 } 
-
-document.querySelector(".graphic-button").addEventListener("click", function() {
-    getSumVotes()
-})
 
 function mapSchemeLink(btn, videoId) {
     document.querySelector(btn).href = 
@@ -584,7 +507,27 @@ document.addEventListener("click", function(event) {
     if(event.target.closest(".buttons__btn--scheme")) {
         mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
     }
+    if(event.target.closest(".graphic-button")) {
+        getSumVotes()
+    }
 })
+
+function updateTimeAxis(timeVideoSeconds) {
+    // добавление времени на шкалу и в массивы графика
+    if(!timeGraphic.includes(timeVideoSeconds)) { // если времени нет в массиве
+        timeGraphic.push(Math.floor(timeVideoSeconds)) //добавляем время в массив
+        timeGraphic.sort(function(a, b) { //сортируем по возрастанию
+            return a - b;
+        });
+        //добавляем к массивам кнопок нули для нового времени
+        arrBtn1.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0) 
+        arrBtn2.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+        arrBtn3.splice(timeGraphic.indexOf(timeVideoSeconds), 0, 0)
+        // заполняем шкалу человекочитаемого времени
+        fullTimeGraphic.splice(
+            timeGraphic.indexOf(Math.floor(timeVideoSeconds)), 0, getFullTimeFunc(timeVideoSeconds)) //засовываем нормальное время в индекс под которым находится тоже самое время в секундах
+    } 
+}   
 
 function getFullTimeFunc(timeVideoSeconds) { //функция перевода времени в часы, минуты и секунды
     // Раскладываем полученные из видео секунды на часы, минуты и секунды
@@ -617,13 +560,12 @@ function getFullTimeFunc(timeVideoSeconds) { //функция перевода �
 }
 
 document.addEventListener("click", function(event) {
-    if(event.target.closest(".btn-popup")) {
-        window.scrollTo({top: 0, behavior: 'instant'});
-        document.querySelector(".popup").classList.add("popup--active") 
-        document.body.style.overflow = "hidden"
+    if(event.target.closest(".btn-popup")) {//накладываем прослушки на кнопку открытия модал. окна и кнопку закрытия модал. окна
+        document.querySelector(".popup").classList.add("popup--active") //создаем нужный класс
+        document.body.style.overflow = "hidden" //скрываем скролл
     }
     if(event.target.closest(".popup-close")) {
         document.querySelector(".popup").classList.remove("popup--active")
-        document.body.style.overflow = "auto"
+        document.body.style.overflow = "auto" //даем возможность скроллить
     }
 })
