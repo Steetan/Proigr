@@ -107,7 +107,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         auth_token: auth_data.auth_token
     });
     if (response.ok) {  
-        if(document.querySelector(".trBlockTable").classList.contains("rowHigh--active")) { //если 3 столбец не равна null таблице имеет класс для подсветки, то удаляем этот класс
+        if(document.querySelector(".trBlockTable").classList.contains("rowHigh--active")) { //если 3 столбец имеет класс для подсветки, то удаляем этот класс
             document.querySelector(".trBlockTable").classList.remove("rowHigh--active")
         }
 
