@@ -167,16 +167,11 @@ async function getUserVotes() {
         }                            
     );
     if (response.ok) {
-        // put data in table 
         const data = response.data;
-    
-        // put user votes in table
-        for (let t of data.votes) {
-            createStrokTable(new Date(t.update_timestamp * 1000), t.button, "", t.time)
+        for (let t of data.votes) { // put user votes in table
+            createStrokTable(new Date(t.update_timestamp * 1000), t.button, false, t.time)
         }
-    } else {
-        alert("getuservotes" + response);
-    }
+    } else { alert("getuservotes" + response); }
 }
 
 function createStrokTable(dateTime, btnName, bHighLight, timeForTd) {
