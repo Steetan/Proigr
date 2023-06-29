@@ -114,8 +114,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 return; // голос найден - прерываем цикл
             }
         })
-        let d = new Date();
-        createStrokTable(d, btn, true, timeVideoSeconds) //создаем строку c подсветкой
+        createStrokTable(new Date(), btn, true, timeVideoSeconds) //создаем строку c подсветкой
         updateTimeAxis(timeVideoSeconds) // добавляем время на шкалу и в массивы графика
         if(btn == "yes") {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //к элементу массива времени добавляем единицу   
@@ -144,15 +143,12 @@ async function onDelBtnEvent(event) {
         },
         auth_token: auth_data.auth_token
     });
-        
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
         remVote(event.previousSibling)
         chart.update()
-    } else {
-        alert("delbtn" + response);
-    }
+    } else { alert("delbtn" + response); }
 }
 
 async function getUserVotes() {
@@ -170,13 +166,12 @@ async function getUserVotes() {
     if (response.ok) {
         const data = response.data;
         for (let t of data.votes) { // put user votes in table
-            let d = new Date(t.update_timestamp * 1000)
-            createStrokTable(d, t.button, false, t.time)
+            createStrokTable(new Date(t.update_timestamp * 1000), t.button, false, t.time)
         }
     } else { alert("getuservotes" + response); }
 }
 
-function createStrokTable(dateTime, btnName, bHighLight, timeForTd) {
+function createStrokTable(dateTime, btnName, bHighLight, timeVideoSeconds) {
     let day = dateTime.getDate() //получаем день
     let month = dateTime.getMonth() //получаем месяц
     let year = dateTime.getFullYear() //получаем год
@@ -216,11 +211,11 @@ function createStrokTable(dateTime, btnName, bHighLight, timeForTd) {
             td2Table.textContent = "Неясно"
             break;
     }
-    let timeSeconds = getTimeSeconds(timeForTd)
+    let timeVideo = getFullTimeFunc(timeVideoSeconds)
     td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
     td3Table.onmouseover = function() { addClassTd(this) }
     td3Table.onmouseout = function() { removeClassTd(this) }
-    td3Table.textContent = timeSeconds //помещаем в 3 ячейку время на видео
+    td3Table.textContent = timeVideo //помещаем в 3 ячейку время на видео
     td3Table.onclick = function() { 
       player.seekTo(timeSeconds)
       timeForEdit(timeSeconds)
