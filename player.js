@@ -114,7 +114,8 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
                 return; // голос найден - прерываем цикл
             }
         })
-        createStrokTable(new Date(), btn, true, timeVideoSeconds) //создаем строку c подсветкой
+        let d = new Date();
+        createStrokTable(d, btn, true, timeVideoSeconds) //создаем строку c подсветкой
         updateTimeAxis(timeVideoSeconds) // добавляем время на шкалу и в массивы графика
         if(btn == "yes") {
             arrBtn1[timeGraphic.indexOf(timeVideoSeconds)]++ //к элементу массива времени добавляем единицу   
@@ -169,7 +170,8 @@ async function getUserVotes() {
     if (response.ok) {
         const data = response.data;
         for (let t of data.votes) { // put user votes in table
-            createStrokTable(new Date(t.update_timestamp * 1000), t.button, false, t.time)
+            let d = new Date(t.update_timestamp * 1000)
+            createStrokTable(d, t.button, false, t.time)
         }
     } else { alert("getuservotes" + response); }
 }
