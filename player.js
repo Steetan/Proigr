@@ -217,8 +217,8 @@ function createStrokTable(dateTime, btnName, bHighLight, timeVideoSeconds) {
     td3Table.onmouseout = function() { removeClassTd(this) }
     td3Table.textContent = timeVideo //помещаем в 3 ячейку время на видео
     td3Table.onclick = function() { 
-      player.seekTo(timeSeconds)
-      timeForEdit(timeSeconds)
+      player.seekTo(timeVideoSeconds)
+      timeForEdit(timeVideoSeconds)
       document.querySelector("#player").scrollIntoView({ //скроллим до плеера
           behavior: 'smooth',
           block: 'center'
