@@ -487,17 +487,19 @@ async function mapSchemeLink(btn, videoId) {
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
 
     if (auth_data) {
-        const response = await api_request(api_url + api_auth_temp_token_url, {
+        const response = await api_request(url + api_auth_temp_token_url, {
             method: 'POST',
-            auth_token: auth_data.auth_token,
-            auth_data: auth_data
+            json: {
+                auth_data: auth_data,
+            },
+            auth_token: auth_data.auth_token
         });
         if (response.ok) { // put token in url 
             const data = response.data;
             if (data.authdata_token) { url += "&token=" + data.authdata_token }
         }
-    }
-    document.querySelector(btn).href = url
+        document.querySelector(btn).href = url
+    } else document.querySelector(btn).href = url
 }
 
 document.addEventListener("click", function(event) {
