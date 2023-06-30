@@ -481,13 +481,13 @@ function stopVideo() {
     player.stopVideo();
 } 
 
-async function mapSchemeLink(btn, videoId) {
-    var url = videoId + vidId + "&source=yt" 
+async function mapSchemeLink(btn, url) {
+    var href_url = url + vidId + "&source=yt" 
     + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
 
     if (auth_data) {
-        const response = await api_request(url + api_auth_temp_token_url, {
+        const response = await api_request(api_url + api_auth_temp_token_url, {
             method: 'POST',
             json: {
                 auth_data: auth_data,
@@ -497,18 +497,17 @@ async function mapSchemeLink(btn, videoId) {
         if (response.ok) { // put token in url 
             const data = response.data;
             if (data.authdata_token) { 
-                url += "&token=" + data.authdata_token 
+                href_url += "&token=" + data.authdata_token 
             }
         }
-        document.querySelector(btn).href = url
+        document.querySelector(btn).href = href_url
     } else { 
-        document.querySelector(btn).href = url 
+        document.querySelector(btn).href = href_url 
     }
 }
 
 document.addEventListener("click", function(event) {
     if(event.target.closest(".buttons__btn--map")) {
-        // todo call api
         mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
