@@ -489,7 +489,7 @@ async function mapSchemeLink(btn, videoId) {
     if (auth_data) {
         const response = await api_request(api_url + api_auth_temp_token_url, {
             method: 'POST',
-            auth_token: auth_data.auth_token
+            auth_token: auth_data.auth_token,
             auth_data: auth_data
         });
         if (response.ok) { // put token in url 
