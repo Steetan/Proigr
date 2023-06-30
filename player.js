@@ -500,10 +500,8 @@ async function mapSchemeLink(btn, url) {
                 href_url += "&token=" + data.authdata_token 
             }
         }
-        document.querySelector(btn).href = href_url
-    } else { 
-        document.querySelector(btn).href = href_url 
-    }
+    }        
+    document.querySelector(btn).href = href_url 
 }
 
 document.addEventListener("click", function(event) {
