@@ -481,7 +481,7 @@ function stopVideo() {
     player.stopVideo();
 } 
 
-function mapSchemeLink(btn, videoId) {
+async function mapSchemeLink(btn, videoId) {
     var url = videoId + vidId + "&source=yt" 
     + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
