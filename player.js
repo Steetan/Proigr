@@ -1,6 +1,6 @@
 var auth_data
-let vidId = "luKquWe89jo" // defaults
-let vidUrl = "https://www.youtube.com/watch?v=luKquWe89jo"
+let vidId = "nvVftQ2ZE94" // defaults
+let vidUrl = "https://www.youtube.com/watch?v=" + vidId
 let wsource = 'yt' // default for yt
 var player
 var vidTime
@@ -13,6 +13,7 @@ var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
 var api_user_votes_url = "/api/wote/vote/my/"
+var api_auth_temp_token_url = "/api/token/authdata/"
 
 // массивы для таблицы и графика
 var timeGraphic = [0]
@@ -127,6 +128,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }   
         chart.update() //обновляем график        
     } else {
+        // todo remove alerts
         alert("sendbtn" + response);
     }   
 }
@@ -143,15 +145,12 @@ async function onDelBtnEvent(event) {
         },
         auth_token: auth_data.auth_token
     });
-        
     if (response.ok) {
         // api returns nothing in this method
         // const data = response.data;
         remVote(event.previousSibling)
         chart.update()
-    } else {
-        alert("delbtn" + response);
-    }
+    } else { alert("delbtn" + response); }
 }
 
 async function getUserVotes() {
@@ -167,19 +166,14 @@ async function getUserVotes() {
         }                            
     );
     if (response.ok) {
-        // put data in table 
         const data = response.data;
-    
-        // put user votes in table
-        for (let t of data.votes) {
-            createStrokTable(new Date(t.update_timestamp * 1000), t.button, "", t.time)
+        for (let t of data.votes) { // put user votes in table
+            createStrokTable(new Date(t.update_timestamp * 1000), t.button, false, t.time)
         }
-    } else {
-        alert("getuservotes" + response);
-    }
+    } else { alert("getuservotes" + response); }
 }
 
-function createStrokTable(dateTime, btnName, bHighLight, timeForTd) {
+function createStrokTable(dateTime, btnName, bHighLight, timeVideoSeconds) {
     let day = dateTime.getDate() //получаем день
     let month = dateTime.getMonth() //получаем месяц
     let year = dateTime.getFullYear() //получаем год
@@ -219,14 +213,14 @@ function createStrokTable(dateTime, btnName, bHighLight, timeForTd) {
             td2Table.textContent = "Неясно"
             break;
     }
-    let timeSeconds = getTimeSeconds(timeForTd)
+    let timeVideo = getFullTimeFunc(timeVideoSeconds)
     td3Table.classList.add("td3Table") //добавляем классы к ячейкам с временем
     td3Table.onmouseover = function() { addClassTd(this) }
     td3Table.onmouseout = function() { removeClassTd(this) }
-    td3Table.textContent = timeSeconds //помещаем в 3 ячейку время на видео
+    td3Table.textContent = timeVideo //помещаем в 3 ячейку время на видео
     td3Table.onclick = function() { 
-      player.seekTo(timeSeconds)
-      timeForEdit(timeSeconds)
+      player.seekTo(timeVideoSeconds)
+      timeForEdit(timeVideoSeconds)
       document.querySelector("#player").scrollIntoView({ //скроллим до плеера
           behavior: 'smooth',
           block: 'center'
@@ -348,17 +342,11 @@ function btnForm() { //событие на нажатие кнопки Откр�
     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
     console.log(inUrl)
     if(window.location.hash.includes(inUrl)){
-        console.log('reload')
         window.location.reload();
     } else {
         if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
-            // todo remove console.log and alerts
-            console.log('hash')
             window.location.hash = inUrl
-        } else {
-            console.log('nohash')
-            window.location.href += "#" + inUrl
-        }
+        } else { window.location.href += "#" + inUrl }
     }
 }
 
@@ -493,19 +481,37 @@ function stopVideo() {
     player.stopVideo();
 } 
 
-function mapSchemeLink(btn, videoId) {
-    document.querySelector(btn).href = 
-    videoId + vidId + "&source=yt" 
+function mapSchemeLink(btn, url) {
+    var href_url = url + vidId + "&source=yt" 
     + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+    document.querySelector(btn).href = href_url 
 }
 
-document.addEventListener("click", function(event) {
+document.addEventListener("click", async function(event) {
     if(event.target.closest(".buttons__btn--map")) {
-        mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
+        mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
-        mapSchemeLink(".buttons__btn--scheme", "https://graph.blagoroda.org/?videoid=")
+        let url_str = "https://graph.blagoroda.org/?videoid=" + vidId + "&source=yt"
+/*        
+        if (auth_data) {
+            const response = await api_request(api_url + api_auth_temp_token_url, {
+                method: 'POST',
+                json: {
+                    auth_data: auth_data,
+                },
+                auth_token: auth_data.auth_token
+            });
+            if (response.ok) { // put token in url 
+                const data = response.data;
+                if (data.authdata_token) { 
+                    url_str += "&token=" + data.authdata_token 
+                }
+            }
+        }
+*/
+        mapSchemeLink(".buttons__btn--scheme", url_str)
     }
     if(event.target.closest(".graphic-button")) {
         getSumVotes()
