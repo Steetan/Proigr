@@ -13,6 +13,7 @@ var api_url = get_api_url()
 var api_btn_url = "/api/wote/vote/"
 var api_sum_url = "/api/wote/vote/sums/"
 var api_user_votes_url = "/api/wote/vote/my/"
+var api_auth_temp_token_url = "/api/token/authdata/"
 
 // массивы для таблицы и графика
 var timeGraphic = [0]
@@ -127,6 +128,7 @@ async function sendBtnEvent(btn, timeVideoSeconds) {
         }   
         chart.update() //обновляем график        
     } else {
+        // todo remove alerts
         alert("sendbtn" + response);
     }   
 }
@@ -340,17 +342,11 @@ function btnForm() { //событие на нажатие кнопки Откр�
     let inUrl = document.querySelector(".form__text").value //получаем ссылку которую мы взяли из инпута
     console.log(inUrl)
     if(window.location.hash.includes(inUrl)){
-        console.log('reload')
         window.location.reload();
     } else {
         if(window.location.hash){ // если хэш имеется - обновляем, нет - создаём
-            // todo remove console.log and alerts
-            console.log('hash')
             window.location.hash = inUrl
-        } else {
-            console.log('nohash')
-            window.location.href += "#" + inUrl
-        }
+        } else { window.location.href += "#" + inUrl }
     }
 }
 
@@ -486,14 +482,26 @@ function stopVideo() {
 } 
 
 function mapSchemeLink(btn, videoId) {
-    document.querySelector(btn).href = 
-    videoId + vidId + "&source=yt" 
+    var url = videoId + vidId + "&source=yt" 
     + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+
+    if (auth_data) {
+        const response = await api_request(api_url + api_auth_temp_token_url, {
+            method: 'POST',
+            auth_data: auth_data
+        });
+        if (response.ok) { // put token in url 
+            const data = response.data;
+            if (data.authdata_token) { url += "&token=" + data.authdata_token }
+        }
+    }
+    document.querySelector(btn).href = url
 }
 
 document.addEventListener("click", function(event) {
     if(event.target.closest(".buttons__btn--map")) {
+        // todo call api
         mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
