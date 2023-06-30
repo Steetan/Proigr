@@ -496,10 +496,14 @@ async function mapSchemeLink(btn, videoId) {
         });
         if (response.ok) { // put token in url 
             const data = response.data;
-            if (data.authdata_token) { url += "&token=" + data.authdata_token }
+            if (data.authdata_token) { 
+                url += "&token=" + data.authdata_token 
+            }
         }
         document.querySelector(btn).href = url
-    } else document.querySelector(btn).href = url
+    } else { 
+        document.querySelector(btn).href = url 
+    }
 }
 
 document.addEventListener("click", function(event) {
