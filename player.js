@@ -497,7 +497,24 @@ function openBtnLink(url_str) {
 document.addEventListener("click", async function(event) {
     event.preventDefault();
     if(event.target.closest(".buttons__btn--map")) {
-        mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt")
+        var url_str = "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt"
+            + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
+            + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+        
+        if (auth_data) {
+            const response = await api_request(api_url + api_auth_temp_token_url, {
+                method: 'POST',
+                json: { auth_data: auth_data, },
+                auth_token: auth_data.auth_token
+            });
+            if (response.ok) { // put token in url 
+                const data = response.data;
+                if (data.authdata_token) { 
+                    url_str += "&authdata_token=" + data.authdata_token 
+                }
+            }
+        }
+        openBtnLink(url_str)
     }
     if(event.target.closest(".buttons__btn--scheme")) {
         var url_str = "https://graph.blagoroda.org/?videoid=" + vidId + "&source=yt"
