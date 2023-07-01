@@ -489,28 +489,25 @@ function mapSchemeLink(btn, url) {
 }
 
 document.addEventListener("click", async function(event) {
+    event.preventDefault();
     if(event.target.closest(".buttons__btn--map")) {
         mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
         let url_str = "https://graph.blagoroda.org/?videoid=" + vidId + "&source=yt"
-/*        
         if (auth_data) {
             const response = await api_request(api_url + api_auth_temp_token_url, {
                 method: 'POST',
-                json: {
-                    auth_data: auth_data,
-                },
+                json: { auth_data: auth_data, },
                 auth_token: auth_data.auth_token
             });
             if (response.ok) { // put token in url 
                 const data = response.data;
                 if (data.authdata_token) { 
-                    url_str += "&token=" + data.authdata_token 
+                    url_str += "&authdata_token=" + data.authdata_token 
                 }
             }
         }
-*/
         mapSchemeLink(".buttons__btn--scheme", url_str)
     }
     if(event.target.closest(".graphic-button")) {
