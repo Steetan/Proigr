@@ -482,7 +482,7 @@ function stopVideo() {
 } 
 
 function mapSchemeLink(btn, url) {
-    var href_url = url + vidId + "&source=yt" 
+    var href_url = url + vidId + "&source=yt"
     + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
 //    document.querySelector(btn).href = href_url 
@@ -495,9 +495,7 @@ document.addEventListener("click", async function(event) {
         mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
-        var url_str = "https://graph.blagoroda.org/?videoid=" + vidId + "&source=yt"
-            + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
-            + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
+        var url_str = "https://graph.blagoroda.org/?videoid=" 
         if (auth_data) {
             const response = await api_request(api_url + api_auth_temp_token_url, {
                 method: 'POST',
@@ -511,8 +509,7 @@ document.addEventListener("click", async function(event) {
                 }
             }
         }
-        window.open(url_str, '_blank').focus();   
-//        mapSchemeLink(".buttons__btn--scheme", url_str)
+        mapSchemeLink(".buttons__btn--scheme", url_str)
     }
     if(event.target.closest(".graphic-button")) {
         getSumVotes()
