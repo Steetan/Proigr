@@ -496,6 +496,8 @@ document.addEventListener("click", async function(event) {
     }
     if(event.target.closest(".buttons__btn--scheme")) {
         let url_str = "https://graph.blagoroda.org/?videoid=" + vidId + "&source=yt"
+            + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
+            + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
         if (auth_data) {
             const response = await api_request(api_url + api_auth_temp_token_url, {
                 method: 'POST',
@@ -509,7 +511,8 @@ document.addEventListener("click", async function(event) {
                 }
             }
         }
-        mapSchemeLink(".buttons__btn--scheme", url_str)
+        window.open(href_url, '_blank').focus();   
+//        mapSchemeLink(".buttons__btn--scheme", url_str)
     }
     if(event.target.closest(".graphic-button")) {
         getSumVotes()
