@@ -485,7 +485,8 @@ function mapSchemeLink(btn, url) {
     var href_url = url + vidId + "&source=yt" 
     + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
     + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
-    document.querySelector(btn).href = href_url 
+//    document.querySelector(btn).href = href_url 
+    window.open(href_url, '_blank').focus();
 }
 
 document.addEventListener("click", async function(event) {
