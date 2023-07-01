@@ -511,7 +511,7 @@ document.addEventListener("click", async function(event) {
                 }
             }
         }
-        window.open(href_url, '_blank').focus();   
+        window.open(url_str, '_blank').focus();   
 //        mapSchemeLink(".buttons__btn--scheme", url_str)
     }
     if(event.target.closest(".graphic-button")) {
