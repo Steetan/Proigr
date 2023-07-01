@@ -495,7 +495,7 @@ document.addEventListener("click", async function(event) {
         mapSchemeLink(".buttons__btn--map", "https://map.blagoroda.org/?videoid=" + vidId + "&source=yt")
     }
     if(event.target.closest(".buttons__btn--scheme")) {
-        let url_str = "https://graph.blagoroda.org/?videoid=" + vidId + "&source=yt"
+        var url_str = "https://graph.blagoroda.org/?videoid=" + vidId + "&source=yt"
             + "&f=" + getTimeSeconds(document.querySelector(".buttons__input--left").value)
             + "&t=" + getTimeSeconds(document.querySelector(".buttons__input--right").value)
         if (auth_data) {
